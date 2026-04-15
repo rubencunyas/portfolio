@@ -1,0 +1,189 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects.map((project) => ({
+    params: { slug: project.slug },
+    props: { project }
+  }));
+}
+
+const { project } = Astro.props;
+const { Content } = await project.render();
+---
+
+<Layout title={`${project.data.title} | Portfolio`}>
+  <main class="min-h-screen">
+    <header class={`relative py-24 lg:py-32 px-6 lg:px-12 border-b border-white/10 ${
+      project.data.accent === 'orange' ? 'bg-dark' : 'bg-dark'
+    }`}>
+      <div class="max-w-7xl mx-auto">
+        <a 
+          href="/" 
+          class="inline-flex items-center gap-2 text-white/50 hover:text-white mb-12 transition-colors duration-300 group"
+          transition:name="back-button"
+        >
+          <svg class="w-5 h-5 transform group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+          </svg>
+          VOLVER
+        </a>
+        
+        <div class="grid lg:grid-cols-2 gap-12 lg:gap-24 items-end">
+          <div>
+            <span class="text-sm font-medium tracking-widest text-white/50 uppercase mb-4 block">
+              {project.data.client} — {project.data.year}
+            </span>
+            <h1 
+              class="font-display font-bold text-5xl sm:text-7xl lg:text-8xl tracking-tight leading-none"
+              transition:name={`title-${project.slug}`}
+            >
+              {project.data.title}
+            </h1>
+          </div>
+          
+          <div class="flex flex-wrap gap-2">
+            {project.data.tags.map((tag) => (
+              <span class="px-4 py-2 border border-white/20 text-sm uppercase tracking-wider text-white/80">
+                {tag}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+      
+      <div class={`absolute bottom-0 left-0 w-full h-1 ${
+        project.data.accent === 'orange' ? 'bg-accent-orange' : 'bg-accent-blue'
+      }`}></div>
+    </header>
+    
+    {project.data.cover && (
+      <section class="py-12 px-6 lg:px-12 border-b border-white/10">
+        <div class="max-w-7xl mx-auto">
+          <div class="relative overflow-hidden bg-white/5 aspect-video flex items-center justify-center">
+            <img 
+              src={project.data.cover} 
+              alt={`${project.data.title} - Portada`}
+              class="w-full h-full object-cover"
+              transition:name={`image-${project.slug}`}
+              loading="eager"
+            />
+          </div>
+        </div>
+      </section>
+    )}
+    
+    <section class="py-24 lg:py-32 px-6 lg:px-12 border-b border-white/10">
+      <div class="max-w-7xl mx-auto">
+        <div class="grid lg:grid-cols-3 gap-12">
+          <article class="space-y-4">
+            <h2 class={`text-sm font-bold uppercase tracking-widest ${
+              project.data.accent === 'orange' ? 'text-accent-orange' : 'text-accent-blue'
+            }`}>
+              01 — Reto
+            </h2>
+            <p class="text-xl text-white/80 leading-relaxed">
+              {project.data.challenge}
+            </p>
+          </article>
+          
+          <article class="space-y-4">
+            <h2 class={`text-sm font-bold uppercase tracking-widest ${
+              project.data.accent === 'orange' ? 'text-accent-orange' : 'text-accent-blue'
+            }`}>
+              02 — Solución
+            </h2>
+            <p class="text-xl text-white/80 leading-relaxed">
+              {project.data.solution}
+            </p>
+          </article>
+          
+          <article class="space-y-4">
+            <h2 class={`text-sm font-bold uppercase tracking-widest ${
+              project.data.accent === 'orange' ? 'text-accent-orange' : 'text-accent-blue'
+            }`}>
+              03 — Resultado
+            </h2>
+            <p class="text-xl text-white/80 leading-relaxed">
+              {project.data.result}
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+    
+    <section class="py-16 px-6 lg:px-12 border-b border-white/10 bg-white/5">
+      <div class="max-w-7xl mx-auto">
+        <h2 class="text-sm font-bold uppercase tracking-widest text-white/50 mb-8">
+          Tecnologias utilizadas
+        </h2>
+        <div class="flex flex-wrap gap-3">
+          {project.data.technologies.map((tech) => (
+            <span class={`px-4 py-2 text-sm font-medium ${
+              project.data.accent === 'orange' 
+                ? 'bg-accent-orange/20 text-accent-orange border border-accent-orange/30' 
+                : 'bg-accent-blue/20 text-accent-blue border border-accent-blue/30'
+            }`}>
+              {tech}
+            </span>
+          ))}
+        </div>
+      </div>
+    </section>
+    
+    {project.data.gallery && project.data.gallery.length > 0 && (
+      <section class="py-24 lg:py-32 px-6 lg:px-12 border-b border-white/10">
+        <div class="max-w-7xl mx-auto">
+          <h2 class="font-display font-bold text-3xl sm:text-4xl tracking-tight mb-12">
+            Proceso &amp; Arte Final
+          </h2>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {project.data.gallery.map((image, index) => (
+              <figure class={`group relative overflow-hidden ${
+                index === 0 ? 'md:col-span-2 lg:col-span-2' : ''
+              }`}>
+                <img 
+                  src={image} 
+                  alt={`${project.data.title} - Imagen ${index + 1}`}
+                  class="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105 aspect-video"
+                  loading="lazy"
+                />
+                <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              </figure>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+    
+    <section class="py-24 lg:py-32 px-6 lg:px-12">
+      <div class="max-w-7xl mx-auto">
+        <div class="prose prose-invert prose-lg max-w-none">
+          <Content />
+        </div>
+      </div>
+    </section>
+    
+    <section class={`py-16 px-6 lg:px-12 ${
+      project.data.accent === 'orange' ? 'bg-accent-orange' : 'bg-accent-blue'
+    }`}>
+      <div class="max-w-7xl mx-auto text-center">
+        <p class="text-dark font-display font-bold text-2xl sm:text-3xl mb-6">
+          ¿Interesado en un proyecto similar?
+        </p>
+        <a 
+          href="/#contact" 
+          class="inline-flex items-center justify-center px-8 py-4 bg-dark text-white font-semibold text-lg hover:bg-dark/90 transition-colors duration-300"
+        >
+          HABLEMOS
+          <svg class="w-5 h-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+          </svg>
+        </a>
+      </div>
+    </section>
+  </main>
+</Layout>

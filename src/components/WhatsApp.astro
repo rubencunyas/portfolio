@@ -1,0 +1,156 @@
+---
+const whatsappNumber = "51987518768";
+
+const quickMessages = [
+  { label: "Hola, quiero cotizar un proyecto", message: "Hola! Me gustaría cotizar un proyecto web." },
+  { label: "Tengo una idea en mente", message: "Hola! Tengo una idea de proyecto y me gustaría conversar al respecto." },
+  { label: "Solo quiero saludar", message: "Hola! Solo quería saludarte." }
+];
+---
+
+<div class="fixed bottom-6 right-6 z-50">
+  <div id="whatsapp-tooltip" class="absolute bottom-16 right-0 mb-2 animate-bounce">
+    <div class="bg-white text-dark px-4 py-2 rounded-lg shadow-xl text-sm font-medium whitespace-nowrap">
+      Escríbeme
+      <div class="absolute -bottom-1 right-6 w-2 h-2 bg-white transform rotate-45"></div>
+    </div>
+  </div>
+  
+  <button 
+    id="whatsapp-btn"
+    class="relative w-14 h-14 bg-green-500 hover:bg-green-600 rounded-full shadow-lg hover:shadow-xl flex items-center justify-center transition-all duration-300 hover:scale-110 group"
+    aria-label="Abrir WhatsApp"
+  >
+    <span class="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full border-2 border-white animate-pulse"></span>
+    <svg class="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 24 24">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+    </svg>
+  </button>
+  
+  <div id="whatsapp-popup" class="hidden absolute bottom-20 right-0 w-72 sm:w-80 bg-white rounded-2xl shadow-2xl overflow-hidden transform transition-all duration-300 origin-bottom-right">
+    <div class="bg-green-500 px-4 py-3 flex items-center justify-between">
+      <span class="text-white font-semibold">Enviar mensaje</span>
+      <button id="close-popup" class="text-white/80 hover:text-white">
+        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+    
+    <div class="p-4 space-y-3">
+      {quickMessages.map((msg) => (
+        <button 
+          class="w-full text-left px-4 py-3 bg-gray-100 hover:bg-gray-200 text-dark text-sm rounded-lg transition-colors duration-200 flex items-center gap-3"
+          data-message={msg.message}
+        >
+          <svg class="w-5 h-5 text-green-500 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+          </svg>
+          <span class="truncate">{msg.label}</span>
+        </button>
+      ))}
+      
+      <div class="relative pt-2">
+        <div class="absolute inset-0 flex items-center">
+          <div class="w-full border-t border-gray-200"></div>
+        </div>
+        <div class="relative flex justify-center text-sm">
+          <span class="px-2 bg-white text-gray-500">o escribe tu mensaje</span>
+        </div>
+      </div>
+      
+      <div class="flex gap-2">
+        <input 
+          type="text" 
+          id="custom-message"
+          placeholder="Escribe tu mensaje..."
+          class="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-green-500 focus:ring-1 focus:ring-green-500"
+        />
+        <button 
+          id="send-custom"
+          class="px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-lg transition-colors duration-200"
+        >
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script define:vars={{ whatsappNumber, quickMessages }}>
+  const btn = document.getElementById('whatsapp-btn');
+  const popup = document.getElementById('whatsapp-popup');
+  const tooltip = document.getElementById('whatsapp-tooltip');
+  const closeBtn = document.getElementById('close-popup');
+  const customInput = document.getElementById('custom-message');
+  const sendCustom = document.getElementById('send-custom');
+  
+  let isOpen = false;
+  
+  function openPopup() {
+    isOpen = true;
+    popup.classList.remove('hidden');
+    tooltip.classList.add('hidden');
+    setTimeout(() => {
+      popup.classList.remove('scale-95', 'opacity-0');
+      popup.classList.add('scale-100', 'opacity-100');
+    }, 10);
+  }
+  
+  function closePopup() {
+    isOpen = false;
+    popup.classList.remove('scale-100', 'opacity-100');
+    popup.classList.add('scale-95', 'opacity-0');
+    setTimeout(() => {
+      popup.classList.add('hidden');
+    }, 200);
+  }
+  
+  function sendWhatsApp(message) {
+    const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+    window.open(url, '_blank');
+    closePopup();
+  }
+  
+  btn.addEventListener('click', () => {
+    if (isOpen) {
+      closePopup();
+    } else {
+      openPopup();
+    }
+  });
+  
+  closeBtn.addEventListener('click', closePopup);
+  
+  document.querySelectorAll('[data-message]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      sendWhatsApp(btn.dataset.message);
+    });
+  });
+  
+  sendCustom.addEventListener('click', () => {
+    const message = customInput.value.trim();
+    if (message) {
+      sendWhatsApp(message);
+      customInput.value = '';
+    }
+  });
+  
+  customInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+      const message = customInput.value.trim();
+      if (message) {
+        sendWhatsApp(message);
+        customInput.value = '';
+      }
+    }
+  });
+  
+  document.addEventListener('click', (e) => {
+    if (isOpen && !popup.contains(e.target) && !btn.contains(e.target)) {
+      closePopup();
+    }
+  });
+</script>

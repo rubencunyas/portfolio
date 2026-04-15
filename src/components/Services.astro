@@ -1,0 +1,103 @@
+---
+const services = [
+  {
+    number: "01",
+    title: "Branding",
+    description: "Creación de identidades visuales que comunican valores, generan reconocimiento y construyen conexiones emocionales duraderas con tu audiencia.",
+    features: ["Identidad Visual", "Logo Design", "Brand Strategy", "Guidelines"]
+  },
+  {
+    number: "02",
+    title: "Diseño UX/UI",
+    description: "Diseño de interfaces intuitivas y experiencias de usuario fluidas que transforman visitantes en usuarios comprometidos y clientes fidelizados.",
+    features: ["User Research", "Wireframing", "Prototyping", "Design Systems"]
+  },
+  {
+    number: "03",
+    title: "Desarrollo de Sistemas",
+    description: "Construcción de soluciones digitales robustas y escalables que impulsan tu negocio con tecnología de vanguardia.",
+    features: ["Full Stack", "APIs", "E-commerce", "CMS"]
+  }
+];
+---
+
+<section id="services" class="py-24 lg:py-32 px-6 lg:px-12 border-b border-white/10 bg-dark scroll-animate opacity-0 translate-y-8">
+  <div class="max-w-7xl mx-auto">
+    <header class="mb-16">
+      <h2 class="font-display font-bold text-4xl sm:text-5xl lg:text-6xl tracking-tight text-white">
+        LO QUE<br/>
+        <span class="text-accent-orange">HAGO.</span>
+      </h2>
+      <p class="mt-6 text-xl text-white/70 max-w-2xl">
+        Diseño y desarrollo soluciones digitales que combinan creatividad estratégica con excelencia técnica.
+      </p>
+    </header>
+    
+    <div class="services-swiper flex md:grid gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory pb-4 md:pb-0 -mx-6 px-6 md:mx-0 md:px-0 md:grid-cols-3 md:gap-8 scrollbar-hide">
+      {services.map((service, index) => (
+        <article class="relative group bg-white/5 p-6 sm:p-8 lg:p-10 border border-white/10 hover:border-accent-blue transition-all duration-300 min-w-[85vw] md:min-w-0 snap-center">
+          <span class="text-7xl font-display font-bold text-white/5 absolute top-4 right-4">
+            {service.number}
+          </span>
+          
+          <h3 class="font-display font-bold text-3xl lg:text-4xl mb-6 text-white group-hover:text-accent-blue transition-colors duration-300">
+            {service.title}
+          </h3>
+          
+          <p class="text-white/70 text-lg mb-8 leading-relaxed">
+            {service.description}
+          </p>
+          
+          <ul class="space-y-3">
+            {service.features.map((feature) => (
+              <li class="flex items-center gap-3 text-sm text-white/60">
+                <span class="w-2 h-2 bg-accent-blue group-hover:bg-accent-orange transition-colors duration-300"></span>
+                {feature}
+              </li>
+            ))}
+          </ul>
+          
+          <div class="mt-8 pt-8 border-t border-white/10">
+            <a 
+              href="#contact" 
+              class="inline-flex items-center gap-2 text-accent-blue group-hover:text-accent-orange transition-colors duration-300 font-semibold"
+              aria-label={`Solicitar servicio de ${service.title}`}
+            >
+              SOLICITAR
+              <svg class="w-5 h-5 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </a>
+          </div>
+        </article>
+      ))}
+    </div>
+    
+    <div class="flex justify-center gap-2 mt-8 md:hidden">
+      {services.map((_, index) => (
+        <span class="w-2 h-2 rounded-full bg-white/30 services-dot" data-index={index}></span>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  const swiper = document.querySelector('.services-swiper');
+  const dots = document.querySelectorAll('.services-dot');
+  
+  if (swiper && dots.length) {
+    const updateDots = () => {
+      const scrollLeft = swiper.scrollLeft;
+      const cardWidth = swiper.querySelector('article').offsetWidth + 24;
+      const activeIndex = Math.round(scrollLeft / cardWidth);
+      
+      dots.forEach((dot, i) => {
+        dot.classList.toggle('bg-accent-orange', i === activeIndex);
+        dot.classList.toggle('bg-white/30', i !== activeIndex);
+      });
+    };
+    
+    swiper.addEventListener('scroll', updateDots);
+    updateDots();
+  }
+</script>

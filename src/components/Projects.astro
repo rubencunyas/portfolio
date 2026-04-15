@@ -1,0 +1,134 @@
+---
+import { getCollection } from 'astro:content';
+
+const projects = await getCollection('projects');
+const sortedProjects = projects.sort((a, b) => a.data.order - b.data.order);
+
+const categories = [
+  { id: 'all', label: 'Todos' },
+  { id: 'branding', label: 'Branding' },
+  { id: 'web', label: 'Web' },
+  { id: 'multimedia', label: 'Multimedia' }
+];
+---
+
+<section id="projects" class="py-24 lg:py-32 px-6 lg:px-12 border-b border-white/10 scroll-animate opacity-0 translate-y-8">
+  <div class="max-w-7xl mx-auto">
+    <header class="mb-12">
+      <h2 class="font-display font-bold text-4xl sm:text-5xl lg:text-6xl tracking-tight">
+        ALGUNOS<br/>
+        <span class="text-accent-blue">PROYECTOS.</span>
+      </h2>
+    </header>
+    
+    <div class="flex flex-wrap gap-3 mb-12" id="project-filters">
+      {categories.map((cat, i) => (
+        <button 
+          data-filter={cat.id}
+          class={`filter-btn px-4 py-2 text-sm font-medium uppercase tracking-wider transition-all duration-300 ${
+            i === 0 
+              ? 'bg-accent-blue text-dark' 
+              : 'bg-white/5 text-white/60 hover:text-white border border-white/10 hover:border-white/30'
+          }`}
+        >
+          {cat.label}
+        </button>
+      ))}
+    </div>
+    
+    <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {sortedProjects.map((project, index) => (
+        <a 
+          href={`/projects/${project.slug}`}
+          data-category={project.data.category}
+          class={`project-card group relative p-8 lg:p-12 bg-dark text-white border border-white/10 hover:bg-white hover:text-dark transition-all duration-500 block hover:shadow-2xl ${
+            project.data.accent === 'orange' ? 'hover:border-accent-orange' : 'hover:border-accent-blue'
+          } ${project.data.featured ? '' : 'opacity-60'}`}
+        >
+          <span class={`absolute top-4 right-4 text-8xl font-display font-bold text-white/10 group-hover:text-dark/10 transition-colors duration-500`}>
+            {String(index + 1).padStart(2, '0')}
+          </span>
+          
+          <div class="relative z-10">
+            <div class="flex items-center gap-2 mb-4">
+              <span class={`px-2 py-1 text-[10px] uppercase tracking-wider transition-colors duration-500 ${
+                project.data.category === 'branding' ? 'bg-accent-orange/20 text-accent-orange group-hover:bg-accent-orange group-hover:text-white' :
+                project.data.category === 'web' ? 'bg-accent-blue/20 text-accent-blue group-hover:bg-accent-blue group-hover:text-white' :
+                'bg-white/20 text-white group-hover:bg-white group-hover:text-dark'
+              }`}>
+                {project.data.category}
+              </span>
+              <span class="text-xs text-white/40 group-hover:text-dark/40 transition-colors duration-500">{project.data.year}</span>
+            </div>
+            
+            <h3 class="font-display font-bold text-2xl lg:text-3xl mb-4 text-white group-hover:text-dark transition-colors duration-500">
+              {project.data.title}
+            </h3>
+            
+            <p class="text-white/70 text-lg mb-6 max-w-md group-hover:text-dark/70 transition-colors duration-500">
+              {project.data.tags.slice(0, 2).join(' · ')}
+            </p>
+            
+            <div class="flex flex-wrap gap-2">
+              {project.data.tags.slice(0, 3).map((tag) => (
+                <span class="px-2 py-1 text-[10px] sm:text-xs uppercase tracking-wider border border-white/30 text-white group-hover:border-dark/30 group-hover:text-dark transition-all duration-500 whitespace-nowrap">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </div>
+          
+          <div class={`absolute bottom-0 left-0 w-full h-1 ${
+            project.data.accent === 'orange' ? 'bg-accent-orange' : 'bg-accent-blue'
+          } transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left`}></div>
+          
+          <div class="absolute top-1/2 right-8 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-all duration-500">
+            <svg class="w-8 h-8 text-dark" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  function initProjectFilters() {
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const projectCards = document.querySelectorAll('.project-card');
+    
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const filter = btn.dataset.filter;
+        
+        filterBtns.forEach(b => {
+          b.classList.remove('bg-accent-blue', 'text-dark');
+          b.classList.add('bg-white/5', 'text-white/60', 'border', 'border-white/10');
+        });
+        btn.classList.add('bg-accent-blue', 'text-dark');
+        btn.classList.remove('bg-white/5', 'text-white/60', 'border', 'border-white/10');
+        
+        projectCards.forEach(card => {
+          const category = card.dataset.category;
+          if (filter === 'all' || category === filter) {
+            card.style.display = 'block';
+            card.style.animation = 'fadeIn 0.3s ease-out';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      });
+    });
+  }
+  
+  initProjectFilters();
+  document.addEventListener('astro:after-swap', initProjectFilters);
+</script>
+
+<style>
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>

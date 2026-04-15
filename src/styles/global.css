@@ -1,0 +1,81 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    @apply bg-dark text-white font-sans antialiased;
+  }
+  
+  ::selection {
+    @apply bg-accent-blue text-dark;
+  }
+  
+  :focus-visible {
+    @apply outline-2 outline-accent-blue outline-offset-2;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  .animation-delay-100 {
+    animation-delay: 100ms;
+  }
+  
+  .animation-delay-200 {
+    animation-delay: 200ms;
+  }
+  
+  .animation-delay-300 {
+    animation-delay: 300ms;
+  }
+  
+  .animation-delay-400 {
+    animation-delay: 400ms;
+  }
+  
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.services-swiper {
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-x;
+  scroll-behavior: smooth;
+}
+
+#whatsapp-popup {
+  transition: transform 0.2s ease-out, opacity 0.2s ease-out;
+}
+
+#whatsapp-popup.scale-95 {
+  transform: scale(0.95);
+  opacity: 0;
+}
+
+#whatsapp-popup.scale-100 {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.scroll-animate {
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.scroll-animate.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
