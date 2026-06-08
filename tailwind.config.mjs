@@ -14,7 +14,7 @@ export default {
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],
-        display: ['Archivo', 'Archivo SemiExpanded', 'system-ui', 'sans-serif']
+        display: ['Barlow Condensed', 'system-ui', 'sans-serif']
       },
       fontSize: {
         '7xl': ['4.5rem', { lineHeight: '1', letterSpacing: '-0.02em' }],
