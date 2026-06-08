@@ -8,11 +8,11 @@
   }
   
   body {
-    @apply bg-dark text-white font-sans antialiased;
+    @apply bg-light text-ink font-sans antialiased;
   }
   
   ::selection {
-    @apply bg-accent-blue text-dark;
+    @apply bg-accent-blue text-white;
   }
   
   :focus-visible {

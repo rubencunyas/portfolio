@@ -5,6 +5,8 @@ export default {
     extend: {
       colors: {
         dark: '#151414',
+        light: '#F8F6F0',
+        ink: '#1A1A1A',
         accent: {
           blue: '#3031E4',
           orange: '#FE4201'
@@ -12,7 +14,7 @@ export default {
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],
-        display: ['Space Grotesk', 'Inter', 'system-ui', 'sans-serif']
+        display: ['Archivo', 'Archivo SemiExpanded', 'system-ui', 'sans-serif']
       },
       fontSize: {
         '7xl': ['4.5rem', { lineHeight: '1', letterSpacing: '-0.02em' }],
