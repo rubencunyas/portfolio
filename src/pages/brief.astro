@@ -6,6 +6,15 @@ const whatsappNumber = "51987518768";
 const sections = [
   {
     number: "01",
+    title: "Tus datos",
+    fields: [
+      { id: "sender-name", label: "Tu nombre", type: "text", placeholder: "¿Cómo te llamas?" },
+      { id: "sender-email", label: "Tu email", type: "text", placeholder: "tu@email.com" },
+      { id: "sender-phone", label: "Tu teléfono / WhatsApp", type: "text", placeholder: "Ej. +51 999 888 777" }
+    ]
+  },
+  {
+    number: "02",
     title: "Sobre la marca / empresa",
     fields: [
       { id: "brand-name", label: "Nombre de tu marca", type: "text", placeholder: "Ej. Tu marca o nombre de proyecto..." },
@@ -14,7 +23,7 @@ const sections = [
     ]
   },
   {
-    number: "02",
+    number: "03",
     title: "Sobre el proyecto",
     fields: [
       { id: "project-need", label: "¿Qué necesitamos hacer exactamente?", type: "textarea", placeholder: "Ej. Diseñar una web, hacer un manual de marca, campaña gráfica..." },
@@ -23,14 +32,14 @@ const sections = [
     ]
   },
   {
-    number: "03",
+    number: "04",
     title: "Tu público",
     fields: [
       { id: "audience", label: "¿Quién es tu cliente ideal?", type: "textarea", placeholder: "A quién le hablamos: edades, intereses, ubicación..." }
     ]
   },
   {
-    number: "04",
+    number: "05",
     title: "Competencia y referencias",
     fields: [
       { id: "competitors", label: "¿Quiénes son tus principales competidores?", type: "textarea", placeholder: "Nombres o links de la competencia directa..." },
@@ -39,7 +48,7 @@ const sections = [
     ]
   },
   {
-    number: "05",
+    number: "06",
     title: "Tiempos y requerimientos",
     fields: [
       { id: "deadline", label: "¿Para qué fecha te gustaría tener esto listo?", type: "text", placeholder: "Ej. En 2 semanas, para diciembre 2026..." },
@@ -195,6 +204,15 @@ const totalSteps = sections.length + 1;
   function buildEmailBody() {
     const formData = new FormData(form);
     const sectionMeta = [
+      { title: "TUS DATOS", ids: ["sender-name", "sender-email", "sender-phone"] },
+      { title: "SOBRE LA MARCA / EMPRESA", ids: ["brand-name", "brand-dedication", "brand-social"] },
+      { title: "SOBRE EL PROYECTO", ids: ["project-need", "project-goal", "project-problem"] },
+      { title: "TU PÚBLICO", ids: ["audience"] },
+      { title: "COMPETENCIA Y REFERENCIAS", ids: ["competitors", "references", "keywords"] },
+      { title: "TIEMPOS Y REQUERIMIENTOS", ids: ["deadline", "formats"] }
+    ];
+    const formData = new FormData(form);
+    const sectionMeta = [
       { title: "SOBRE LA MARCA / EMPRESA", ids: ["brand-name", "brand-dedication", "brand-social"] },
       { title: "SOBRE EL PROYECTO", ids: ["project-need", "project-goal", "project-problem"] },
       { title: "TU PÚBLICO", ids: ["audience"] },
@@ -207,6 +225,7 @@ const totalSteps = sections.length + 1;
       body += `${section.title}\n`;
       section.ids.forEach(id => {
         const labelMap = {
+          "sender-name": "Nombre", "sender-email": "Email", "sender-phone": "Teléfono",
           "brand-name": "Nombre de tu marca", "brand-dedication": "¿A qué se dedican?", "brand-social": "Web o redes",
           "project-need": "¿Qué necesitamos hacer?", "project-goal": "Objetivo principal", "project-problem": "Problema actual",
           "audience": "Cliente ideal",
@@ -224,6 +243,7 @@ const totalSteps = sections.length + 1;
   function buildSummaryHTML() {
     const formData = new FormData(form);
     const sectionMeta = [
+      { title: "Tus datos", ids: ["sender-name", "sender-email", "sender-phone"] },
       { title: "Sobre la marca / empresa", ids: ["brand-name", "brand-dedication", "brand-social"] },
       { title: "Sobre el proyecto", ids: ["project-need", "project-goal", "project-problem"] },
       { title: "Tu público", ids: ["audience"] },
@@ -232,6 +252,7 @@ const totalSteps = sections.length + 1;
     ];
 
     const labelMap = {
+      "sender-name": "Tu nombre", "sender-email": "Tu email", "sender-phone": "Tu teléfono",
       "brand-name": "Nombre de tu marca", "brand-dedication": "¿A qué se dedican?", "brand-social": "Web o redes",
       "project-need": "¿Qué necesitamos hacer?", "project-goal": "Objetivo principal", "project-problem": "Problema actual",
       "audience": "Cliente ideal",
