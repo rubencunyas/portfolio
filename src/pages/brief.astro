@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 
 const whatsappNumber = "51987518768";
+
 const sections = [
   {
     number: "01",
@@ -18,7 +19,7 @@ const sections = [
     fields: [
       { id: "project-need", label: "¿Qué necesitamos hacer exactamente?", type: "textarea", placeholder: "Ej. Diseñar una web, hacer un manual de marca, campaña gráfica..." },
       { id: "project-goal", label: "¿Cuál es el objetivo principal?", type: "textarea", placeholder: "Ej. Vender más, modernizar la imagen, lanzar un producto..." },
-      { id: "project-problem", label: "¿Hay algún problema actual que estemos intentando solucionar?", type: "textarea", placeholder: "Cuéntame qué no está funcionando hoy..." }
+      { id: "project-problem", label: "¿Hay algún problema actual que intentamos solucionar?", type: "textarea", placeholder: "Cuéntame qué no está funcionando hoy..." }
     ]
   },
   {
@@ -46,6 +47,8 @@ const sections = [
     ]
   }
 ];
+
+const totalSteps = sections.length + 1;
 ---
 
 <Layout title="Brief | Rubén Cunyas">
@@ -58,65 +61,94 @@ const sections = [
           <span class="text-accent-orange">TU IDEA.</span>
         </h1>
         <p class="text-xl text-ink/70 max-w-2xl mx-auto">
-          Responde estas preguntas con calma. Mientras más detalles, mejor podré entender tu proyecto y proponerte algo que realmente funcione.
+          Responde por pasos. Al final revisamos todo antes de enviar.
         </p>
       </div>
     </section>
 
     <section class="py-24 lg:py-32 px-6 lg:px-12 bg-dark text-white">
       <div class="max-w-3xl mx-auto">
+        <div class="flex justify-center gap-2 mb-16" id="step-indicator">
+          {sections.map((_, i) => (
+            <div class="flex items-center gap-2">
+              <span class="step-dot w-8 h-8 rounded-full border-2 border-white/20 text-white/40 text-xs font-bold flex items-center justify-center transition-all duration-300" data-step={i + 1}>
+                {i + 1}
+              </span>
+              {i < sections.length - 1 && <span class="step-line w-6 sm:w-10 h-0.5 bg-white/10 transition-all duration-300" data-step={i + 1}></span>}
+            </div>
+          ))}
+        </div>
+
         <form id="brief-form" class="space-y-16">
-          {sections.map((section) => (
-            <fieldset>
-              <legend class="flex items-start gap-4 mb-8">
-                <span class="font-display font-bold text-4xl sm:text-5xl text-accent-blue/30">{section.number}</span>
-                <span class="font-display font-bold text-2xl sm:text-3xl text-white">{section.title}</span>
-              </legend>
-              <div class="space-y-6">
-                {section.fields.map((field) => (
-                  <div>
-                    <label for={field.id} class="block text-sm text-white/60 uppercase tracking-wider mb-2">
-                      {field.label}
-                    </label>
-                    {field.type === "textarea" ? (
-                      <textarea
-                        id={field.id}
-                        name={field.id}
-                        rows="4"
-                        class="w-full px-4 py-3 bg-white/5 border border-white/10 text-white placeholder-white/30 focus:border-accent-blue focus:outline-none transition-colors duration-300 resize-none"
-                        placeholder={field.placeholder}
-                        required
-                      ></textarea>
-                    ) : (
-                      <input
-                        type="text"
-                        id={field.id}
-                        name={field.id}
-                        class="w-full px-4 py-3 bg-white/5 border border-white/10 text-white placeholder-white/30 focus:border-accent-blue focus:outline-none transition-colors duration-300"
-                        placeholder={field.placeholder}
-                        required
-                      />
-                    )}
-                  </div>
-                ))}
+          <input type="hidden" name="_subject" value="Nuevo brief desde cunyas.com" />
+          <input type="hidden" name="_captcha" value="false" />
+
+          {sections.map((section, i) => (
+            <div class="step-content" data-step={i + 1} style={`display: ${i === 0 ? 'block' : 'none'}`}>
+              <fieldset>
+                <legend class="flex items-start gap-4 mb-8">
+                  <span class="font-display font-bold text-4xl sm:text-5xl text-accent-blue/30">{section.number}</span>
+                  <span class="font-display font-bold text-2xl sm:text-3xl text-white">{section.title}</span>
+                </legend>
+                <div class="space-y-6">
+                  {section.fields.map((field) => (
+                    <div>
+                      <label for={field.id} class="block text-sm text-white/60 uppercase tracking-wider mb-2">
+                        {field.label}
+                      </label>
+                      {field.type === "textarea" ? (
+                        <textarea
+                          id={field.id}
+                          name={field.id}
+                          rows="4"
+                          class="w-full px-4 py-3 bg-white/5 border border-white/10 text-white placeholder-white/30 focus:border-accent-blue focus:outline-none transition-colors duration-300 resize-none"
+                          placeholder={field.placeholder}
+                          required
+                        ></textarea>
+                      ) : (
+                        <input
+                          type="text"
+                          id={field.id}
+                          name={field.id}
+                          class="w-full px-4 py-3 bg-white/5 border border-white/10 text-white placeholder-white/30 focus:border-accent-blue focus:outline-none transition-colors duration-300"
+                          placeholder={field.placeholder}
+                          required
+                        />
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </fieldset>
+              <div class="flex justify-between mt-10">
+                <button type="button" class="step-back px-6 py-3 border border-white/20 text-white/60 hover:text-white hover:border-white/50 transition-colors duration-300 text-sm font-semibold uppercase tracking-wider" style={`visibility: ${i === 0 ? 'hidden' : 'visible'}`}>
+                  ANTERIOR
+                </button>
+                <button type="button" class="step-next px-8 py-3 bg-accent-blue text-dark font-semibold hover:bg-white transition-colors duration-300 text-sm uppercase tracking-wider ml-auto">
+                  SIGUIENTE
+                </button>
               </div>
-            </fieldset>
+            </div>
           ))}
 
-          <div class="pt-8 border-t border-white/10">
-            <button
-              type="submit"
-              id="brief-submit-btn"
-              class="w-full px-8 py-5 bg-accent-blue text-dark font-semibold text-xl hover:bg-white transition-colors duration-300 flex items-center justify-center gap-3"
-            >
-              <span id="brief-btn-text">ENVIAR BRIEF</span>
-              <svg id="brief-btn-spinner" class="w-6 h-6 animate-spin hidden" fill="none" viewBox="0 0 24 24">
-                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-              </svg>
-            </button>
-            <p class="mt-4 text-sm text-white/40 text-center">
-              ¡Mil gracias por tu tiempo! En cuanto lo revise, coordinamos una reunión para afinar detalles y empezar a trabajar.
+          <div class="step-content" data-step={totalSteps} style="display: none">
+            <div class="text-center mb-12">
+              <span class="font-display font-bold text-4xl sm:text-5xl text-accent-blue/30 block mb-4">✓</span>
+              <h3 class="font-display font-bold text-2xl sm:text-3xl text-white mb-4">Revisa tu brief</h3>
+              <p class="text-white/60">Verifica que todo esté correcto antes de enviar</p>
+            </div>
+            <div class="space-y-8 mb-10" id="summary-container"></div>
+            <div class="flex justify-between mt-10">
+              <button type="button" class="step-back px-6 py-3 border border-white/20 text-white/60 hover:text-white hover:border-white/50 transition-colors duration-300 text-sm font-semibold uppercase tracking-wider">ANTERIOR</button>
+              <button type="submit" id="brief-submit-btn" class="px-10 py-4 bg-accent-blue text-dark font-semibold text-lg hover:bg-white transition-colors duration-300 flex items-center justify-center gap-3">
+                <span id="brief-btn-text">ENVIAR BRIEF</span>
+                <svg id="brief-btn-spinner" class="w-5 h-5 animate-spin hidden" fill="none" viewBox="0 0 24 24">
+                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+              </button>
+            </div>
+            <p class="mt-8 text-sm text-white/40 text-center">
+              Recibirás una copia del brief por WhatsApp y yo lo recibiré en mi correo. En cuanto lo revise, coordinamos una reunión.
             </p>
           </div>
         </form>
@@ -130,17 +162,14 @@ const sections = [
   const submitBtn = document.getElementById('brief-submit-btn');
   const btnText = document.getElementById('brief-btn-text');
   const btnSpinner = document.getElementById('brief-btn-spinner');
+  const stepContents = document.querySelectorAll('.step-content');
+  const stepDots = document.querySelectorAll('.step-dot');
+  const stepLines = document.querySelectorAll('.step-line');
+  let currentStep = 1;
 
-  form.addEventListener('submit', function(e) {
-    e.preventDefault();
-
-    btnText.textContent = 'ENVIANDO...';
-    btnSpinner.classList.remove('hidden');
-    submitBtn.disabled = true;
-    submitBtn.classList.add('opacity-70', 'cursor-not-allowed');
-
+  function buildWhatsAppMessage() {
     const formData = new FormData(form);
-    const sections = [
+    const sectionMeta = [
       { title: "SOBRE LA MARCA / EMPRESA", ids: ["brand-name", "brand-dedication", "brand-social"] },
       { title: "SOBRE EL PROYECTO", ids: ["project-need", "project-goal", "project-problem"] },
       { title: "TU PÚBLICO", ids: ["audience"] },
@@ -150,7 +179,7 @@ const sections = [
 
     let message = "¡Hola! Te envío mi brief completo:%0A%0A";
 
-    sections.forEach((section, i) => {
+    sectionMeta.forEach((section) => {
       message += `━━━ ${section.title} ━━━%0A`;
       section.ids.forEach(id => {
         const value = formData.get(id) || "";
@@ -160,24 +189,179 @@ const sections = [
     });
 
     message += "━ Espero tu respuesta para coordinar. ¡Gracias!";
+    return message;
+  }
 
-    setTimeout(() => {
-      const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${message}`;
+  function buildEmailBody() {
+    const formData = new FormData(form);
+    const sectionMeta = [
+      { title: "SOBRE LA MARCA / EMPRESA", ids: ["brand-name", "brand-dedication", "brand-social"] },
+      { title: "SOBRE EL PROYECTO", ids: ["project-need", "project-goal", "project-problem"] },
+      { title: "TU PÚBLICO", ids: ["audience"] },
+      { title: "COMPETENCIA Y REFERENCIAS", ids: ["competitors", "references", "keywords"] },
+      { title: "TIEMPOS Y REQUERIMIENTOS", ids: ["deadline", "formats"] }
+    ];
+
+    let body = "";
+    sectionMeta.forEach((section) => {
+      body += `${section.title}\n`;
+      section.ids.forEach(id => {
+        const labelMap = {
+          "brand-name": "Nombre de tu marca", "brand-dedication": "¿A qué se dedican?", "brand-social": "Web o redes",
+          "project-need": "¿Qué necesitamos hacer?", "project-goal": "Objetivo principal", "project-problem": "Problema actual",
+          "audience": "Cliente ideal",
+          "competitors": "Competidores", "references": "Inspiración", "keywords": "3 palabras",
+          "deadline": "Fecha límite", "formats": "Formatos"
+        };
+        const value = formData.get(id) || "";
+        body += `${labelMap[id] || id}: ${value}\n`;
+      });
+      body += "\n";
+    });
+    return body;
+  }
+
+  function buildSummaryHTML() {
+    const formData = new FormData(form);
+    const sectionMeta = [
+      { title: "Sobre la marca / empresa", ids: ["brand-name", "brand-dedication", "brand-social"] },
+      { title: "Sobre el proyecto", ids: ["project-need", "project-goal", "project-problem"] },
+      { title: "Tu público", ids: ["audience"] },
+      { title: "Competencia y referencias", ids: ["competitors", "references", "keywords"] },
+      { title: "Tiempos y requerimientos", ids: ["deadline", "formats"] }
+    ];
+
+    const labelMap = {
+      "brand-name": "Nombre de tu marca", "brand-dedication": "¿A qué se dedican?", "brand-social": "Web o redes",
+      "project-need": "¿Qué necesitamos hacer?", "project-goal": "Objetivo principal", "project-problem": "Problema actual",
+      "audience": "Cliente ideal",
+      "competitors": "Competidores", "references": "Inspiración", "keywords": "3 palabras",
+      "deadline": "Fecha límite", "formats": "Formatos"
+    };
+
+    let html = "";
+    sectionMeta.forEach((section) => {
+      html += `<div class="border border-white/10 p-6"><h4 class="font-display font-bold text-lg text-accent-blue mb-4">${section.title}</h4><div class="space-y-3">`;
+      section.ids.forEach(id => {
+        const value = formData.get(id) || "";
+        html += `<div><span class="text-xs text-white/40 uppercase tracking-wider block mb-1">${labelMap[id] || id}</span><p class="text-white">${value || '<span class="text-white/30 italic">Sin respuesta</span>'}</p></div>`;
+      });
+      html += `</div></div>`;
+    });
+    return html;
+  }
+
+  function goToStep(step) {
+    currentStep = step;
+    stepContents.forEach(el => el.style.display = el.dataset.step == step ? 'block' : 'none');
+
+    stepDots.forEach((dot, i) => {
+      const num = i + 1;
+      if (num < step) {
+        dot.classList.add('bg-accent-blue', 'border-accent-blue', 'text-dark');
+        dot.classList.remove('border-white/20', 'text-white/40');
+      } else if (num === step) {
+        dot.classList.add('border-accent-blue', 'text-white');
+        dot.classList.remove('bg-accent-blue', 'text-dark', 'border-white/20', 'text-white/40');
+      } else {
+        dot.classList.add('border-white/20', 'text-white/40');
+        dot.classList.remove('bg-accent-blue', 'border-accent-blue', 'text-dark', 'text-white');
+      }
+    });
+
+    stepLines.forEach((line, i) => {
+      const num = i + 1;
+      if (num < step) {
+        line.classList.add('bg-accent-blue');
+        line.classList.remove('bg-white/10');
+      } else {
+        line.classList.add('bg-white/10');
+        line.classList.remove('bg-accent-blue');
+      }
+    });
+
+    if (step === stepContents.length) {
+      document.getElementById('summary-container').innerHTML = buildSummaryHTML();
+    }
+
+    window.scrollTo({ top: document.querySelector('.step-content').offsetTop - 40, behavior: 'smooth' });
+  }
+
+  document.querySelectorAll('.step-next').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const currentSection = stepContents[currentStep - 1];
+      const requiredFields = currentSection.querySelectorAll('[required]');
+      let valid = true;
+      requiredFields.forEach(f => { if (!f.value.trim()) valid = false; });
+
+      if (!valid) {
+        requiredFields.forEach(f => {
+          if (!f.value.trim()) {
+            f.style.borderColor = '#FE4201';
+            setTimeout(() => f.style.borderColor = '', 2000);
+          }
+        });
+        return;
+      }
+
+      if (currentStep < stepContents.length) goToStep(currentStep + 1);
+    });
+  });
+
+  document.querySelectorAll('.step-back').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (currentStep > 1) goToStep(currentStep - 1);
+    });
+  });
+
+  form.addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    btnText.textContent = 'ENVIANDO...';
+    btnSpinner.classList.remove('hidden');
+    submitBtn.disabled = true;
+    submitBtn.classList.add('opacity-70', 'cursor-not-allowed');
+
+    try {
+      const formData = new FormData(form);
+      const emailBody = buildEmailBody();
+
+      await fetch('https://formsubmit.co/ajax/ruben.cunyas.b@gmail.com', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+          _subject: 'Nuevo brief desde cunyas.com',
+          message: emailBody
+        })
+      });
+
+      const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${buildWhatsAppMessage()}`;
       window.open(whatsappUrl, '_blank');
 
-      setTimeout(() => {
-        btnText.textContent = '¡BRIEF ENVIADO!';
-        submitBtn.style.backgroundColor = '#22c55e';
+      btnText.textContent = '¡BRIEF ENVIADO!';
+      submitBtn.style.backgroundColor = '#22c55e';
 
-        setTimeout(() => {
-          form.reset();
-          btnText.textContent = 'ENVIAR BRIEF';
-          btnSpinner.classList.add('hidden');
-          submitBtn.disabled = false;
-          submitBtn.classList.remove('opacity-70', 'cursor-not-allowed');
-          submitBtn.style.backgroundColor = '';
-        }, 3000);
-      }, 500);
-    }, 1500);
+      setTimeout(() => {
+        form.reset();
+        goToStep(1);
+        btnText.textContent = 'ENVIAR BRIEF';
+        btnSpinner.classList.add('hidden');
+        submitBtn.disabled = false;
+        submitBtn.classList.remove('opacity-70', 'cursor-not-allowed');
+        submitBtn.style.backgroundColor = '';
+      }, 3000);
+    } catch (err) {
+      btnText.textContent = 'ERROR - INTENTA DE NUEVO';
+      submitBtn.style.backgroundColor = '#FE4201';
+      setTimeout(() => {
+        btnText.textContent = 'ENVIAR BRIEF';
+        btnSpinner.classList.add('hidden');
+        submitBtn.disabled = false;
+        submitBtn.classList.remove('opacity-70', 'cursor-not-allowed');
+        submitBtn.style.backgroundColor = '';
+      }, 3000);
+    }
   });
+
+  goToStep(1);
 </script>
