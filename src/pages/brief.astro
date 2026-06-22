@@ -3,7 +3,14 @@ import Layout from '../layouts/Layout.astro';
 
 const whatsappNumber = "51987518768";
 
-const sections = [
+const projectTypes = [
+  { value: "branding", label: "Branding / Identidad visual" },
+  { value: "web", label: "Diseño y desarrollo web" },
+  { value: "multimedia", label: "Contenido multimedia" },
+  { value: "unknown", label: "Aún no lo sé / Varios" }
+];
+
+const baseSections = [
   {
     number: "01",
     title: "Tus datos",
@@ -15,6 +22,11 @@ const sections = [
   },
   {
     number: "02",
+    title: "Tipo de proyecto",
+    fields: []
+  },
+  {
+    number: "03",
     title: "Sobre la marca / empresa",
     fields: [
       { id: "brand-name", label: "Nombre de tu marca", type: "text", placeholder: "Ej. Tu marca o nombre de proyecto..." },
@@ -23,41 +35,62 @@ const sections = [
     ]
   },
   {
-    number: "03",
-    title: "Sobre el proyecto",
-    fields: [
-      { id: "project-need", label: "¿Qué necesitamos hacer exactamente?", type: "textarea", placeholder: "Ej. Diseñar una web, hacer un manual de marca, campaña gráfica..." },
-      { id: "project-goal", label: "¿Cuál es el objetivo principal?", type: "textarea", placeholder: "Ej. Vender más, modernizar la imagen, lanzar un producto..." },
-      { id: "project-problem", label: "¿Hay algún problema actual que intentamos solucionar?", type: "textarea", placeholder: "Cuéntame qué no está funcionando hoy..." }
-    ]
+    number: "04",
+    title: "Detalles del proyecto",
+    fields: []
   },
   {
-    number: "04",
+    number: "05",
     title: "Tu público",
     fields: [
       { id: "audience", label: "¿Quién es tu cliente ideal?", type: "textarea", placeholder: "A quién le hablamos: edades, intereses, ubicación..." }
     ]
   },
   {
-    number: "05",
+    number: "06",
     title: "Competencia y referencias",
     fields: [
       { id: "competitors", label: "¿Quiénes son tus principales competidores?", type: "textarea", placeholder: "Nombres o links de la competencia directa..." },
       { id: "references", label: "¿Hay marcas o proyectos que te sirvan de inspiración?", type: "textarea", placeholder: "Puedes dejar links aquí..." },
-      { id: "keywords", label: "¿Con qué 3 palabras te gustaría que describan tu marca?", type: "text", placeholder: "Ej. Cercana, exclusiva, moderna, confiable..." }
+      { id: "referral", label: "¿Cómo nos conociste?", type: "text", placeholder: "Ej. Instagram, Google, recomendación..." }
     ]
   },
   {
-    number: "06",
-    title: "Tiempos y requerimientos",
+    number: "07",
+    title: "Tiempos y presupuesto",
     fields: [
       { id: "deadline", label: "¿Para qué fecha te gustaría tener esto listo?", type: "text", placeholder: "Ej. En 2 semanas, para diciembre 2026..." },
+      { id: "budget", label: "¿Cuál es tu presupuesto estimado?", type: "text", placeholder: "Ej. $500–$1500, $3000+, aún no lo sé..." },
       { id: "formats", label: "¿Necesitas algún formato en específico?", type: "textarea", placeholder: "Ej. Archivos para imprenta, código funcionando, plantillas editables..." }
     ]
   }
 ];
 
-const totalSteps = sections.length + 1;
+const typeConditionalFields = {
+  branding: [
+    { id: "b-logo", label: "¿Tienes un logotipo actual o empezamos de cero?", type: "text", placeholder: "Ej. Tenemos algo, pero queremos renovarlo..." },
+    { id: "b-scope", label: "¿Necesitas manual de marca completo o solo identidad básica?", type: "text", placeholder: "Ej. Solo logo y colores / Manual completo con aplicaciones..." },
+    { id: "b-apply", label: "¿Dónde se va a aplicar la marca?", type: "textarea", placeholder: "Ej. Redes sociales, web, papelería, empaques, local físico..." },
+    { id: "b-style", label: "Colores, tipografías o estilos que te gusten (o que NO te gusten)", type: "textarea", placeholder: "Puedes dejar referencias o describirlo..." }
+  ],
+  web: [
+    { id: "w-pages", label: "¿Cuántas secciones o páginas necesitas?", type: "text", placeholder: "Ej. Landing de 1 página / 5 secciones / Blog completo..." },
+    { id: "w-store", label: "¿Necesitas tienda online?", type: "text", placeholder: "Ej. No / Sí, con 10 productos / Sí, catálogo grande..." },
+    { id: "w-content", label: "¿Tienes contenido listo (textos, imágenes) o necesitas que lo creemos?", type: "text", placeholder: "Ej. Tengo textos e imágenes / Necesito todo..." },
+    { id: "w-integrations", label: "¿Integraciones necesarias?", type: "textarea", placeholder: "Ej. Pasarela de pagos, WhatsApp, CRM, newsletter..." }
+  ],
+  multimedia: [
+    { id: "m-type", label: "¿Qué tipo de contenido necesitas?", type: "text", placeholder: "Ej. Video corporativo, reel para redes, motion graphics..." },
+    { id: "m-duration", label: "Duración estimada", type: "text", placeholder: "Ej. 30 segundos, 2 minutos, no lo sé aún..." },
+    { id: "m-material", label: "¿Tienes material base?", type: "textarea", placeholder: "Ej. Tengo guión, imágenes y audio / Solo la idea..." },
+    { id: "m-platform", label: "¿Para qué plataforma?", type: "text", placeholder: "Ej. Instagram y TikTok / Web corporativa / YouTube..." }
+  ],
+  unknown: [
+    { id: "u-idea", label: "Cuéntame más sobre tu idea", type: "textarea", placeholder: "¿En qué estás pensando? Cuéntame lo que sea que tengas en mente, aunque sea una idea vaga..." }
+  ]
+};
+
+const totalSections = baseSections.length;
 ---
 
 <Layout title="Brief | Rubén Cunyas">
@@ -77,22 +110,15 @@ const totalSteps = sections.length + 1;
 
     <section class="py-24 lg:py-32 px-6 lg:px-12 bg-dark text-white">
       <div class="max-w-3xl mx-auto">
-        <div class="flex justify-center gap-2 mb-16" id="step-indicator">
-          {sections.map((_, i) => (
-            <div class="flex items-center gap-2">
-              <span class="step-dot w-8 h-8 rounded-full border-2 border-white/20 text-white/40 text-xs font-bold flex items-center justify-center transition-all duration-300" data-step={i + 1}>
-                {i + 1}
-              </span>
-              {i < sections.length - 1 && <span class="step-line w-6 sm:w-10 h-0.5 bg-white/10 transition-all duration-300" data-step={i + 1}></span>}
-            </div>
-          ))}
+        <div class="text-center mb-12" id="step-indicator">
+          <span class="text-sm text-white/40 uppercase tracking-wider" id="step-label">Paso 1 de 7</span>
+          <div class="mt-3 w-full bg-white/10 h-1 max-w-xs mx-auto rounded-full overflow-hidden">
+            <div class="bg-accent-blue h-full rounded-full transition-all duration-300" id="step-progress" style="width: 14%"></div>
+          </div>
         </div>
 
         <form id="brief-form" class="space-y-16">
-          <input type="hidden" name="_subject" value="Nuevo brief desde cunyas.com" />
-          <input type="hidden" name="_captcha" value="false" />
-
-          {sections.map((section, i) => (
+          {baseSections.map((section, i) => (
             <div class="step-content" data-step={i + 1} style={`display: ${i === 0 ? 'block' : 'none'}`}>
               <fieldset>
                 <legend class="flex items-start gap-4 mb-8">
@@ -112,7 +138,6 @@ const totalSteps = sections.length + 1;
                           rows="4"
                           class="w-full px-4 py-3 bg-white/5 border border-white/10 text-white placeholder-white/30 focus:border-accent-blue focus:outline-none transition-colors duration-300 resize-none"
                           placeholder={field.placeholder}
-                          required
                         ></textarea>
                       ) : (
                         <input
@@ -121,25 +146,73 @@ const totalSteps = sections.length + 1;
                           name={field.id}
                           class="w-full px-4 py-3 bg-white/5 border border-white/10 text-white placeholder-white/30 focus:border-accent-blue focus:outline-none transition-colors duration-300"
                           placeholder={field.placeholder}
-                          required
                         />
                       )}
                     </div>
                   ))}
+                  {section.title === "Tipo de proyecto" && (
+                    <div class="grid gap-3" id="project-type-options">
+                      {projectTypes.map((t, idx) => (
+                        <label data-action="select-type" class={`flex items-center gap-4 p-4 border cursor-pointer transition-all duration-300 ${
+                          idx === 0 ? 'border-accent-blue bg-accent-blue/10' : 'border-white/10 hover:border-white/30 bg-white/5'
+                        }`} data-value={t.value}>
+                          <input type="radio" name="project-type" value={t.value} class="sr-only" checked={idx === 0} />
+                          <span class={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
+                            idx === 0 ? 'border-accent-blue' : 'border-white/30'
+                          }`}>
+                            {idx === 0 && <span class="w-2.5 h-2.5 rounded-full bg-accent-blue"></span>}
+                          </span>
+                          <span class="font-semibold text-white">{t.label}</span>
+                        </label>
+                      ))}
+                    </div>
+                  )}
+                  {section.title === "Detalles del proyecto" && (
+                    <div id="conditional-fields">
+                      {Object.entries(typeConditionalFields).map(([type, fields]) => (
+                        <div class="conditional-block space-y-6" data-type={type} style={`display: ${type === 'branding' ? 'block' : 'none'}`}>
+                          {fields.map((field) => (
+                            <div>
+                              <label for={field.id} class="block text-sm text-white/60 uppercase tracking-wider mb-2">
+                                {field.label}
+                              </label>
+                              {field.type === "textarea" ? (
+                                <textarea
+                                  id={field.id}
+                                  name={field.id}
+                                  rows="4"
+                                  class="w-full px-4 py-3 bg-white/5 border border-white/10 text-white placeholder-white/30 focus:border-accent-blue focus:outline-none transition-colors duration-300 resize-none"
+                                  placeholder={field.placeholder}
+                                ></textarea>
+                              ) : (
+                                <input
+                                  type="text"
+                                  id={field.id}
+                                  name={field.id}
+                                  class="w-full px-4 py-3 bg-white/5 border border-white/10 text-white placeholder-white/30 focus:border-accent-blue focus:outline-none transition-colors duration-300"
+                                  placeholder={field.placeholder}
+                                />
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </fieldset>
               <div class="flex justify-between mt-10">
-                <button type="button" class="step-back px-6 py-3 border border-white/20 text-white/60 hover:text-white hover:border-white/50 transition-colors duration-300 text-sm font-semibold uppercase tracking-wider" style={`visibility: ${i === 0 ? 'hidden' : 'visible'}`}>
+                <button type="button" data-action="prev" class="px-6 py-3 border border-white/20 text-white/60 hover:text-white hover:border-white/50 transition-colors duration-300 text-sm font-semibold uppercase tracking-wider" style={`visibility: ${i === 0 ? 'hidden' : 'visible'}`}>
                   ANTERIOR
                 </button>
-                <button type="button" class="step-next px-8 py-3 bg-accent-blue text-dark font-semibold hover:bg-white transition-colors duration-300 text-sm uppercase tracking-wider ml-auto">
+                <button type="button" data-action="next" class="px-8 py-3 bg-accent-blue text-dark font-semibold hover:bg-white transition-colors duration-300 text-sm uppercase tracking-wider ml-auto">
                   SIGUIENTE
                 </button>
               </div>
             </div>
           ))}
 
-          <div class="step-content" data-step={totalSteps} style="display: none">
+          <div class="step-content" data-step={totalSections + 1} style="display: none">
             <div class="text-center mb-12">
               <span class="font-display font-bold text-4xl sm:text-5xl text-accent-blue/30 block mb-4">✓</span>
               <h3 class="font-display font-bold text-2xl sm:text-3xl text-white mb-4">Revisa tu brief</h3>
@@ -147,7 +220,7 @@ const totalSteps = sections.length + 1;
             </div>
             <div class="space-y-8 mb-10" id="summary-container"></div>
             <div class="flex justify-between mt-10">
-              <button type="button" class="step-back px-6 py-3 border border-white/20 text-white/60 hover:text-white hover:border-white/50 transition-colors duration-300 text-sm font-semibold uppercase tracking-wider">ANTERIOR</button>
+              <button type="button" data-action="prev" class="px-6 py-3 border border-white/20 text-white/60 hover:text-white hover:border-white/50 transition-colors duration-300 text-sm font-semibold uppercase tracking-wider">ANTERIOR</button>
               <button type="submit" id="brief-submit-btn" class="px-10 py-4 bg-accent-blue text-dark font-semibold text-lg hover:bg-white transition-colors duration-300 flex items-center justify-center gap-3">
                 <span id="brief-btn-text">ENVIAR BRIEF</span>
                 <svg id="brief-btn-spinner" class="w-5 h-5 animate-spin hidden" fill="none" viewBox="0 0 24 24">
@@ -164,225 +237,257 @@ const totalSteps = sections.length + 1;
       </div>
     </section>
   </main>
-</Layout>
+  <script is:inline>
+    const form = document.getElementById('brief-form');
+    const stepContents = document.querySelectorAll('.step-content');
+    const stepLabel = document.getElementById('step-label');
+    const stepProgress = document.getElementById('step-progress');
+    const typeRadios = document.querySelectorAll('input[name="project-type"]');
+    const conditionalBlocks = document.querySelectorAll('.conditional-block');
+    const totalSteps = stepContents.length;
+    let currentStep = 1;
 
-<script define:vars={{ whatsappNumber }}>
-  const form = document.getElementById('brief-form');
-  const submitBtn = document.getElementById('brief-submit-btn');
-  const btnText = document.getElementById('brief-btn-text');
-  const btnSpinner = document.getElementById('brief-btn-spinner');
-  const stepContents = document.querySelectorAll('.step-content');
-  const stepDots = document.querySelectorAll('.step-dot');
-  const stepLines = document.querySelectorAll('.step-line');
-  let currentStep = 1;
+    function getSelectedType() {
+      for (const radio of typeRadios) {
+        if (radio.checked) return radio.value;
+      }
+      return 'branding';
+    }
 
-  function buildWhatsAppMessage() {
-    const formData = new FormData(form);
-    const sectionMeta = [
-      { title: "SOBRE LA MARCA / EMPRESA", ids: ["brand-name", "brand-dedication", "brand-social"] },
-      { title: "SOBRE EL PROYECTO", ids: ["project-need", "project-goal", "project-problem"] },
-      { title: "TU PÚBLICO", ids: ["audience"] },
-      { title: "COMPETENCIA Y REFERENCIAS", ids: ["competitors", "references", "keywords"] },
-      { title: "TIEMPOS Y REQUERIMIENTOS", ids: ["deadline", "formats"] }
-    ];
-
-    let message = "¡Hola! Te envío mi brief completo:%0A%0A";
-
-    sectionMeta.forEach((section) => {
-      message += `━━━ ${section.title} ━━━%0A`;
-      section.ids.forEach(id => {
-        const value = formData.get(id) || "";
-        message += `${value}%0A`;
+    function selectProjectType(value) {
+      const labels = document.querySelectorAll('#project-type-options label');
+      labels.forEach(opt => {
+        const isSelected = opt.dataset.value === value;
+        const radio = opt.querySelector('input[type="radio"]');
+        const circle = opt.querySelector('span:first-of-type');
+        const existingDot = circle.querySelector('.w-2\\.5');
+        if (existingDot) existingDot.remove();
+        if (isSelected) {
+          opt.className = 'flex items-center gap-4 p-4 border cursor-pointer transition-all duration-300 border-accent-blue bg-accent-blue/10';
+          radio.checked = true;
+          circle.className = 'w-5 h-5 rounded-full border-2 flex items-center justify-center border-accent-blue';
+          const dot = document.createElement('span');
+          dot.className = 'w-2.5 h-2.5 rounded-full bg-accent-blue';
+          circle.appendChild(dot);
+        } else {
+          opt.className = 'flex items-center gap-4 p-4 border cursor-pointer transition-all duration-300 border-white/10 hover:border-white/30 bg-white/5';
+          radio.checked = false;
+          circle.className = 'w-5 h-5 rounded-full border-2 flex items-center justify-center border-white/30';
+        }
       });
-      message += `%0A`;
+      conditionalBlocks.forEach(block => {
+        block.style.display = block.dataset.type === value ? 'block' : 'none';
+      });
+    }
+
+    form.addEventListener('click', (e) => {
+      const target = e.target.closest('[data-action]');
+      if (!target) return;
+      const action = target.dataset.action;
+
+      if (action === 'next' || action === 'prev') {
+        if (action === 'prev' && currentStep > 1) {
+          goToStep(currentStep - 1);
+          return;
+        }
+        if (action === 'next') {
+          const currentSection = stepContents[currentStep - 1];
+          const requiredFields = currentSection.querySelectorAll('[required]');
+          let valid = true;
+          requiredFields.forEach(f => { if (!f.value.trim()) valid = false; });
+          if (!valid) {
+            requiredFields.forEach(f => {
+              if (!f.value.trim()) {
+                f.style.borderColor = '#FE4201';
+                setTimeout(() => f.style.borderColor = '', 2000);
+              }
+            });
+            return;
+          }
+          if (currentStep < totalSteps) goToStep(currentStep + 1);
+        }
+      }
+
+      if (action === 'select-type') {
+        const value = target.dataset.value;
+        selectProjectType(value);
+      }
     });
 
-    message += "━ Espero tu respuesta para coordinar. ¡Gracias!";
-    return message;
-  }
-
-  function buildEmailBody() {
-    const formData = new FormData(form);
     const sectionMeta = [
       { title: "TUS DATOS", ids: ["sender-name", "sender-email", "sender-phone"] },
+      { title: "TIPO DE PROYECTO", ids: ["project-type"] },
       { title: "SOBRE LA MARCA / EMPRESA", ids: ["brand-name", "brand-dedication", "brand-social"] },
-      { title: "SOBRE EL PROYECTO", ids: ["project-need", "project-goal", "project-problem"] },
+      { title: "DETALLES DEL PROYECTO", ids: [] },
       { title: "TU PÚBLICO", ids: ["audience"] },
-      { title: "COMPETENCIA Y REFERENCIAS", ids: ["competitors", "references", "keywords"] },
-      { title: "TIEMPOS Y REQUERIMIENTOS", ids: ["deadline", "formats"] }
-    ];
-    const formData = new FormData(form);
-    const sectionMeta = [
-      { title: "SOBRE LA MARCA / EMPRESA", ids: ["brand-name", "brand-dedication", "brand-social"] },
-      { title: "SOBRE EL PROYECTO", ids: ["project-need", "project-goal", "project-problem"] },
-      { title: "TU PÚBLICO", ids: ["audience"] },
-      { title: "COMPETENCIA Y REFERENCIAS", ids: ["competitors", "references", "keywords"] },
-      { title: "TIEMPOS Y REQUERIMIENTOS", ids: ["deadline", "formats"] }
+      { title: "COMPETENCIA Y REFERENCIAS", ids: ["competitors", "references", "referral"] },
+      { title: "TIEMPOS Y PRESUPUESTO", ids: ["deadline", "budget", "formats"] }
     ];
 
-    let body = "";
-    sectionMeta.forEach((section) => {
-      body += `${section.title}\n`;
-      section.ids.forEach(id => {
-        const labelMap = {
-          "sender-name": "Nombre", "sender-email": "Email", "sender-phone": "Teléfono",
-          "brand-name": "Nombre de tu marca", "brand-dedication": "¿A qué se dedican?", "brand-social": "Web o redes",
-          "project-need": "¿Qué necesitamos hacer?", "project-goal": "Objetivo principal", "project-problem": "Problema actual",
-          "audience": "Cliente ideal",
-          "competitors": "Competidores", "references": "Inspiración", "keywords": "3 palabras",
-          "deadline": "Fecha límite", "formats": "Formatos"
-        };
-        const value = formData.get(id) || "";
-        body += `${labelMap[id] || id}: ${value}\n`;
-      });
-      body += "\n";
-    });
-    return body;
-  }
-
-  function buildSummaryHTML() {
-    const formData = new FormData(form);
-    const sectionMeta = [
-      { title: "Tus datos", ids: ["sender-name", "sender-email", "sender-phone"] },
-      { title: "Sobre la marca / empresa", ids: ["brand-name", "brand-dedication", "brand-social"] },
-      { title: "Sobre el proyecto", ids: ["project-need", "project-goal", "project-problem"] },
-      { title: "Tu público", ids: ["audience"] },
-      { title: "Competencia y referencias", ids: ["competitors", "references", "keywords"] },
-      { title: "Tiempos y requerimientos", ids: ["deadline", "formats"] }
-    ];
-
-    const labelMap = {
-      "sender-name": "Tu nombre", "sender-email": "Tu email", "sender-phone": "Tu teléfono",
-      "brand-name": "Nombre de tu marca", "brand-dedication": "¿A qué se dedican?", "brand-social": "Web o redes",
-      "project-need": "¿Qué necesitamos hacer?", "project-goal": "Objetivo principal", "project-problem": "Problema actual",
-      "audience": "Cliente ideal",
-      "competitors": "Competidores", "references": "Inspiración", "keywords": "3 palabras",
-      "deadline": "Fecha límite", "formats": "Formatos"
+    const typeFieldIds = {
+      branding: ["b-logo", "b-scope", "b-apply", "b-style"],
+      web: ["w-pages", "w-store", "w-content", "w-integrations"],
+      multimedia: ["m-type", "m-duration", "m-material", "m-platform"],
+      unknown: ["u-idea"]
     };
 
-    let html = "";
-    sectionMeta.forEach((section) => {
-      html += `<div class="border border-white/10 p-6"><h4 class="font-display font-bold text-lg text-accent-blue mb-4">${section.title}</h4><div class="space-y-3">`;
-      section.ids.forEach(id => {
-        const value = formData.get(id) || "";
-        html += `<div><span class="text-xs text-white/40 uppercase tracking-wider block mb-1">${labelMap[id] || id}</span><p class="text-white">${value || '<span class="text-white/30 italic">Sin respuesta</span>'}</p></div>`;
+    function buildWhatsAppMessage() {
+      const fd = new FormData(form);
+      const type = getSelectedType();
+      const typeLabelMap = { branding: "Branding / Identidad visual", web: "Diseño y desarrollo web", multimedia: "Contenido multimedia", unknown: "Aún no lo sé / Varios" };
+      const enhancedMeta = sectionMeta.map(s => {
+        if (s.title === "TIPO DE PROYECTO") return { ...s, ids: ["project-type"] };
+        if (s.title === "DETALLES DEL PROYECTO") return { ...s, ids: typeFieldIds[type] || [] };
+        return s;
       });
-      html += `</div></div>`;
-    });
-    return html;
-  }
-
-  function goToStep(step) {
-    currentStep = step;
-    stepContents.forEach(el => el.style.display = el.dataset.step == step ? 'block' : 'none');
-
-    stepDots.forEach((dot, i) => {
-      const num = i + 1;
-      if (num < step) {
-        dot.classList.add('bg-accent-blue', 'border-accent-blue', 'text-dark');
-        dot.classList.remove('border-white/20', 'text-white/40');
-      } else if (num === step) {
-        dot.classList.add('border-accent-blue', 'text-white');
-        dot.classList.remove('bg-accent-blue', 'text-dark', 'border-white/20', 'text-white/40');
-      } else {
-        dot.classList.add('border-white/20', 'text-white/40');
-        dot.classList.remove('bg-accent-blue', 'border-accent-blue', 'text-dark', 'text-white');
-      }
-    });
-
-    stepLines.forEach((line, i) => {
-      const num = i + 1;
-      if (num < step) {
-        line.classList.add('bg-accent-blue');
-        line.classList.remove('bg-white/10');
-      } else {
-        line.classList.add('bg-white/10');
-        line.classList.remove('bg-accent-blue');
-      }
-    });
-
-    if (step === stepContents.length) {
-      document.getElementById('summary-container').innerHTML = buildSummaryHTML();
+      let message = "¡Hola! Te envío mi brief completo:%0A%0A";
+      enhancedMeta.forEach((section) => {
+        message += `━━━ ${section.title} ━━━%0A`;
+        if (section.title === "TIPO DE PROYECTO") {
+          message += `${typeLabelMap[type] || type}%0A`;
+        } else {
+          section.ids.forEach(id => {
+            const value = fd.get(id) || "";
+            message += `${value}%0A`;
+          });
+        }
+        message += `%0A`;
+      });
+      message += "━ Espero tu respuesta para coordinar. ¡Gracias!";
+      return message;
     }
 
-    window.scrollTo({ top: document.querySelector('.step-content').offsetTop - 40, behavior: 'smooth' });
-  }
+    function buildEmailBody() {
+      const fd = new FormData(form);
+      const type = getSelectedType();
+      const typeLabelMap = { branding: "Branding / Identidad visual", web: "Diseño y desarrollo web", multimedia: "Contenido multimedia", unknown: "Aún no lo sé / Varios" };
+      const enhancedMeta = sectionMeta.map(s => {
+        if (s.title === "TIPO DE PROYECTO") return { ...s, ids: ["project-type"] };
+        if (s.title === "DETALLES DEL PROYECTO") return { ...s, ids: typeFieldIds[type] || [] };
+        return s;
+      });
+      const labelMap = {
+        "sender-name": "Nombre", "sender-email": "Email", "sender-phone": "Teléfono",
+        "project-type": "Tipo de proyecto",
+        "brand-name": "Nombre de tu marca", "brand-dedication": "¿A qué se dedican?", "brand-social": "Web o redes",
+        "b-logo": "¿Logo actual o desde cero?", "b-scope": "Alcance del branding", "b-apply": "Aplicaciones", "b-style": "Preferencias de estilo",
+        "w-pages": "Secciones/páginas", "w-store": "¿Tienda online?", "w-content": "Contenido", "w-integrations": "Integraciones",
+        "m-type": "Tipo de contenido", "m-duration": "Duración", "m-material": "Material base", "m-platform": "Plataforma",
+        "u-idea": "Su idea",
+        "audience": "Cliente ideal",
+        "competitors": "Competidores", "references": "Inspiración", "referral": "¿Cómo nos conociste?",
+        "deadline": "Fecha límite", "budget": "Presupuesto estimado", "formats": "Formatos"
+      };
+      let body = "";
+      enhancedMeta.forEach((section) => {
+        body += `${section.title}\n`;
+        if (section.title === "TIPO DE PROYECTO") {
+          body += `Tipo de proyecto: ${typeLabelMap[type] || type}\n`;
+        } else {
+          section.ids.forEach(id => {
+            const value = fd.get(id) || "";
+            body += `${labelMap[id] || id}: ${value}\n`;
+          });
+        }
+        body += "\n";
+      });
+      return body;
+    }
 
-  document.querySelectorAll('.step-next').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const currentSection = stepContents[currentStep - 1];
-      const requiredFields = currentSection.querySelectorAll('[required]');
-      let valid = true;
-      requiredFields.forEach(f => { if (!f.value.trim()) valid = false; });
+    function buildSummaryHTML() {
+      const fd = new FormData(form);
+      const type = getSelectedType();
+      const typeLabelMap = { branding: "Branding / Identidad visual", web: "Diseño y desarrollo web", multimedia: "Contenido multimedia", unknown: "Aún no lo sé / Varios" };
+      const enhancedMeta = sectionMeta.map(s => {
+        if (s.title === "TIPO DE PROYECTO") return { ...s, ids: ["project-type"] };
+        if (s.title === "DETALLES DEL PROYECTO") return { ...s, ids: typeFieldIds[type] || [] };
+        return s;
+      });
+      const labelMap = {
+        "sender-name": "Tu nombre", "sender-email": "Tu email", "sender-phone": "Tu teléfono",
+        "project-type": "Tipo de proyecto",
+        "brand-name": "Nombre de tu marca", "brand-dedication": "¿A qué se dedican?", "brand-social": "Web o redes",
+        "b-logo": "¿Logo actual o desde cero?", "b-scope": "Alcance del branding", "b-apply": "Aplicaciones", "b-style": "Preferencias de estilo",
+        "w-pages": "Secciones/páginas", "w-store": "¿Tienda online?", "w-content": "Contenido", "w-integrations": "Integraciones",
+        "m-type": "Tipo de contenido", "m-duration": "Duración", "m-material": "Material base", "m-platform": "Plataforma",
+        "u-idea": "Su idea",
+        "audience": "Cliente ideal",
+        "competitors": "Competidores", "references": "Inspiración", "referral": "¿Cómo nos conociste?",
+        "deadline": "Fecha límite", "budget": "Presupuesto estimado", "formats": "Formatos"
+      };
+      let html = "";
+      enhancedMeta.forEach((section) => {
+        html += `<div class="border border-white/10 p-6"><h4 class="font-display font-bold text-lg text-accent-blue mb-4">${section.title}</h4><div class="space-y-3">`;
+        if (section.title === "TIPO DE PROYECTO") {
+          html += `<div><span class="text-xs text-white/40 uppercase tracking-wider block mb-1">Tipo de proyecto</span><p class="text-white">${typeLabelMap[type] || type}</p></div>`;
+        } else {
+          section.ids.forEach(id => {
+            const value = fd.get(id) || "";
+            html += `<div><span class="text-xs text-white/40 uppercase tracking-wider block mb-1">${labelMap[id] || id}</span><p class="text-white">${value || '<span class="text-white/30 italic">Sin respuesta</span>'}</p></div>`;
+          });
+        }
+        html += `</div></div>`;
+      });
+      return html;
+    }
 
-      if (!valid) {
-        requiredFields.forEach(f => {
-          if (!f.value.trim()) {
-            f.style.borderColor = '#FE4201';
-            setTimeout(() => f.style.borderColor = '', 2000);
-          }
+    function goToStep(step) {
+      currentStep = step;
+      stepContents.forEach(el => el.style.display = el.dataset.step == step ? 'block' : 'none');
+      stepLabel.textContent = `Paso ${Math.min(step, totalSteps - 1)} de ${totalSteps - 1}`;
+      stepProgress.style.width = `${((step - 1) / (totalSteps - 1)) * 100}%`;
+      if (step === totalSteps) {
+        document.getElementById('summary-container').innerHTML = buildSummaryHTML();
+      }
+      window.scrollTo({ top: document.querySelector('.step-content').offsetTop - 40, behavior: 'smooth' });
+    }
+
+    const submitBtn = document.getElementById('brief-submit-btn');
+    const btnText = document.getElementById('brief-btn-text');
+    const btnSpinner = document.getElementById('brief-btn-spinner');
+
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      btnText.textContent = 'ENVIANDO...';
+      btnSpinner.classList.remove('hidden');
+      submitBtn.disabled = true;
+      submitBtn.classList.add('opacity-70', 'cursor-not-allowed');
+      try {
+        const emailBody = buildEmailBody();
+        await fetch('https://formsubmit.co/ajax/ruben.cunyas.b@gmail.com', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify({
+            _subject: 'Nuevo brief desde cunyas.com',
+            message: emailBody
+          })
         });
-        return;
+        const whatsappUrl = 'https://wa.me/51987518768?text=' + buildWhatsAppMessage();
+        window.open(whatsappUrl, '_blank');
+        btnText.textContent = '¡BRIEF ENVIADO!';
+        submitBtn.style.backgroundColor = '#22c55e';
+        setTimeout(() => {
+          form.reset();
+          goToStep(1);
+          btnText.textContent = 'ENVIAR BRIEF';
+          btnSpinner.classList.add('hidden');
+          submitBtn.disabled = false;
+          submitBtn.classList.remove('opacity-70', 'cursor-not-allowed');
+          submitBtn.style.backgroundColor = '';
+        }, 3000);
+      } catch (err) {
+        btnText.textContent = 'ERROR - INTENTA DE NUEVO';
+        submitBtn.style.backgroundColor = '#FE4201';
+        setTimeout(() => {
+          btnText.textContent = 'ENVIAR BRIEF';
+          btnSpinner.classList.add('hidden');
+          submitBtn.disabled = false;
+          submitBtn.classList.remove('opacity-70', 'cursor-not-allowed');
+          submitBtn.style.backgroundColor = '';
+        }, 3000);
       }
-
-      if (currentStep < stepContents.length) goToStep(currentStep + 1);
     });
-  });
 
-  document.querySelectorAll('.step-back').forEach(btn => {
-    btn.addEventListener('click', () => {
-      if (currentStep > 1) goToStep(currentStep - 1);
-    });
-  });
-
-  form.addEventListener('submit', async function(e) {
-    e.preventDefault();
-
-    btnText.textContent = 'ENVIANDO...';
-    btnSpinner.classList.remove('hidden');
-    submitBtn.disabled = true;
-    submitBtn.classList.add('opacity-70', 'cursor-not-allowed');
-
-    try {
-      const formData = new FormData(form);
-      const emailBody = buildEmailBody();
-
-      await fetch('https://formsubmit.co/ajax/ruben.cunyas.b@gmail.com', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify({
-          _subject: 'Nuevo brief desde cunyas.com',
-          message: emailBody
-        })
-      });
-
-      const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${buildWhatsAppMessage()}`;
-      window.open(whatsappUrl, '_blank');
-
-      btnText.textContent = '¡BRIEF ENVIADO!';
-      submitBtn.style.backgroundColor = '#22c55e';
-
-      setTimeout(() => {
-        form.reset();
-        goToStep(1);
-        btnText.textContent = 'ENVIAR BRIEF';
-        btnSpinner.classList.add('hidden');
-        submitBtn.disabled = false;
-        submitBtn.classList.remove('opacity-70', 'cursor-not-allowed');
-        submitBtn.style.backgroundColor = '';
-      }, 3000);
-    } catch (err) {
-      btnText.textContent = 'ERROR - INTENTA DE NUEVO';
-      submitBtn.style.backgroundColor = '#FE4201';
-      setTimeout(() => {
-        btnText.textContent = 'ENVIAR BRIEF';
-        btnSpinner.classList.add('hidden');
-        submitBtn.disabled = false;
-        submitBtn.classList.remove('opacity-70', 'cursor-not-allowed');
-        submitBtn.style.backgroundColor = '';
-      }, 3000);
-    }
-  });
-
-  goToStep(1);
-</script>
+    goToStep(1);
+  </script>
+</Layout>
