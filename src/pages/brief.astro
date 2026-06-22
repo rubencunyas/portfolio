@@ -442,6 +442,41 @@ const totalSections = baseSections.length;
       window.scrollTo({ top: document.querySelector('.step-content').offsetTop - 40, behavior: 'smooth' });
     }
 
+    function getFormFields() {
+      const fd = new FormData(form);
+      const type = getSelectedType();
+      const typeLabelMap = { branding: "Branding / Identidad visual", web: "Diseño y desarrollo web", multimedia: "Contenido multimedia", unknown: "Aún no lo sé / Varios" };
+      const enhancedMeta = sectionMeta.map(s => {
+        if (s.title === "TIPO DE PROYECTO") return { ...s, ids: ["project-type"] };
+        if (s.title === "DETALLES DEL PROYECTO") return { ...s, ids: typeFieldIds[type] || [] };
+        return s;
+      });
+      const fieldLabelMap = {
+        "sender-name": "Tu nombre", "sender-email": "Tu email", "sender-phone": "Tu teléfono / WhatsApp",
+        "project-type": "Tipo de proyecto",
+        "brand-name": "Nombre de tu marca", "brand-dedication": "¿A qué se dedican?", "brand-social": "Web o redes",
+        "b-logo": "¿Logo actual o desde cero?", "b-scope": "Alcance del branding", "b-apply": "Aplicaciones", "b-style": "Preferencias de estilo",
+        "w-pages": "Secciones/páginas", "w-store": "¿Tienda online?", "w-content": "Contenido", "w-integrations": "Integraciones",
+        "m-type": "Tipo de contenido", "m-duration": "Duración", "m-material": "Material base", "m-platform": "Plataforma",
+        "u-idea": "Su idea",
+        "audience": "Cliente ideal",
+        "competitors": "Competidores", "references": "Inspiración", "referral": "¿Cómo nos conociste?",
+        "deadline": "Fecha límite", "budget": "Presupuesto estimado", "formats": "Formatos"
+      };
+      const result = { _subject: "Nuevo brief desde cunyas.com", _captcha: "false" };
+      enhancedMeta.forEach(section => {
+        if (section.title === "TIPO DE PROYECTO") {
+          result["Tipo de proyecto"] = typeLabelMap[type] || type;
+        } else {
+          section.ids.forEach(id => {
+            const value = fd.get(id) || "";
+            result[fieldLabelMap[id] || id] = value;
+          });
+        }
+      });
+      return result;
+    }
+
     const submitBtn = document.getElementById('brief-submit-btn');
     const btnText = document.getElementById('brief-btn-text');
     const btnSpinner = document.getElementById('brief-btn-spinner');
@@ -453,14 +488,10 @@ const totalSections = baseSections.length;
       submitBtn.disabled = true;
       submitBtn.classList.add('opacity-70', 'cursor-not-allowed');
       try {
-        const emailBody = buildEmailBody();
         await fetch('https://formsubmit.co/ajax/ruben.cunyas.b@gmail.com', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-          body: JSON.stringify({
-            _subject: 'Nuevo brief desde cunyas.com',
-            message: emailBody
-          })
+          body: JSON.stringify(getFormFields())
         });
         const whatsappUrl = 'https://wa.me/51987518768?text=' + buildWhatsAppMessage();
         window.open(whatsappUrl, '_blank');
