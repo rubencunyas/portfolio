@@ -1,0 +1,183 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const whatsappNumber = "51987518768";
+const sections = [
+  {
+    number: "01",
+    title: "Sobre la marca / empresa",
+    fields: [
+      { id: "brand-name", label: "Nombre de tu marca", type: "text", placeholder: "Ej. Organnical, Mathpal..." },
+      { id: "brand-dedication", label: "¿A qué se dedican?", type: "textarea", placeholder: "Cuéntame en un par de líneas a qué se dedica tu marca o empresa..." },
+      { id: "brand-social", label: "Web o redes sociales actuales", type: "text", placeholder: "Ej. instagram.com/tumarca, tumarca.com" }
+    ]
+  },
+  {
+    number: "02",
+    title: "Sobre el proyecto",
+    fields: [
+      { id: "project-need", label: "¿Qué necesitamos hacer exactamente?", type: "textarea", placeholder: "Ej. Diseñar una web, hacer un manual de marca, campaña gráfica..." },
+      { id: "project-goal", label: "¿Cuál es el objetivo principal?", type: "textarea", placeholder: "Ej. Vender más, modernizar la imagen, lanzar un producto..." },
+      { id: "project-problem", label: "¿Hay algún problema actual que estemos intentando solucionar?", type: "textarea", placeholder: "Cuéntame qué no está funcionando hoy..." }
+    ]
+  },
+  {
+    number: "03",
+    title: "Tu público",
+    fields: [
+      { id: "audience", label: "¿Quién es tu cliente ideal?", type: "textarea", placeholder: "A quién le hablamos: edades, intereses, ubicación..." }
+    ]
+  },
+  {
+    number: "04",
+    title: "Competencia y referencias",
+    fields: [
+      { id: "competitors", label: "¿Quiénes son tus principales competidores?", type: "textarea", placeholder: "Nombres o links de la competencia directa..." },
+      { id: "references", label: "¿Hay marcas o proyectos que te sirvan de inspiración?", type: "textarea", placeholder: "Puedes dejar links aquí..." },
+      { id: "keywords", label: "¿Con qué 3 palabras te gustaría que describan tu marca?", type: "text", placeholder: "Ej. Cercana, exclusiva, moderna, confiable..." }
+    ]
+  },
+  {
+    number: "05",
+    title: "Tiempos y requerimientos",
+    fields: [
+      { id: "deadline", label: "¿Para qué fecha te gustaría tener esto listo?", type: "text", placeholder: "Ej. En 2 semanas, para diciembre 2026..." },
+      { id: "formats", label: "¿Necesitas algún formato en específico?", type: "textarea", placeholder: "Ej. Archivos para imprenta, código funcionando, plantillas editables..." }
+    ]
+  }
+];
+---
+
+<Layout title="Brief | Rubén Cunyas">
+  <main>
+    <section class="relative py-24 lg:py-32 px-6 lg:px-12 border-b border-ink/10 bg-light text-ink">
+      <div class="max-w-3xl mx-auto text-center">
+        <span class="text-sm font-medium tracking-widest text-accent-blue uppercase mb-4 block">Brief</span>
+        <h1 class="font-display font-bold text-5xl sm:text-7xl lg:text-8xl tracking-tight leading-none mb-6">
+          CUÉNTAME<br/>
+          <span class="text-accent-orange">TU IDEA.</span>
+        </h1>
+        <p class="text-xl text-ink/70 max-w-2xl mx-auto">
+          Responde estas preguntas con calma. Mientras más detalles, mejor podré entender tu proyecto y proponerte algo que realmente funcione.
+        </p>
+      </div>
+    </section>
+
+    <section class="py-24 lg:py-32 px-6 lg:px-12 bg-dark text-white">
+      <div class="max-w-3xl mx-auto">
+        <form id="brief-form" class="space-y-16">
+          {sections.map((section) => (
+            <fieldset>
+              <legend class="flex items-start gap-4 mb-8">
+                <span class="font-display font-bold text-4xl sm:text-5xl text-accent-blue/30">{section.number}</span>
+                <span class="font-display font-bold text-2xl sm:text-3xl text-white">{section.title}</span>
+              </legend>
+              <div class="space-y-6">
+                {section.fields.map((field) => (
+                  <div>
+                    <label for={field.id} class="block text-sm text-white/60 uppercase tracking-wider mb-2">
+                      {field.label}
+                    </label>
+                    {field.type === "textarea" ? (
+                      <textarea
+                        id={field.id}
+                        name={field.id}
+                        rows="4"
+                        class="w-full px-4 py-3 bg-white/5 border border-white/10 text-white placeholder-white/30 focus:border-accent-blue focus:outline-none transition-colors duration-300 resize-none"
+                        placeholder={field.placeholder}
+                        required
+                      ></textarea>
+                    ) : (
+                      <input
+                        type="text"
+                        id={field.id}
+                        name={field.id}
+                        class="w-full px-4 py-3 bg-white/5 border border-white/10 text-white placeholder-white/30 focus:border-accent-blue focus:outline-none transition-colors duration-300"
+                        placeholder={field.placeholder}
+                        required
+                      />
+                    )}
+                  </div>
+                ))}
+              </div>
+            </fieldset>
+          ))}
+
+          <div class="pt-8 border-t border-white/10">
+            <button
+              type="submit"
+              id="brief-submit-btn"
+              class="w-full px-8 py-5 bg-accent-blue text-dark font-semibold text-xl hover:bg-white transition-colors duration-300 flex items-center justify-center gap-3"
+            >
+              <span id="brief-btn-text">ENVIAR BRIEF</span>
+              <svg id="brief-btn-spinner" class="w-6 h-6 animate-spin hidden" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+            </button>
+            <p class="mt-4 text-sm text-white/40 text-center">
+              ¡Mil gracias por tu tiempo! En cuanto lo revise, coordinamos una reunión para afinar detalles y empezar a trabajar.
+            </p>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+</Layout>
+
+<script define:vars={{ whatsappNumber }}>
+  const form = document.getElementById('brief-form');
+  const submitBtn = document.getElementById('brief-submit-btn');
+  const btnText = document.getElementById('brief-btn-text');
+  const btnSpinner = document.getElementById('brief-btn-spinner');
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    btnText.textContent = 'ENVIANDO...';
+    btnSpinner.classList.remove('hidden');
+    submitBtn.disabled = true;
+    submitBtn.classList.add('opacity-70', 'cursor-not-allowed');
+
+    const formData = new FormData(form);
+    const sections = [
+      { title: "SOBRE LA MARCA / EMPRESA", ids: ["brand-name", "brand-dedication", "brand-social"] },
+      { title: "SOBRE EL PROYECTO", ids: ["project-need", "project-goal", "project-problem"] },
+      { title: "TU PÚBLICO", ids: ["audience"] },
+      { title: "COMPETENCIA Y REFERENCIAS", ids: ["competitors", "references", "keywords"] },
+      { title: "TIEMPOS Y REQUERIMIENTOS", ids: ["deadline", "formats"] }
+    ];
+
+    let message = "¡Hola! Te envío mi brief completo:%0A%0A";
+
+    sections.forEach((section, i) => {
+      message += `━━━ ${section.title} ━━━%0A`;
+      section.ids.forEach(id => {
+        const value = formData.get(id) || "";
+        message += `${value}%0A`;
+      });
+      message += `%0A`;
+    });
+
+    message += "━ Espero tu respuesta para coordinar. ¡Gracias!";
+
+    setTimeout(() => {
+      const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${message}`;
+      window.open(whatsappUrl, '_blank');
+
+      setTimeout(() => {
+        btnText.textContent = '¡BRIEF ENVIADO!';
+        submitBtn.style.backgroundColor = '#22c55e';
+
+        setTimeout(() => {
+          form.reset();
+          btnText.textContent = 'ENVIAR BRIEF';
+          btnSpinner.classList.add('hidden');
+          submitBtn.disabled = false;
+          submitBtn.classList.remove('opacity-70', 'cursor-not-allowed');
+          submitBtn.style.backgroundColor = '';
+        }, 3000);
+      }, 500);
+    }, 1500);
+  });
+</script>
