@@ -3,12 +3,22 @@ import '../styles/global.css';
 import { ViewTransitions } from 'astro:transitions';
 import WhatsApp from '../components/WhatsApp.astro';
 
-const siteTitle = "Rubén Cunyas | Diseñador Digital y Desarrollador Full Stack";
-const siteDescription = "Diseñador Digital y Desarrollador Full Stack con 13+ años de experiencia. Transformo ideas claras en soluciones digitales que funcionan. UX/UI, Branding, Desarrollo Web.";
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "Rubén Cunyas | Landing pages y webs para captar clientes",
+  description = "Diseño landing pages, webs e identidad digital para negocios peruanos que necesitan generar confianza, leads y ventas.",
+} = Astro.props;
+
+const siteTitle = title;
+const siteDescription = description;
 const siteUrl = "https://cunyas.com";
 const siteImage = `${siteUrl}/og-image.svg`;
 const authorName = "Rubén Cunyas";
-const authorJob = "Diseñador Digital & Desarrollador Full Stack";
+const authorJob = "Diseñador digital y desarrollador web";
 ---
 
 <!DOCTYPE html>
@@ -17,12 +27,12 @@ const authorJob = "Diseñador Digital & Desarrollador Full Stack";
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
-    <title>Rubén Cunyas | Diseñador Digital y Desarrollador Full Stack</title>
+    <title>{siteTitle}</title>
     <meta name="description" content={siteDescription} />
     <meta name="author" content={authorName} />
     <meta name="robots" content="index, follow" />
-    <meta name="keywords" content="diseñador digital, desarrollador full stack, UX/UI, branding, desarrollo web, Perú, Lima, diseño digital, freelancer" />
-    <meta name="theme-color" content="#F8F6F0" />
+    <meta name="keywords" content="landing pages Perú, desarrollo web Lima, diseño web Perú, páginas web para negocios, mantenimiento web, branding, Rubén Cunyas" />
+    <meta name="theme-color" content="#F7F8F5" />
     <meta name="generator" content={Astro.generator} />
     
     <link rel="canonical" href={siteUrl} />
@@ -31,7 +41,7 @@ const authorJob = "Diseñador Digital & Desarrollador Full Stack";
     
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Inter:wght@400;500;600;700;800&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet" />
     
     <meta property="og:type" content="website" />
     <meta property="og:url" content={siteUrl} />
@@ -53,12 +63,12 @@ const authorJob = "Diseñador Digital & Desarrollador Full Stack";
         "@context": "https://schema.org",
         "@type": "Person",
         "name": "Rubén Cunyas",
-        "jobTitle": "Diseñador Digital & Desarrollador Full Stack",
+        "jobTitle": "Diseñador digital y desarrollador web",
         "url": "https://cunyas.com",
         "sameAs": [
           "https://pe.linkedin.com/in/rubencunyas"
         ],
-        "knowsAbout": ["Diseño Digital", "Desarrollo Full Stack", "UX/UI", "Branding"],
+        "knowsAbout": ["Landing pages", "Diseño web", "Desarrollo web", "UX/UI", "Branding"],
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "LATAM",
@@ -71,9 +81,9 @@ const authorJob = "Diseñador Digital & Desarrollador Full Stack";
       {
         "@context": "https://schema.org",
         "@type": "WebSite",
-        "name": "Rubén Cunyas Portfolio",
+        "name": "Rubén Cunyas",
         "url": "https://cunyas.com",
-        "description": "Diseñador Digital y Desarrollador Full Stack con 13+ años de experiencia.",
+        "description": "Landing pages, diseño web y presencia digital para negocios peruanos.",
         "author": {
           "@type": "Person",
           "name": "Rubén Cunyas"
@@ -163,5 +173,12 @@ const authorJob = "Diseñador Digital & Desarrollador Full Stack";
   ::view-transition-new(root) {
     animation: 210ms cubic-bezier(0, 0, 0.2, 1) 90ms both fade-in,
                210ms cubic-bezier(0.4, 0, 0.2, 1) 90ms both slide-from-right;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    ::view-transition-old(root),
+    ::view-transition-new(root) {
+      animation: none;
+    }
   }
 </style>

@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex" />
+    <title>Form detection</title>
+  </head>
+  <body>
+    <form name="portfolio-contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" hidden>
+      <input type="hidden" name="form-name" value="portfolio-contact" />
+      <input type="hidden" name="subject" data-remove-prefix value="Nuevo lead desde Portfolio (%{submissionId})" />
+      <input name="bot-field" />
+      <input type="text" name="name" />
+      <input type="email" name="email" />
+      <textarea name="message"></textarea>
+    </form>
+
+    <form name="servicios" method="POST" data-netlify="true" netlify-honeypot="bot-field" hidden>
+      <input type="hidden" name="form-name" value="servicios" />
+      <input type="hidden" name="subject" data-remove-prefix value="Nuevo lead desde Servicios (%{submissionId})" />
+      <input name="bot-field" />
+      <input type="text" name="nombre" />
+      <input type="tel" name="telefono" />
+      <input type="email" name="email" />
+      <select name="tipo">
+        <option>Landing page</option>
+      </select>
+      <select name="presupuesto">
+        <option>Estoy validando opciones</option>
+      </select>
+      <textarea name="mensaje"></textarea>
+    </form>
+  </body>
+</html>

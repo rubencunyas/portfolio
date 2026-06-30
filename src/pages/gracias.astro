@@ -1,0 +1,30 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="Gracias | Rubén Cunyas"
+  description="Gracias por enviar tu solicitud de proyecto."
+>
+  <main class="grid min-h-dvh place-items-center bg-[#111111] px-5 py-20 text-white [font-family:Manrope,Inter,system-ui,sans-serif]">
+    <section class="relative max-w-2xl overflow-hidden rounded-[6px] border border-white/10 bg-white/[0.04] px-6 py-12 text-center sm:px-10">
+      <div class="absolute left-0 top-0 h-1 w-full bg-[#3031e4]" aria-hidden="true"></div>
+      <div class="absolute -right-10 -top-10 h-32 w-32 border-[16px] border-[#3031e4] opacity-70" aria-hidden="true"></div>
+      <p class="mx-auto mb-6 inline-flex rounded-full bg-[#ff4108] px-5 py-2 text-sm font-extrabold uppercase tracking-[0.14em] text-white">
+        Mensaje recibido
+      </p>
+      <h1 class="text-5xl font-extrabold leading-tight sm:text-7xl">Gracias. Ya tengo tu solicitud.</h1>
+      <p class="mt-6 text-lg leading-8 text-white/70">
+        La revisaré y te responderé para aterrizar alcance, tiempos y próximos pasos.
+      </p>
+      <div class="mt-9 flex flex-col justify-center gap-3 sm:flex-row">
+        <a href="/servicios" class="inline-flex min-h-14 items-center justify-center rounded-full bg-[#ff4108] px-8 font-extrabold text-white transition hover:bg-white hover:text-[#111111]">
+          Volver a servicios
+        </a>
+        <a href="/" class="inline-flex min-h-14 items-center justify-center rounded-full border border-white/20 px-8 font-extrabold text-white transition hover:border-[#3031e4] hover:text-[#ff4108]">
+          Ver portfolio
+        </a>
+      </div>
+    </section>
+  </main>
+</Layout>

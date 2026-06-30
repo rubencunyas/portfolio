@@ -9,8 +9,6 @@ const contactInfo = [
   { label: "Email", value: "hello@cunyas.com", href: "mailto:hello@cunyas.com" },
   { label: "Ubicación", value: "LATAM", href: "#" }
 ];
-
-const whatsappNumber = "51987518768";
 ---
 
 <footer id="contact" class="py-24 lg:py-32 px-6 lg:px-12 bg-white text-dark scroll-animate opacity-0 translate-y-8">
@@ -26,16 +24,27 @@ const whatsappNumber = "51987518768";
         
         <form 
           id="contact-form"
+          name="portfolio-contact"
+          method="POST"
+          action="/"
+          data-netlify="true"
+          netlify-honeypot="bot-field"
           class="space-y-6"
         >
+          <input type="hidden" name="form-name" value="portfolio-contact" />
+          <input type="hidden" name="subject" data-remove-prefix value="Nuevo lead desde Portfolio (%{submissionId})" />
+          <p class="hidden">
+            <label>No llenar: <input name="bot-field" /></label>
+          </p>
           <div>
             <label for="name" class="block text-sm text-dark/50 uppercase tracking-wider mb-2">Nombre</label>
             <input 
               type="text" 
               id="name" 
               name="name" 
+              autocomplete="name"
               required
-              class="w-full px-4 py-3 bg-dark/5 border border-dark/20 text-dark placeholder-dark/30 focus:border-accent-blue focus:outline-none transition-colors duration-300"
+              class="w-full px-4 py-3 bg-dark/5 border border-dark/20 text-dark placeholder-dark/30 focus:border-accent-blue focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-blue focus-visible:ring-offset-2 transition-colors duration-300"
               placeholder="Tu nombre"
             />
           </div>
@@ -46,8 +55,10 @@ const whatsappNumber = "51987518768";
               type="email" 
               id="email" 
               name="email" 
+              autocomplete="email"
+              spellcheck="false"
               required
-              class="w-full px-4 py-3 bg-dark/5 border border-dark/20 text-dark placeholder-dark/30 focus:border-accent-blue focus:outline-none transition-colors duration-300"
+              class="w-full px-4 py-3 bg-dark/5 border border-dark/20 text-dark placeholder-dark/30 focus:border-accent-blue focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-blue focus-visible:ring-offset-2 transition-colors duration-300"
               placeholder="tu@email.com"
             />
           </div>
@@ -59,8 +70,8 @@ const whatsappNumber = "51987518768";
               name="message" 
               rows="4"
               required
-              class="w-full px-4 py-3 bg-dark/5 border border-dark/20 text-dark placeholder-dark/30 focus:border-accent-blue focus:outline-none transition-colors duration-300 resize-none"
-              placeholder="Cuéntame sobre tu proyecto..."
+              class="w-full px-4 py-3 bg-dark/5 border border-dark/20 text-dark placeholder-dark/30 focus:border-accent-blue focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-blue focus-visible:ring-offset-2 transition-colors duration-300 resize-none"
+              placeholder="Cuéntame sobre tu proyecto…"
             ></textarea>
           </div>
           
@@ -75,6 +86,12 @@ const whatsappNumber = "51987518768";
               <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
             </svg>
           </button>
+          <p class="text-sm leading-6 text-dark/50">
+            Recibiré tu mensaje y te responderé por correo o WhatsApp si lo incluyes en el mensaje.
+          </p>
+          <p id="contact-error" class="hidden border border-accent-orange/30 bg-accent-orange/10 px-4 py-3 text-sm leading-6 text-dark">
+            No pude enviar el formulario. Escríbeme a <a class="font-semibold text-accent-blue underline" href="mailto:hello@cunyas.com">hello@cunyas.com</a>.
+          </p>
         </form>
       </div>
       
@@ -113,14 +130,15 @@ const whatsappNumber = "51987518768";
               </a>
             ))}
             <a 
-              href="/cv.pdf" 
+              href="/PORTFOLIO_RC.pdf" 
               download
-              class="w-12 h-12 flex items-center justify-center border border-dark/20 hover:border-accent-blue hover:bg-accent-blue text-dark hover:text-white transition-all duration-300"
+              class="inline-flex h-12 items-center justify-center gap-2 border border-dark/20 px-4 text-sm font-semibold uppercase tracking-wider text-dark hover:border-accent-blue hover:bg-accent-blue hover:text-white transition-colors duration-300"
               aria-label="Descargar CV"
             >
-              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
               </svg>
+              CV
             </a>
           </div>
         </div>
@@ -138,43 +156,52 @@ const whatsappNumber = "51987518768";
   </div>
 </footer>
 
-<script define:vars={{ whatsappNumber }}>
-  const form = document.getElementById('contact-form');
-  const submitBtn = document.getElementById('submit-btn');
-  const btnText = document.getElementById('btn-text');
-  const btnSpinner = document.getElementById('btn-spinner');
-  
-  form.addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    btnText.textContent = 'ENVIANDO...';
-    btnSpinner.classList.remove('hidden');
-    submitBtn.disabled = true;
-    submitBtn.classList.add('opacity-70', 'cursor-not-allowed');
-    
-    const name = document.getElementById('name').value;
-    const email = document.getElementById('email').value;
-    const message = document.getElementById('message').value;
-    
-    setTimeout(() => {
-      const whatsappMessage = `¡Hola! Me llamo ${name} (${email}).%0A%0A${message}`;
-      const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`;
-      
-      window.open(whatsappUrl, '_blank');
-      
-      setTimeout(() => {
-        btnText.textContent = '¡MENSAJE ENVIADO!';
-        submitBtn.style.backgroundColor = '#22c55e';
-        
-        setTimeout(() => {
-          form.reset();
-          btnText.textContent = 'ENVIAR MENSAJE';
-          btnSpinner.classList.add('hidden');
-          submitBtn.disabled = false;
-          submitBtn.classList.remove('opacity-70', 'cursor-not-allowed');
-          submitBtn.style.backgroundColor = '';
-        }, 3000);
-      }, 500);
-    }, 1500);
+<script>
+  const contactForm = document.getElementById('contact-form');
+  const contactSubmit = document.getElementById('submit-btn');
+  const contactText = document.getElementById('btn-text');
+  const contactSpinner = document.getElementById('btn-spinner');
+  const contactError = document.getElementById('contact-error');
+
+  const notifyLeadEmail = async (form) => {
+    try {
+      await fetch('/.netlify/functions/lead-email', {
+        method: 'POST',
+        body: new FormData(form)
+      });
+    } catch {
+      // Netlify Forms already captured the lead; email is a secondary alert.
+    }
+  };
+
+  contactForm?.addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    contactError.classList.add('hidden');
+    contactText.textContent = 'ENVIANDO...';
+    contactSpinner.classList.remove('hidden');
+    contactSubmit.disabled = true;
+    contactSubmit.classList.add('opacity-70', 'cursor-not-allowed');
+
+    try {
+      const response = await fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(new FormData(contactForm)).toString()
+      });
+
+      if (!response.ok) {
+        throw new Error('No se pudo enviar el formulario.');
+      }
+
+      await notifyLeadEmail(contactForm);
+      window.location.href = '/gracias/';
+    } catch {
+      contactText.textContent = 'INTENTAR DE NUEVO';
+      contactError.classList.remove('hidden');
+      contactSpinner.classList.add('hidden');
+      contactSubmit.disabled = false;
+      contactSubmit.classList.remove('opacity-70', 'cursor-not-allowed');
+    }
   });
 </script>

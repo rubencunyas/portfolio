@@ -1,7 +1,7 @@
 ---
 ---
 
-<section class="relative min-h-screen flex flex-col justify-center px-6 py-12 lg:px-12 border-b border-white/10 overflow-hidden scroll-animate visible text-white">
+<section class="relative min-h-dvh flex flex-col justify-center px-6 py-10 lg:px-12 border-b border-white/10 overflow-hidden scroll-animate visible text-white">
   <div class="absolute inset-0 bg-dark"></div>
   
   <div class="absolute top-1/4 right-0 w-96 h-96 bg-accent-blue/5 rounded-full blur-3xl"></div>
@@ -23,45 +23,48 @@
   </div>
   
   
-  <header class="relative z-10 mb-8 flex items-center gap-4">
-    <img src="/logo.svg" alt="Rubén Cunyas" class="w-12 h-12 sm:w-16 sm:h-16" />
+  <header class="relative z-10 mb-7 flex items-center gap-4">
+    <img src="/logo.svg" alt="Rubén Cunyas" width="64" height="64" class="w-12 h-12 sm:w-16 sm:h-16" />
     <span class="text-sm font-medium tracking-widest text-accent-blue uppercase">Rubén Cunyas</span>
   </header>
   
   <div class="relative z-10 max-w-7xl mx-auto w-full">
-    <h1 class="font-display font-bold text-5xl sm:text-7xl lg:text-9xl tracking-tight leading-none mb-8">
+    <h1 class="font-display font-bold text-4xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl tracking-tight leading-none mb-7">
       <span class="block">DISEÑADOR</span>
       <span class="block text-accent-blue">DIGITAL</span>
       <span class="block">&</span>
       <span class="block">DESARROLLADOR.</span>
     </h1>
     
-    <p class="text-xl sm:text-2xl lg:text-3xl font-light max-w-3xl leading-relaxed mb-12 text-white/80">
+    <p class="text-lg sm:text-2xl lg:text-3xl font-light max-w-3xl leading-relaxed mb-9 text-white/80">
       Transformo <span class="text-accent-orange font-semibold">ideas claras</span> en soluciones digitales que funcionan.
     </p>
     
-    <div class="flex flex-col sm:flex-row gap-6">
+    <div class="flex flex-col sm:flex-row gap-4">
       <a 
         href="#projects" 
-        class="inline-flex items-center justify-center px-8 py-4 bg-white text-dark font-semibold text-lg hover:bg-accent-blue transition-colors duration-300"
+        class="inline-flex min-h-14 items-center justify-center px-8 py-3 bg-white text-dark font-semibold text-base sm:text-lg hover:bg-accent-blue transition-colors duration-300"
         aria-label="Ver proyectos"
       >
         VER PROYECTOS
       </a>
       <a 
-        href="#contact" 
-        class="inline-flex items-center justify-center px-8 py-4 border-2 border-white font-semibold text-lg hover:bg-white hover:text-dark transition-colors duration-300"
-        aria-label="Contactar"
+        href="/servicios" 
+        class="inline-flex min-h-14 items-center justify-center gap-2 px-8 py-3 border-2 border-accent-orange text-accent-orange font-semibold text-base sm:text-lg hover:bg-accent-orange hover:text-dark transition-colors duration-300"
+        aria-label="Ver servicios"
       >
-        CONTACTAR
+        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+        </svg>
+        SERVICIOS
       </a>
-      <a 
-        href="/cv.pdf" 
+      <a
+        href="/PORTFOLIO_RC.pdf"
         download
-        class="inline-flex items-center justify-center gap-2 px-8 py-4 border-2 border-accent-orange text-accent-orange font-semibold text-lg hover:bg-accent-orange hover:text-dark transition-colors duration-300"
-        aria-label="Descargar CV"
+        class="inline-flex min-h-14 items-center justify-center gap-2 px-8 py-3 border-2 border-white/30 text-white font-semibold text-base sm:text-lg hover:border-accent-blue hover:bg-accent-blue hover:text-dark transition-colors duration-300"
+        aria-label="Descargar CV en PDF"
       >
-        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
         </svg>
         DESCARGAR CV
@@ -69,7 +72,7 @@
     </div>
   </div>
   
-  <div class="relative z-10 mt-auto pt-12 flex items-center justify-between text-sm text-white/50">
+  <div class="relative z-10 mt-auto pt-10 flex items-center justify-between text-sm text-white/50">
     <span>13+ años de experiencia</span>
     <span>LATAM</span>
   </div>
@@ -133,6 +136,12 @@
     .particle {
       width: calc(var(--size) * 0.7);
       height: calc(var(--size) * 0.7);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .particle {
+      animation: none;
     }
   }
 </style>
