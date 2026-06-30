@@ -75,12 +75,11 @@ const { Content } = await project.render();
     {project.data.cover && (
       <section class="py-12 px-6 lg:px-12 border-b border-white/10">
         <div class="max-w-7xl mx-auto">
-          <div class="relative overflow-hidden bg-white/5 aspect-video flex items-center justify-center">
+          <div class="relative overflow-hidden bg-white/5 aspect-video flex items-center justify-center cursor-pointer lightbox-trigger">
             <img 
               src={project.data.cover} 
               alt={`${project.data.title} - Portada`}
-              class="w-full h-full object-cover"
-              transition:name={`image-${project.slug}`}
+              class="w-full h-full object-contain p-4"
               loading="eager"
             />
           </div>
@@ -153,21 +152,34 @@ const { Content } = await project.render();
             Proceso &amp; Arte Final
           </h2>
           
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {project.data.gallery.map((image, index) => (
-              <figure class={`group relative overflow-hidden ${
-                index === 0 ? 'md:col-span-2 lg:col-span-2' : ''
-              }`}>
-                <img 
-                  src={image} 
-                  alt={`${project.data.title} - Imagen ${index + 1}`}
-                  class="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105 aspect-video"
+          {project.data.gallery[0] && (
+            <div class="mb-8">
+              <div class="relative overflow-hidden bg-white/5 aspect-video flex items-center justify-center cursor-pointer lightbox-trigger">
+                <img
+                  src={project.data.gallery[0]}
+                  alt={`${project.data.title} - Imagen 1`}
+                  class="w-full h-full object-contain p-4"
                   loading="lazy"
                 />
-                <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-              </figure>
-            ))}
-          </div>
+              </div>
+            </div>
+          )}
+          
+          {project.data.gallery.length > 1 && (
+            <div class="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
+              {project.data.gallery.slice(1).map((image, index) => (
+                <figure class="group relative overflow-hidden break-inside-avoid cursor-pointer lightbox-trigger">
+                  <img
+                    src={image}
+                    alt={`${project.data.title} - Imagen ${index + 2}`}
+                    class="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105"
+                    loading="lazy"
+                  />
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                </figure>
+              ))}
+            </div>
+          )}
         </div>
       </section>
     )}
@@ -200,3 +212,54 @@ const { Content } = await project.render();
     </section>
   </main>
 </Layout>
+
+<script>
+  function initLightbox() {
+    const oldOverlay = document.getElementById('global-lightbox');
+    if (oldOverlay) oldOverlay.remove();
+
+    const overlay = document.createElement('div');
+    overlay.id = 'global-lightbox';
+    overlay.className = 'fixed inset-0 z-50 bg-black/95 flex items-center justify-center cursor-zoom-out opacity-0 pointer-events-none transition-opacity duration-300';
+    overlay.innerHTML = `
+      <button class="absolute top-6 right-6 text-white/80 hover:text-white z-10 transition-colors" id="lightbox-close" aria-label="Cerrar">
+        <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+      <img id="lightbox-image" class="max-w-[95vw] max-h-[95vh] object-contain" src="" alt="" />
+    `;
+    document.body.appendChild(overlay);
+
+    const lightboxImg = overlay.querySelector('#lightbox-image');
+    const closeBtn = overlay.querySelector('#lightbox-close');
+
+    function open(src, alt) {
+      lightboxImg.src = src;
+      lightboxImg.alt = alt || '';
+      overlay.classList.remove('opacity-0', 'pointer-events-none');
+      overlay.classList.add('opacity-100', 'pointer-events-auto');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function close() {
+      overlay.classList.add('opacity-0', 'pointer-events-none');
+      overlay.classList.remove('opacity-100', 'pointer-events-auto');
+      document.body.style.overflow = '';
+    }
+
+    document.querySelectorAll('.lightbox-trigger').forEach(el => {
+      el.addEventListener('click', () => {
+        const img = el.querySelector('img');
+        if (img) open(img.src, img.alt);
+      });
+    });
+
+    closeBtn.addEventListener('click', close);
+    overlay.addEventListener('click', (e) => { if (e.target === overlay) close(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
+  }
+
+  document.addEventListener('DOMContentLoaded', initLightbox);
+  document.addEventListener('astro:after-swap', initLightbox);
+</script>
