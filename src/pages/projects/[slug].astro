@@ -211,28 +211,22 @@ const { Content } = await project.render();
       </div>
     </section>
   </main>
+
+  <div id="global-lightbox" class="fixed inset-0 z-50 bg-black/95 flex items-center justify-center cursor-zoom-out opacity-0 pointer-events-none transition-opacity duration-300">
+    <button class="absolute top-6 right-6 text-white/80 hover:text-white z-10 transition-colors" id="lightbox-close" aria-label="Cerrar">
+      <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+    <img id="lightbox-image" class="max-w-[95vw] max-h-[95vh] object-contain" src="" alt="" />
+  </div>
 </Layout>
 
 <script>
   function initLightbox() {
-    const oldOverlay = document.getElementById('global-lightbox');
-    if (oldOverlay) oldOverlay.remove();
-
-    const overlay = document.createElement('div');
-    overlay.id = 'global-lightbox';
-    overlay.className = 'fixed inset-0 z-50 bg-black/95 flex items-center justify-center cursor-zoom-out opacity-0 pointer-events-none transition-opacity duration-300';
-    overlay.innerHTML = `
-      <button class="absolute top-6 right-6 text-white/80 hover:text-white z-10 transition-colors" id="lightbox-close" aria-label="Cerrar">
-        <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-        </svg>
-      </button>
-      <img id="lightbox-image" class="max-w-[95vw] max-h-[95vh] object-contain" src="" alt="" />
-    `;
-    document.body.appendChild(overlay);
-
-    const lightboxImg = overlay.querySelector('#lightbox-image');
-    const closeBtn = overlay.querySelector('#lightbox-close');
+    const overlay = document.getElementById('global-lightbox');
+    const lightboxImg = document.getElementById('lightbox-image');
+    const closeBtn = document.getElementById('lightbox-close');
 
     function open(src, alt) {
       lightboxImg.src = src;
