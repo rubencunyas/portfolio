@@ -15,14 +15,12 @@ const { Content } = await project.render();
 ---
 
 <Layout title={`${project.data.title} | Portfolio`}>
-  <main class="min-h-screen bg-dark text-white">
-    <header class={`relative py-24 lg:py-32 px-6 lg:px-12 border-b border-white/10 ${
-      project.data.accent === 'orange' ? 'bg-dark' : 'bg-dark'
-    }`}>
+  <main class="min-h-screen bg-light text-ink">
+    <header class="relative py-16 lg:py-20 px-6 lg:px-12 border-b border-ink/10">
       <div class="max-w-7xl mx-auto">
         <a 
           href="/" 
-          class="inline-flex items-center gap-2 text-white/50 hover:text-white mb-12 transition-colors duration-300 group"
+          class="inline-flex items-center gap-2 text-ink/50 hover:text-ink mb-8 transition-colors duration-300 group"
           transition:name="back-button"
         >
           <svg class="w-5 h-5 transform group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -33,7 +31,7 @@ const { Content } = await project.render();
         
         <div class="grid lg:grid-cols-2 gap-12 lg:gap-24 items-end">
           <div>
-            <span class="text-sm font-medium tracking-widest text-white/50 uppercase mb-4 block">
+            <span class="text-sm font-medium tracking-widest text-ink/50 uppercase mb-4 block">
               {project.data.client} — {project.data.year}
             </span>
             <h1 
@@ -47,7 +45,7 @@ const { Content } = await project.render();
                 href={project.data.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                class="inline-flex items-center gap-2 mt-8 px-6 py-3 border border-accent-blue text-accent-blue hover:bg-accent-blue hover:text-dark transition-all duration-300 text-sm font-semibold uppercase tracking-wider"
+                class="inline-flex items-center gap-2 mt-8 px-6 py-3 border border-accent-blue text-accent-blue hover:bg-accent-blue hover:text-white transition-all duration-300 text-sm font-semibold uppercase tracking-wider"
               >
                 VISITAR SITIO
                 <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -59,7 +57,7 @@ const { Content } = await project.render();
           
           <div class="flex flex-wrap gap-2">
             {project.data.tags.map((tag) => (
-              <span class="px-4 py-2 border border-white/20 text-sm uppercase tracking-wider text-white/80">
+              <span class="px-4 py-2 border border-ink/20 text-sm uppercase tracking-wider text-ink/80">
                 {tag}
               </span>
             ))}
@@ -73,9 +71,9 @@ const { Content } = await project.render();
     </header>
     
     {project.data.cover && (
-      <section class="py-12 px-6 lg:px-12 border-b border-white/10">
+      <section class="py-12 px-6 lg:px-12 border-b border-ink/10">
         <div class="max-w-7xl mx-auto">
-          <div class="relative overflow-hidden bg-white/5 aspect-video flex items-center justify-center cursor-pointer lightbox-trigger">
+          <div class="relative overflow-hidden bg-black/5 aspect-video flex items-center justify-center cursor-pointer lightbox-trigger">
             <img 
               src={project.data.cover} 
               alt={`${project.data.title} - Portada`}
@@ -87,7 +85,7 @@ const { Content } = await project.render();
       </section>
     )}
     
-    <section class="py-24 lg:py-32 px-6 lg:px-12 border-b border-white/10">
+    <section class="py-24 lg:py-32 px-6 lg:px-12 border-b border-ink/10">
       <div class="max-w-7xl mx-auto">
         <div class="grid lg:grid-cols-3 gap-12">
           <article class="space-y-4">
@@ -96,7 +94,7 @@ const { Content } = await project.render();
             }`}>
               01 — Reto
             </h2>
-            <p class="text-xl text-white/80 leading-relaxed">
+            <p class="text-xl text-ink/80 leading-relaxed">
               {project.data.challenge}
             </p>
           </article>
@@ -107,7 +105,7 @@ const { Content } = await project.render();
             }`}>
               02 — Solución
             </h2>
-            <p class="text-xl text-white/80 leading-relaxed">
+            <p class="text-xl text-ink/80 leading-relaxed">
               {project.data.solution}
             </p>
           </article>
@@ -118,7 +116,7 @@ const { Content } = await project.render();
             }`}>
               03 — Resultado
             </h2>
-            <p class="text-xl text-white/80 leading-relaxed">
+            <p class="text-xl text-ink/80 leading-relaxed">
               {project.data.result}
             </p>
           </article>
@@ -126,9 +124,9 @@ const { Content } = await project.render();
       </div>
     </section>
     
-    <section class="py-16 px-6 lg:px-12 border-b border-white/10 bg-white/5">
+    <section class="py-16 px-6 lg:px-12 border-b border-ink/10 bg-black/5">
       <div class="max-w-7xl mx-auto">
-        <h2 class="text-sm font-bold uppercase tracking-widest text-white/50 mb-8">
+        <h2 class="text-sm font-bold uppercase tracking-widest text-ink/50 mb-8">
           Tecnologias utilizadas
         </h2>
         <div class="flex flex-wrap gap-3">
@@ -146,7 +144,7 @@ const { Content } = await project.render();
     </section>
     
     {project.data.gallery && project.data.gallery.length > 0 && (
-      <section class="py-24 lg:py-32 px-6 lg:px-12 border-b border-white/10">
+      <section class="py-24 lg:py-32 px-6 lg:px-12 border-b border-ink/10">
         <div class="max-w-7xl mx-auto">
           <h2 class="font-display font-bold text-3xl sm:text-4xl tracking-tight mb-12">
             Proceso &amp; Arte Final
@@ -154,7 +152,7 @@ const { Content } = await project.render();
           
           {project.data.gallery[0] && (
             <div class="mb-8">
-              <div class="relative overflow-hidden bg-white/5 aspect-video flex items-center justify-center cursor-pointer lightbox-trigger">
+              <div class="relative overflow-hidden bg-black/5 aspect-video flex items-center justify-center cursor-pointer lightbox-trigger">
                 <img
                   src={project.data.gallery[0]}
                   alt={`${project.data.title} - Imagen 1`}
@@ -175,7 +173,7 @@ const { Content } = await project.render();
                     class="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105"
                     loading="lazy"
                   />
-                  <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </figure>
               ))}
             </div>
@@ -186,7 +184,7 @@ const { Content } = await project.render();
     
     <section class="py-24 lg:py-32 px-6 lg:px-12">
       <div class="max-w-7xl mx-auto">
-        <div class="prose prose-invert prose-lg max-w-none">
+        <div class="prose prose-lg max-w-none">
           <Content />
         </div>
       </div>
@@ -196,7 +194,7 @@ const { Content } = await project.render();
       project.data.accent === 'orange' ? 'bg-accent-orange' : 'bg-accent-blue'
     }`}>
       <div class="max-w-7xl mx-auto text-center">
-        <p class="text-dark font-display font-bold text-2xl sm:text-3xl mb-6">
+        <p class="text-white font-display font-bold text-2xl sm:text-3xl mb-6">
           ¿Interesado en un proyecto similar?
         </p>
         <a 
