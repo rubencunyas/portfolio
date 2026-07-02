@@ -44,4 +44,4 @@ Disallow: /
 User-agent: Bytespider
 Disallow: /
 
-Sitemap: https://cunyas.com/sitemap.xml
+Sitemap: https://portfolio-rub.netlify.app/sitemap.xml

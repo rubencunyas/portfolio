@@ -1,6 +1,6 @@
 import { getCollection } from 'astro:content';
 
-const site = 'https://cunyas.com';
+const site = 'https://portfolio-rub.netlify.app';
 
 const staticPages = [
   { loc: '/', priority: '1.0', changefreq: 'weekly' },
