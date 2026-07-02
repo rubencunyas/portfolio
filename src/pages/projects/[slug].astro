@@ -12,9 +12,36 @@ export async function getStaticPaths() {
 
 const { project } = Astro.props;
 const { Content } = await project.render();
+
+const categoryLabel = project.data.category === 'branding' ? 'Branding' : project.data.category === 'web' ? 'Diseño Web' : 'Multimedia';
+const pageTitle = `${project.data.title} — ${categoryLabel} | Rubén Cunyas`;
+const pageDescription = project.data.result ? project.data.result.slice(0, 155) : project.data.challenge.slice(0, 155);
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": `¿Qué proyecto de ${categoryLabel.toLowerCase()} realizaste para ${project.data.client}?`,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": project.data.solution.slice(0, 300)
+      }
+    },
+    {
+      "@type": "Question",
+      "name": `¿Cuáles fueron los resultados del proyecto ${project.data.title}?`,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": project.data.result.slice(0, 300)
+      }
+    }
+  ]
+};
 ---
 
-<Layout title={`${project.data.title} | Portfolio`}>
+<Layout title={pageTitle} description={pageDescription}>
   <main class="min-h-screen bg-light text-ink">
     <header class="relative py-16 lg:py-20 px-6 lg:px-12 border-b border-ink/10">
       <div class="max-w-7xl mx-auto">
@@ -210,6 +237,8 @@ const { Content } = await project.render();
     </section>
   </main>
 
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  
   <div id="global-lightbox" class="fixed inset-0 z-50 bg-black/95 flex items-center justify-center cursor-zoom-out opacity-0 pointer-events-none transition-opacity duration-300">
     <button class="absolute top-6 right-6 text-white/80 hover:text-white z-10 transition-colors" id="lightbox-close" aria-label="Cerrar">
       <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">

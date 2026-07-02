@@ -1,0 +1,47 @@
+User-agent: *
+Content-Signal: search=yes,ai-input=yes,ai-train=no
+Allow: /
+Disallow: /brief
+Disallow: /gracias
+
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+# AI live citation (allowed)
+User-agent: OAI-SearchBot
+Content-Signal: search=yes,ai-input=yes
+Allow: /
+User-agent: ChatGPT-User
+Content-Signal: ai-input=yes
+Allow: /
+User-agent: Claude-SearchBot
+Content-Signal: search=yes,ai-input=yes
+Allow: /
+User-agent: Claude-User
+Content-Signal: ai-input=yes
+Allow: /
+User-agent: PerplexityBot
+Content-Signal: search=yes,ai-input=yes
+Allow: /
+
+# Training crawlers — allow citation, refuse training
+User-agent: GPTBot
+Content-Signal: ai-input=yes,ai-train=no
+Allow: /
+User-agent: ClaudeBot
+Content-Signal: ai-input=yes,ai-train=no
+Allow: /
+User-agent: Google-Extended
+Content-Signal: ai-input=yes,ai-train=no
+Allow: /
+
+# Aggressive scrapers — block
+User-agent: CCBot
+Disallow: /
+User-agent: Bytespider
+Disallow: /
+
+Sitemap: https://cunyas.com/sitemap.xml
