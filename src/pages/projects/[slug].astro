@@ -1,6 +1,9 @@
 ---
 import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
+import { getProjectImages } from '@/utils/images';
+import sharp from 'sharp';
+import path from 'path';
 
 export async function getStaticPaths() {
   const projects = await getCollection('projects');
@@ -13,7 +16,29 @@ export async function getStaticPaths() {
 const { project } = Astro.props;
 const { Content } = await project.render();
 
-const categoryLabel = project.data.category === 'branding' ? 'Branding' : project.data.category === 'web' ? 'Diseño Web' : 'Multimedia';
+const detected = getProjectImages(project.slug);
+const cover = project.data.cover || detected.cover || '';
+const gallery = project.data.gallery?.length ? project.data.gallery : detected.gallery;
+const gallerySlider = project.data.gallery_slider?.length ? project.data.gallery_slider : detected.gallerySlider;
+
+async function classifyGallery(urls: string[]): Promise<{ masonry: string[]; wide: string[] }> {
+  const masonry: string[] = [];
+  const wide: string[] = [];
+  for (const url of urls) {
+    try {
+      const filePath = path.join(process.cwd(), 'public', url);
+      const { width } = await sharp(filePath).metadata();
+      (width && width >= 1920 ? wide : masonry).push(url);
+    } catch {
+      masonry.push(url);
+    }
+  }
+  return { masonry, wide };
+}
+
+const { masonry: galleryMasonry, wide: galleryWide } = await classifyGallery(gallery);
+
+const categoryLabel = project.data.category === 'branding' ? 'Branding' : project.data.category === 'web' ? 'Web' : 'Multimedia';
 const pageTitle = `${project.data.title} — ${categoryLabel} | Rubén Cunyas`;
 const pageDescription = project.data.result ? project.data.result.slice(0, 155) : project.data.challenge.slice(0, 155);
 
@@ -43,202 +68,194 @@ const faqSchema = {
 
 <Layout title={pageTitle} description={pageDescription}>
   <main class="min-h-screen bg-light text-ink">
-    <header class="relative py-16 lg:py-20 px-6 lg:px-12 border-b border-ink/10">
-      <div class="max-w-7xl mx-auto">
-        <a 
-          href="/" 
-          class="inline-flex items-center gap-2 text-ink/50 hover:text-ink mb-8 transition-colors duration-300 group"
-          transition:name="back-button"
-        >
-          <svg class="w-5 h-5 transform group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-          </svg>
-          VOLVER
-        </a>
-        
-        <div class="grid lg:grid-cols-2 gap-12 lg:gap-24 items-end">
-          <div>
-            <span class="text-sm font-medium tracking-widest text-ink/50 uppercase mb-4 block">
+    <article>
+      <div class="flex items-center gap-2 text-xs text-ink/40 uppercase tracking-wider px-6 lg:px-12 py-4 border-b border-ink/10">
+        <a href="/" class="hover:text-ink transition-colors">Home</a>
+        <span>/</span>
+        <a href="/portfolio" class="hover:text-ink transition-colors" id="breadcrumb-portfolio">Portfolio</a>
+        <span>/</span>
+        <span class="text-ink/60 truncate max-w-[200px]">{project.data.title}</span>
+      </div>
+
+      {cover && (
+        <section class="overflow-hidden">
+          <div class="cursor-pointer lightbox-trigger">
+            <img
+              src={cover}
+              alt={`${project.data.title} - Portada`}
+              class="w-full max-h-[50vh] object-cover"
+              loading="eager"
+            />
+          </div>
+        </section>
+      )}
+
+      <section class="py-8 lg:py-10 px-6 lg:px-12 bg-dark text-light mb-6 lg:mb-10">
+        <div class="max-w-7xl mx-auto">
+          <div class="mb-6 lg:mb-8">
+            <p class="text-xs text-light/50 uppercase tracking-wider mb-2">
               {project.data.client} — {project.data.year}
-            </span>
-            <h1 
-              class="font-display font-bold text-5xl sm:text-7xl lg:text-8xl tracking-tight leading-none"
-              transition:name={`title-${project.slug}`}
-            >
+            </p>
+            <h1 class="font-display font-bold text-4xl sm:text-5xl lg:text-6xl tracking-tight leading-none mb-4 text-accent-blue">
               {project.data.title}
             </h1>
-            {project.data.url && (
-              <a 
-                href={project.data.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="inline-flex items-center gap-2 mt-8 px-6 py-3 border border-accent-blue text-accent-blue hover:bg-accent-blue hover:text-white transition-all duration-300 text-sm font-semibold uppercase tracking-wider"
-              >
-                VISITAR SITIO
-                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                </svg>
-              </a>
-            )}
+            <div class="flex flex-wrap items-center gap-3">
+              {project.data.url && (
+                <a
+                  href={project.data.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-accent-orange hover:text-white transition-colors duration-300"
+                >
+                  VISITAR SITIO
+                  <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
+                </a>
+              )}
+              <div class="flex flex-wrap gap-2">
+                {project.data.tags.map((tag) => (
+                  <span class="px-2.5 py-1 text-[10px] uppercase tracking-wider border border-light/20 text-light/60">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
           </div>
-          
+
+          <div class="grid lg:grid-cols-3 gap-6 lg:gap-10 border-t border-light/10 pt-6 lg:pt-8">
+            <div>
+              <h2 class="text-[10px] font-semibold uppercase tracking-widest text-light/40 mb-3">
+                01 — Reto
+              </h2>
+              <p class="text-sm lg:text-base text-light/70 leading-relaxed">
+                {project.data.challenge}
+              </p>
+            </div>
+            <div>
+              <h2 class="text-[10px] font-semibold uppercase tracking-widest text-light/40 mb-3">
+                02 — Solución
+              </h2>
+              <p class="text-sm lg:text-base text-light/70 leading-relaxed">
+                {project.data.solution}
+              </p>
+            </div>
+            <div>
+              <h2 class="text-[10px] font-semibold uppercase tracking-widest text-light/40 mb-3">
+                03 — Resultado
+              </h2>
+              <p class="text-sm lg:text-base text-light/70 leading-relaxed">
+                {project.data.result}
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {gallerySlider.length > 0 && (
+        <section class="mt-6 lg:mt-10 pb-10">
+          <div class="max-w-7xl mx-auto">
+            <div class="swiper project-swiper">
+              <div class="swiper-wrapper">
+                {gallerySlider.map((image, index) => (
+                  <div class="swiper-slide cursor-pointer lightbox-trigger">
+                    <figure class="relative overflow-hidden bg-black/5 aspect-video">
+                      <img
+                        src={image}
+                        alt={`${project.data.title} - slider ${index + 1}`}
+                        class="w-full h-full object-contain"
+                        loading="lazy"
+                      />
+                    </figure>
+                  </div>
+                ))}
+              </div>
+              <div class="swiper-pagination"></div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {galleryWide.length > 0 && (
+        <section class="mt-6 lg:mt-10">
+          <div class="max-w-7xl mx-auto space-y-6">
+            {galleryWide.map((image, index) => (
+              <figure class="m-0 cursor-pointer lightbox-trigger">
+                <img
+                  src={image}
+                  alt={`${project.data.title} - ${index + 1}`}
+                  class="w-full h-auto"
+                  loading="lazy"
+                />
+              </figure>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {galleryMasonry.length > 0 && (
+        <section class="mt-6 lg:mt-10">
+          <div class="max-w-7xl mx-auto">
+            <div class="columns-1 sm:columns-2 lg:columns-3 gap-4 space-y-4">
+              {galleryMasonry.map((image, index) => (
+                <figure class="group relative overflow-hidden break-inside-avoid cursor-pointer lightbox-trigger">
+                  <img
+                    src={image}
+                    alt={`${project.data.title} - ${index + 1}`}
+                    class="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105"
+                    loading="lazy"
+                  />
+                </figure>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      <section class="py-8 px-6 lg:px-12 border-b border-ink/10">
+        <div class="max-w-7xl mx-auto">
+          <h2 class="text-[10px] font-semibold uppercase tracking-widest text-ink/30 mb-4">
+            Tecnologías
+          </h2>
           <div class="flex flex-wrap gap-2">
-            {project.data.tags.map((tag) => (
-              <span class="px-4 py-2 border border-ink/20 text-sm uppercase tracking-wider text-ink/80">
-                {tag}
+            {project.data.technologies.map((tech) => (
+              <span class="px-2.5 py-1 text-[10px] uppercase tracking-wider border border-ink/20 text-ink/60">
+                {tech}
               </span>
             ))}
           </div>
         </div>
-      </div>
-      
-      <div class={`absolute bottom-0 left-0 w-full h-1 ${
-        project.data.accent === 'orange' ? 'bg-accent-orange' : 'bg-accent-blue'
-      }`}></div>
-    </header>
-    
-    {project.data.cover && (
-      <section class="py-12 px-6 lg:px-12 border-b border-ink/10">
+      </section>
+
+      <section class="py-14 lg:py-16 px-6 lg:px-12 border-b border-ink/10">
         <div class="max-w-7xl mx-auto">
-          <div class="relative overflow-hidden bg-black/5 aspect-video flex items-center justify-center cursor-pointer lightbox-trigger">
-            <img 
-              src={project.data.cover} 
-              alt={`${project.data.title} - Portada`}
-              class="w-full h-full object-contain p-4"
-              loading="eager"
-            />
+          <div class="prose prose-lg max-w-none">
+            <Content />
           </div>
         </div>
       </section>
-    )}
-    
-    <section class="py-24 lg:py-32 px-6 lg:px-12 border-b border-ink/10">
-      <div class="max-w-7xl mx-auto">
-        <div class="grid lg:grid-cols-3 gap-12">
-          <article class="space-y-4">
-            <h2 class={`text-sm font-bold uppercase tracking-widest ${
-              project.data.accent === 'orange' ? 'text-accent-orange' : 'text-accent-blue'
-            }`}>
-              01 — Reto
-            </h2>
-            <p class="text-xl text-ink/80 leading-relaxed">
-              {project.data.challenge}
-            </p>
-          </article>
-          
-          <article class="space-y-4">
-            <h2 class={`text-sm font-bold uppercase tracking-widest ${
-              project.data.accent === 'orange' ? 'text-accent-orange' : 'text-accent-blue'
-            }`}>
-              02 — Solución
-            </h2>
-            <p class="text-xl text-ink/80 leading-relaxed">
-              {project.data.solution}
-            </p>
-          </article>
-          
-          <article class="space-y-4">
-            <h2 class={`text-sm font-bold uppercase tracking-widest ${
-              project.data.accent === 'orange' ? 'text-accent-orange' : 'text-accent-blue'
-            }`}>
-              03 — Resultado
-            </h2>
-            <p class="text-xl text-ink/80 leading-relaxed">
-              {project.data.result}
-            </p>
-          </article>
-        </div>
-      </div>
-    </section>
-    
-    <section class="py-16 px-6 lg:px-12 border-b border-ink/10 bg-black/5">
-      <div class="max-w-7xl mx-auto">
-        <h2 class="text-sm font-bold uppercase tracking-widest text-ink/50 mb-8">
-          Tecnologias utilizadas
-        </h2>
-        <div class="flex flex-wrap gap-3">
-          {project.data.technologies.map((tech) => (
-            <span class={`px-4 py-2 text-sm font-medium ${
-              project.data.accent === 'orange' 
-                ? 'bg-accent-orange/20 text-accent-orange border border-accent-orange/30' 
-                : 'bg-accent-blue/20 text-accent-blue border border-accent-blue/30'
-            }`}>
-              {tech}
-            </span>
-          ))}
-        </div>
-      </div>
-    </section>
-    
-    {project.data.gallery && project.data.gallery.length > 0 && (
-      <section class="py-24 lg:py-32 px-6 lg:px-12 border-b border-ink/10">
-        <div class="max-w-7xl mx-auto">
-          <h2 class="font-display font-bold text-3xl sm:text-4xl tracking-tight mb-12">
-            Proceso &amp; Arte Final
-          </h2>
-          
-          {project.data.gallery[0] && (
-            <div class="mb-8">
-              <div class="relative overflow-hidden bg-black/5 aspect-video flex items-center justify-center cursor-pointer lightbox-trigger">
-                <img
-                  src={project.data.gallery[0]}
-                  alt={`${project.data.title} - Imagen 1`}
-                  class="w-full h-full object-contain p-4"
-                  loading="lazy"
-                />
-              </div>
-            </div>
-          )}
-          
-          {project.data.gallery.length > 1 && (
-            <div class="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
-              {project.data.gallery.slice(1).map((image, index) => (
-                <figure class="group relative overflow-hidden break-inside-avoid cursor-pointer lightbox-trigger">
-                  <img
-                    src={image}
-                    alt={`${project.data.title} - Imagen ${index + 2}`}
-                    class="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105"
-                    loading="lazy"
-                  />
-                  <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                </figure>
-              ))}
-            </div>
-          )}
+
+      <section class="py-12 px-6 lg:px-12 bg-ink text-light">
+        <div class="max-w-7xl mx-auto text-center">
+          <p class="font-display font-bold text-xl sm:text-2xl mb-4">
+            ¿Interesado en un proyecto similar?
+          </p>
+          <a
+            href="/#contact"
+            class="inline-flex items-center justify-center px-6 py-3 bg-light text-ink font-semibold text-sm hover:bg-accent-blue hover:text-light transition-colors duration-300"
+          >
+            HABLEMOS
+            <svg class="w-4 h-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </a>
         </div>
       </section>
-    )}
-    
-    <section class="py-24 lg:py-32 px-6 lg:px-12">
-      <div class="max-w-7xl mx-auto">
-        <div class="prose prose-lg max-w-none">
-          <Content />
-        </div>
-      </div>
-    </section>
-    
-    <section class={`py-16 px-6 lg:px-12 ${
-      project.data.accent === 'orange' ? 'bg-accent-orange' : 'bg-accent-blue'
-    }`}>
-      <div class="max-w-7xl mx-auto text-center">
-        <p class="text-white font-display font-bold text-2xl sm:text-3xl mb-6">
-          ¿Interesado en un proyecto similar?
-        </p>
-        <a 
-          href="/#contact" 
-          class="inline-flex items-center justify-center px-8 py-4 bg-dark text-white font-semibold text-lg hover:bg-dark/90 transition-colors duration-300"
-        >
-          HABLEMOS
-          <svg class="w-5 h-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-          </svg>
-        </a>
-      </div>
-    </section>
+    </article>
   </main>
 
   <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
-  
+
   <div id="global-lightbox" class="fixed inset-0 z-50 bg-black/95 flex items-center justify-center cursor-zoom-out opacity-0 pointer-events-none transition-opacity duration-300">
     <button class="absolute top-6 right-6 text-white/80 hover:text-white z-10 transition-colors" id="lightbox-close" aria-label="Cerrar">
       <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -249,11 +266,65 @@ const faqSchema = {
   </div>
 </Layout>
 
+<style is:global>
+  @import 'swiper/swiper-bundle.css';
+
+  .project-swiper .swiper-pagination {
+    position: relative;
+    margin-top: 1.5rem;
+    bottom: auto;
+  }
+
+  .project-swiper .swiper-pagination-bullet {
+    background: #93C5FD;
+    opacity: 1;
+    width: 10px;
+    height: 10px;
+  }
+
+  .project-swiper .swiper-pagination-bullet-active {
+    background: #2563EB;
+  }
+</style>
+
 <script>
+  import Swiper from 'swiper';
+  import { Autoplay, Pagination } from 'swiper/modules';
+
+  function initBreadcrumb() {
+    const portfolioLink = document.getElementById('breadcrumb-portfolio');
+    if (portfolioLink) {
+      const ref = document.referrer;
+      if (ref && (ref.includes('/portfolio') || ref.includes('/projects/'))) {
+        portfolioLink.href = '/portfolio';
+      }
+    }
+  }
+
+  function initProjectSwiper() {
+    const swiperEl = document.querySelector('.project-swiper');
+    if (!swiperEl) return;
+    new Swiper('.project-swiper', {
+      modules: [Autoplay, Pagination],
+      slidesPerView: 1,
+      spaceBetween: 0,
+      loop: true,
+      autoplay: {
+        delay: 5000,
+        disableOnInteraction: false,
+      },
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+    });
+  }
+
   function initLightbox() {
     const overlay = document.getElementById('global-lightbox');
     const lightboxImg = document.getElementById('lightbox-image');
     const closeBtn = document.getElementById('lightbox-close');
+    if (!overlay || !lightboxImg || !closeBtn) return;
 
     function open(src, alt) {
       lightboxImg.src = src;
@@ -281,6 +352,8 @@ const faqSchema = {
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
   }
 
-  document.addEventListener('DOMContentLoaded', initLightbox);
-  document.addEventListener('astro:after-swap', initLightbox);
+  initBreadcrumb();
+  initLightbox();
+  initProjectSwiper();
+  document.addEventListener('astro:after-swap', () => { initBreadcrumb(); initLightbox(); initProjectSwiper(); });
 </script>

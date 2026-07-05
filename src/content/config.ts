@@ -12,6 +12,7 @@ const projectsCollection = defineCollection({
     accent: z.enum(['blue', 'orange']).default('blue'),
     cover: z.string().optional(),
     gallery: z.array(z.string()).optional(),
+    gallery_slider: z.array(z.string()).optional(),
     challenge: z.string(),
     solution: z.string(),
     result: z.string(),

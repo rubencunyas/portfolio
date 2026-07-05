@@ -9,7 +9,7 @@ export default {
         ink: '#1A1A1A',
         accent: {
           blue: '#3031E4',
-          orange: '#FE4201'
+          orange: '#FE4201',
         }
       },
       fontFamily: {

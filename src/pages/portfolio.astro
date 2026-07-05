@@ -1,23 +1,117 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import Hero from '../components/Hero.astro';
-import About from '../components/About.astro';
-import Brands from '../components/Brands.astro';
-import Projects from '../components/Projects.astro';
-import Services from '../components/Services.astro';
-import Footer from '../components/Footer.astro';
+import { getCollection } from 'astro:content';
+import { getProjectImages } from '@/utils/images';
+
+const projects = await getCollection('projects');
+const sorted = [...projects].sort(() => Math.random() - 0.5);
+
+const categories = [
+  { id: 'all', label: 'Todos' },
+  { id: 'branding', label: 'Branding' },
+  { id: 'web', label: 'Web' },
+  { id: 'multimedia', label: 'Multimedia' }
+];
 ---
 
 <Layout
-  title="Portfolio de Diseño Web y Branding | Rubén Cunyas"
-  description="Portfolio con proyectos de landing pages, desarrollo web, branding, identidad visual y sistemas digitales de Rubén Cunyas en Lima, Perú."
+  title="Portfolio | Rubén Cunyas"
+  description="Todos los proyectos de diseño digital, branding y desarrollo web."
 >
-  <main>
-    <Hero />
-    <About />
-    <Brands />
-    <Projects />
-    <Services />
+  <main class="min-h-screen bg-light text-ink">
+    <section class="py-24 lg:py-32 px-6 lg:px-12 border-b border-ink/10">
+      <div class="max-w-7xl mx-auto">
+        <header class="mb-16">
+          <h1 class="font-display font-bold text-5xl sm:text-7xl lg:text-8xl tracking-tight leading-none mb-6">
+            PORTFOLIO.
+          </h1>
+          <p class="text-lg sm:text-xl text-ink/60 max-w-xl">
+            Cada proyecto busca conectar la información de forma humana y clara.
+          </p>
+        </header>
+
+        <div class="flex flex-wrap gap-3 mb-12" id="project-filters">
+          {categories.map((cat, i) => (
+            <button
+              data-filter={cat.id}
+              class={`filter-btn px-5 py-2 text-sm font-medium uppercase tracking-wider transition-all duration-300 ${
+                i === 0
+                  ? 'bg-ink text-light'
+                  : 'bg-transparent text-ink/60 border border-ink/20 hover:border-ink/50 hover:text-ink'
+              }`}
+            >
+              {cat.label}
+            </button>
+          ))}
+        </div>
+
+        <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+          {sorted.map((project) => (
+            <a
+              href={`/projects/${project.slug}`}
+              data-category={project.data.category}
+              class="project-card group block"
+            >
+              <div class="relative overflow-hidden bg-black/5 aspect-video mb-4">
+                <img
+                  src={getProjectImages(project.slug).cover ?? project.data.cover}
+                  alt={project.data.title}
+                  width="900"
+                  height="675"
+                  loading="lazy"
+                  class="w-full h-full object-cover transition duration-700 group-hover:scale-105"
+                />
+              </div>
+              <h3 class="font-display font-bold text-lg sm:text-xl tracking-tight group-hover:text-accent-blue transition-colors duration-300">
+                {project.data.title}
+              </h3>
+              <p class="text-sm text-ink/50 mt-1">
+                {project.data.tags.slice(0, 2).join(' · ')}
+              </p>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
   </main>
-  <Footer />
 </Layout>
+
+<script>
+  function initFilters() {
+    const buttons = document.querySelectorAll('.filter-btn');
+    const cards = document.querySelectorAll('.project-card');
+
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const filter = btn.dataset.filter;
+
+        buttons.forEach(b => {
+          b.classList.remove('bg-ink', 'text-light');
+          b.classList.add('bg-transparent', 'text-ink/60', 'border', 'border-ink/20');
+        });
+        btn.classList.add('bg-ink', 'text-light');
+        btn.classList.remove('bg-transparent', 'text-ink/60', 'border', 'border-ink/20');
+
+        cards.forEach(card => {
+          const cat = card.dataset.category;
+          if (filter === 'all' || cat === filter) {
+            card.style.display = 'block';
+            card.style.animation = 'fadeIn 0.3s ease-out';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      });
+    });
+  }
+
+  initFilters();
+  document.addEventListener('astro:after-swap', initFilters);
+</script>
+
+<style>
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
