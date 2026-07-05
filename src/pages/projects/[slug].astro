@@ -67,15 +67,22 @@ const faqSchema = {
 ---
 
 <Layout title={pageTitle} description={pageDescription}>
-  <main class="min-h-screen bg-light text-ink">
-    <article>
-      <div class="flex items-center gap-2 text-xs text-ink/40 uppercase tracking-wider px-6 lg:px-12 py-4 border-b border-ink/10">
+  <nav class="sticky top-0 z-50 bg-light/90 backdrop-blur-md border-b border-ink/10">
+    <div class="flex items-center gap-3 px-6 lg:px-12 py-3">
+      <a href="/" class="shrink-0">
+        <img src="/logo.svg" alt="Rubén Cunyas" width="32" height="32" class="w-8 h-8" />
+      </a>
+      <div class="flex items-center gap-2 text-xs text-ink/40 uppercase tracking-wider">
         <a href="/" class="hover:text-ink transition-colors">Home</a>
         <span>/</span>
         <a href="/portfolio" class="hover:text-ink transition-colors" id="breadcrumb-portfolio">Portfolio</a>
         <span>/</span>
         <span class="text-ink/60 truncate max-w-[200px]">{project.data.title}</span>
       </div>
+    </div>
+  </nav>
+  <main class="min-h-screen bg-light text-ink">
+    <article>
 
       {cover && (
         <section class="overflow-hidden">
