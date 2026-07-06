@@ -26,7 +26,9 @@ No lint, typecheck, or test commands exist.
 - **Design tokens**: `dark`, `light`, `ink`, `accent-blue`, `accent-orange` (`tailwind.config.mjs`)
 - **Fonts**: `Inter` (sans), `Barlow Condensed` (display)
 - **Animation**: `.scroll-animate` class + IntersectionObserver in Layout; `.services-swiper` for mobile horizontal scroll; `ViewTransitions` for SPA navigation
-- **Swiper**: Loaded as npm dependency (`swiper`), imported via `import Swiper from 'swiper'` in `[slug].astro` script. CSS loaded via `<style>@import 'swiper/swiper-bundle.css'</style>` in the same component. Init functions called directly at module scope (not waiting for `DOMContentLoaded`) and on `astro:after-swap`.
+- **Swiper**: Loaded as npm dependency (`swiper`), imported via `import Swiper from 'swiper'` in `[slug].astro` script. CSS loaded via `<style is:global>@import 'swiper/swiper-bundle.css'</style>` in the same component (must be `is:global` to avoid Astro scoping on dynamically created elements like pagination bullets). Init functions called directly at module scope (not waiting for `DOMContentLoaded`) and on `astro:after-swap`.
+- **Project page nav**: sticky navbar (`sticky top-0 z-50 bg-light/90 backdrop-blur-md`) with logo + breadcrumb (Home / Portfolio / Title) at top of page, outside `<main>`.
+- **Swiper pagination**: styled `#93C5FD` (inactive), `#2563EB` (active), 10×10px bullets, `position: relative` with `margin-top: 1.5rem` below slides.
 - **Image format**: WebP preferred; project images in `public/projects/`
 - **TypeScript**: path alias `@/*` → `src/*`
 
