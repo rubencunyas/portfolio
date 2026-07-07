@@ -31,11 +31,11 @@ const categories = [
           </p>
         </header>
 
-        <div class="flex flex-wrap gap-3 mb-12" id="project-filters">
+        <div class="flex flex-nowrap lg:flex-wrap gap-2 lg:gap-3 overflow-x-auto mb-12 pb-1" id="project-filters">
           {categories.map((cat, i) => (
             <button
               data-filter={cat.id}
-              class={`filter-btn px-5 py-2 text-sm font-medium uppercase tracking-wider transition-all duration-300 ${
+              class={`filter-btn shrink-0 px-3 lg:px-5 py-1.5 lg:py-2 text-xs lg:text-sm font-medium uppercase tracking-wider transition-all duration-300 ${
                 i === 0
                   ? 'bg-ink text-light'
                   : 'bg-transparent text-ink/60 border border-ink/20 hover:border-ink/50 hover:text-ink'
