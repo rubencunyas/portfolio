@@ -85,11 +85,14 @@ const faqs = [
   description="Landing pages, webs corporativas, identidad digital y soporte mensual para negocios peruanos que necesitan verse profesionales y captar más clientes."
 >
   <main class="services-page bg-[#f2f2ef] text-[#111111] [font-family:Manrope,Inter,system-ui,sans-serif]">
-    <section class="relative isolate overflow-hidden bg-[#111111] text-white">
+    <section class="relative isolate overflow-hidden text-white services-hero" id="services-hero">
       <div class="absolute inset-x-0 top-0 h-px bg-white/15"></div>
-      <div class="services-hero-orb services-hero-orb-blue" aria-hidden="true"></div>
-      <div class="services-hero-orb services-hero-orb-orange" aria-hidden="true"></div>
+      <div class="hero-blob hero-blob-1" aria-hidden="true"></div>
+      <div class="hero-blob hero-blob-2" aria-hidden="true"></div>
+      <div class="hero-blob hero-blob-3" aria-hidden="true"></div>
+      <div class="hero-blob hero-blob-4" aria-hidden="true"></div>
       <div class="services-hero-grid" aria-hidden="true"></div>
+      <div class="hero-halo" aria-hidden="true"></div>
       <div class="services-particles" aria-hidden="true">
         {[...Array(22)].map((_, i) => (
           <span
@@ -464,6 +467,36 @@ const faqs = [
       }
     });
   </script>
+  <script is:inline>
+    (function cursorHalo() {
+      const hero = document.getElementById('services-hero');
+      if (!hero) return;
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (prefersReduced) return;
+
+      let rafId = 0;
+      let targetX = 0.5;
+      let targetY = 0.4;
+      let currentX = 0.5;
+      let currentY = 0.4;
+
+      const onPointerMove = (e) => {
+        targetX = e.clientX / window.innerWidth;
+        targetY = e.clientY / window.innerHeight;
+      };
+
+      const animate = () => {
+        currentX += (targetX - currentX) * 0.08;
+        currentY += (targetY - currentY) * 0.08;
+        hero.style.setProperty('--mxp', (100 * currentX).toFixed(2) + '%');
+        hero.style.setProperty('--myp', (100 * currentY).toFixed(2) + '%');
+        rafId = requestAnimationFrame(animate);
+      };
+
+      window.addEventListener('pointermove', onPointerMove, { passive: true });
+      rafId = requestAnimationFrame(animate);
+    })();
+  </script>
 </Layout>
 
 <style>
@@ -483,28 +516,64 @@ const faqs = [
     background-position: -1px -1px;
   }
 
-  .services-hero-orb {
+  .services-hero {
+    background: radial-gradient(120% 80% at 50% 0, #110b29 0%, #0a0a14 55%, #08081a 100%);
+  }
+
+  .hero-blob {
     position: absolute;
     z-index: 0;
     border-radius: 999px;
-    filter: blur(64px);
+    filter: blur(80px) saturate(1.2);
+    opacity: 0.85;
     pointer-events: none;
+    animation: 28s cubic-bezier(0.22, 1, 0.36, 1) infinite alternate heroBlobDrift;
   }
 
-  .services-hero-orb-blue {
-    right: -7rem;
-    top: 20%;
-    width: 32rem;
-    height: 32rem;
-    background: rgba(48, 49, 228, 0.13);
+  .hero-blob-1 {
+    background: radial-gradient(circle, rgba(108, 108, 240, 0.55), transparent 65%);
+    width: 720px;
+    height: 720px;
+    top: -180px;
+    left: -120px;
   }
 
-  .services-hero-orb-orange {
-    left: -6rem;
-    bottom: 14%;
-    width: 24rem;
-    height: 24rem;
-    background: rgba(255, 65, 8, 0.1);
+  .hero-blob-2 {
+    background: radial-gradient(circle, rgba(180, 90, 255, 0.45), transparent 65%);
+    width: 640px;
+    height: 640px;
+    animation-duration: 34s;
+    top: -80px;
+    right: -160px;
+  }
+
+  .hero-blob-3 {
+    background: radial-gradient(circle, rgba(70, 180, 255, 0.28), transparent 65%);
+    width: 540px;
+    height: 540px;
+    animation-duration: 38s;
+    animation-delay: -8s;
+    top: 32%;
+    left: 35%;
+  }
+
+  .hero-blob-4 {
+    background: radial-gradient(circle, rgba(255, 90, 180, 0.24), transparent 65%);
+    width: 480px;
+    height: 480px;
+    animation-duration: 30s;
+    animation-delay: -14s;
+    top: 56%;
+    right: 8%;
+  }
+
+  .hero-halo {
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(170px 170px at var(--mxp, 50%) var(--myp, 40%), rgba(140, 120, 255, 0.13), transparent 70%);
+    transition: background 60ms linear;
   }
 
   .services-hero-grid {
@@ -765,6 +834,11 @@ const faqs = [
     }
   }
 
+  @keyframes heroBlobDrift {
+    0% { transform: translate(0) scale(1); }
+    100% { transform: translate(40px, 30px) scale(1.1); }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .services-page [data-reveal],
     .marquee,
@@ -773,7 +847,8 @@ const faqs = [
     .corner-marker,
     .hero-frame::after,
     .pulse-dot,
-    .services-particle {
+    .services-particle,
+    .hero-blob {
       animation: none;
       opacity: 1;
       transform: none;
