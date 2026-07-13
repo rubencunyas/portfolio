@@ -5,9 +5,9 @@ const site = 'https://portfolio-rub.netlify.app';
 const staticPages = [
   { loc: '/', priority: '1.0', changefreq: 'weekly' },
   { loc: '/portfolio', priority: '0.9', changefreq: 'weekly' },
-  { loc: '/servicios', priority: '0.9', changefreq: 'monthly' },
-  { loc: '/brief', priority: '0.8', changefreq: 'monthly' },
-  { loc: '/gracias', priority: '0.3', changefreq: 'monthly' },
+  { loc: '/servicios/', priority: '0.9', changefreq: 'monthly' },
+  { loc: '/brief/', priority: '0.8', changefreq: 'monthly' },
+  { loc: '/gracias/', priority: '0.3', changefreq: 'monthly' },
 ];
 
 export async function GET() {
