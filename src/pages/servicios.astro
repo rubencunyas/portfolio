@@ -160,14 +160,27 @@ const faqs = [
                   </span>
                 </div>
                 <div class="hp-body">
-                  <div class="hp-screen-content">
-                    <img
-                      src="/projects/phone-screens/landing-01.webp"
-                      alt="Landing page mobile"
-                      width="1080"
-                      height="1920"
-                      class="hp-screen-img"
-                    />
+                  <div class="hp-screen-content" id="hpCarousel">
+                    <div class="hp-carousel-track">
+                      <img
+                        src="/projects/phone-screens/landing-01.webp"
+                        alt="Landing page mobile"
+                        width="1080"
+                        height="1920"
+                        class="hp-screen-img"
+                      />
+                      <img
+                        src="/projects/phone-screens/landing-02.webp"
+                        alt="Landing page mobile"
+                        width="1080"
+                        height="1920"
+                        class="hp-screen-img"
+                      />
+                    </div>
+                  </div>
+                  <div class="hp-dots" aria-hidden="true">
+                    <span class="hp-dot is-active" data-index="0"></span>
+                    <span class="hp-dot" data-index="1"></span>
                   </div>
                 </div>
                 <div class="hp-home-bar" aria-hidden="true"></div>
@@ -533,6 +546,38 @@ const faqs = [
       rafId = requestAnimationFrame(animate);
     })();
   </script>
+  <script is:inline>
+    (function phoneSwipe() {
+      const carousel = document.getElementById('hpCarousel');
+      if (!carousel) return;
+      const dots = document.querySelectorAll('.hp-dot');
+      if (!dots.length) return;
+
+      let current = 0;
+      const total = dots.length;
+      let interval;
+
+      const goTo = (index) => {
+        current = ((index % total) + total) % total;
+        carousel.scrollTo({ left: current * carousel.clientWidth, behavior: 'smooth' });
+        dots.forEach((d, i) => d.classList.toggle('is-active', i === current));
+      };
+
+      const next = () => goTo(current + 1);
+
+      interval = setInterval(next, 4000);
+
+      carousel.addEventListener('scroll', () => {
+        const idx = Math.round(carousel.scrollLeft / carousel.clientWidth);
+        if (idx !== current) {
+          current = idx;
+          dots.forEach((d, i) => d.classList.toggle('is-active', i === current));
+          clearInterval(interval);
+          interval = setInterval(next, 4000);
+        }
+      }, { passive: true });
+    })();
+  </script>
 </Layout>
 
 <style>
@@ -727,16 +772,52 @@ const faqs = [
   }
 
   .hp-screen-content {
-    overflow: hidden;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
     aspect-ratio: 9 / 16;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .hp-screen-content::-webkit-scrollbar {
+    display: none;
+  }
+
+  .hp-carousel-track {
+    display: flex;
+    height: 100%;
+    width: 100%;
   }
 
   .hp-screen-img {
-    display: block;
+    flex-shrink: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
     object-position: top;
+    scroll-snap-align: start;
+  }
+
+  .hp-dots {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    padding: 6px 0 4px;
+  }
+
+  .hp-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.15);
+    transition: background 0.3s, width 0.3s;
+  }
+
+  .hp-dot.is-active {
+    background: #3031e4;
+    width: 14px;
   }
 
   .hp-home-bar {
