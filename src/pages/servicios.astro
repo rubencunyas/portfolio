@@ -160,51 +160,14 @@ const faqs = [
                   </span>
                 </div>
                 <div class="hp-body">
-                  <div class="hp-landing-preview">
-                    <div class="hp-lp-header">
-                      <span class="hp-lp-logo">CUNYAS</span>
-                      <span class="hp-lp-tag">Landing page</span>
-                    </div>
-                    <div class="hp-lp-hero">
-                      <p class="hp-lp-h1">Impulsa tu negocio con una web que vende</p>
-                      <p class="hp-lp-sub">Diseño, desarrollo y estrategia para captar más clientes.</p>
-                    </div>
-                    <div class="hp-lp-cards">
-                      <div class="hp-lp-card">
-                        <div class="hp-lp-card-icon bg-[#3031e4]">
-                          <svg width="14" height="14" fill="currentColor" viewBox="0 0 256 256"><path d="M216,60H179.83A52,52,0,0,0,76.17,60H40A20,20,0,0,0,20,80V200a20,20,0,0,0,20,20H216a20,20,0,0,0,20-20V80A20,20,0,0,0,216,60ZM128,36a28,28,0,0,1,27.71,24H100.29A28,28,0,0,1,128,36Zm84,160H44V84H76V96a12,12,0,0,0,24,0V84h56V96a12,12,0,0,0,24,0V84h32Z"/></svg>
-                        </div>
-                        <div>
-                          <p class="hp-lp-card-title">Web Corporativa</p>
-                          <p class="hp-lp-card-sub">Desde S/2,500</p>
-                        </div>
-                        <span class="hp-lp-card-arrow">&rarr;</span>
-                      </div>
-                      <div class="hp-lp-card">
-                        <div class="hp-lp-card-icon bg-[#ff4108]">
-                          <svg width="14" height="14" fill="currentColor" viewBox="0 0 256 256"><path d="M240,128a15.79,15.79,0,0,1-10.5,15l-63.44,23.07L143,229.5a16,16,0,0,1-30,0L89,166.06,25.5,143a16,16,0,0,1,0-30L89,89.94,113,26.5a16,16,0,0,1,30,0L166.06,89,229.5,113A15.79,15.79,0,0,1,240,128Z"/></svg>
-                        </div>
-                        <div>
-                          <p class="hp-lp-card-title">Landing Sprint</p>
-                          <p class="hp-lp-card-sub">Desde S/900</p>
-                        </div>
-                        <span class="hp-lp-card-arrow">&rarr;</span>
-                      </div>
-                      <div class="hp-lp-card">
-                        <div class="hp-lp-card-icon bg-[#111111]">
-                          <svg width="14" height="14" fill="currentColor" viewBox="0 0 256 256"><path d="M232,44H160a43.86,43.86,0,0,0-32,13.85A43.86,43.86,0,0,0,96,44H24A12,12,0,0,0,12,56V200a12,12,0,0,0,12,12H96a20,20,0,0,1,20,20,12,12,0,0,0,24,0,20,20,0,0,1,20-20h72a12,12,0,0,0,12-12V56A12,12,0,0,0,232,44ZM96,188H36V68H96a20,20,0,0,1,20,20V192.81A43.79,43.79,0,0,0,96,188Zm124,0H160a43.71,43.71,0,0,0-20,4.83V88a20,20,0,0,1,20-20h60Z"/></svg>
-                        </div>
-                        <div>
-                          <p class="hp-lp-card-title">Soporte Mensual</p>
-                          <p class="hp-lp-card-sub">Desde S/600/mes</p>
-                        </div>
-                        <span class="hp-lp-card-arrow">&rarr;</span>
-                      </div>
-                    </div>
-                    <div class="hp-lp-cta">
-                      <span>Quiero cotizar</span>
-                      <svg width="12" height="12" fill="currentColor" viewBox="0 0 256 256"><path d="M184.49,136.49l-80,80a12,12,0,0,1-17-17L159,128,87.51,56.49a12,12,0,1,1,17-17l80,80A12,12,0,0,1,184.49,136.49Z"/></svg>
-                    </div>
+                  <div class="hp-screen-content">
+                    <img
+                      src="/projects/thumbs/berlitz-landing.webp"
+                      alt="Landing page diseñada para Berlitz"
+                      width="760"
+                      height="570"
+                      class="hp-screen-img"
+                    />
                   </div>
                 </div>
                 <div class="hp-home-bar" aria-hidden="true"></div>
@@ -726,7 +689,7 @@ const faqs = [
     border-radius: 2.5rem;
     padding: 0.75rem;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), inset 0 0 0 1px rgba(255, 255, 255, 0.08);
-    width: 280px;
+    width: 310px;
     animation: hpFloat 5s ease-in-out infinite;
   }
 
@@ -760,115 +723,20 @@ const faqs = [
   }
 
   .hp-body {
-    padding: 0 1rem 0.75rem;
+    padding: 0;
   }
 
-  .hp-landing-preview {
-    display: flex;
-    flex-direction: column;
-    gap: 0.625rem;
+  .hp-screen-content {
+    overflow: hidden;
+    height: 380px;
   }
 
-  .hp-lp-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0.25rem 0;
-  }
-
-  .hp-lp-logo {
-    font-size: 0.625rem;
-    font-weight: 800;
-    letter-spacing: 0.14em;
-    color: #111111;
-  }
-
-  .hp-lp-tag {
-    font-size: 0.55rem;
-    font-weight: 700;
-    background: #f2f2ef;
-    padding: 0.15rem 0.45rem;
-    border-radius: 999px;
-    color: #696969;
-  }
-
-  .hp-lp-hero {
-    background: linear-gradient(135deg, #3031e4, #1a1a8a);
-    border-radius: 0.75rem;
-    padding: 0.75rem;
-    text-align: center;
-    color: #ffffff;
-  }
-
-  .hp-lp-h1 {
-    font-size: 0.675rem;
-    font-weight: 800;
-    line-height: 1.25;
-  }
-
-  .hp-lp-sub {
-    font-size: 0.525rem;
-    opacity: 0.7;
-    margin-top: 0.25rem;
-    line-height: 1.35;
-  }
-
-  .hp-lp-cards {
-    display: flex;
-    flex-direction: column;
-    gap: 0.375rem;
-  }
-
-  .hp-lp-card {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    background: #f7f7f5;
-    border-radius: 0.625rem;
-    padding: 0.5rem 0.625rem;
-    cursor: default;
-    transition: background 0.2s;
-  }
-
-  .hp-lp-card-icon {
-    display: grid;
-    place-items: center;
-    width: 28px;
-    height: 28px;
-    border-radius: 0.5rem;
-    color: #ffffff;
-    flex-shrink: 0;
-  }
-
-  .hp-lp-card-title {
-    font-size: 0.6rem;
-    font-weight: 800;
-    line-height: 1.2;
-  }
-
-  .hp-lp-card-sub {
-    font-size: 0.5rem;
-    color: #696969;
-    font-weight: 600;
-  }
-
-  .hp-lp-card-arrow {
-    margin-left: auto;
-    font-size: 0.75rem;
-    color: #c0c0c0;
-  }
-
-  .hp-lp-cta {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.375rem;
-    background: #111111;
-    color: #ffffff;
-    border-radius: 0.75rem;
-    padding: 0.5rem;
-    font-size: 0.6rem;
-    font-weight: 800;
+  .hp-screen-img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
   }
 
   .hp-home-bar {
@@ -1031,7 +899,22 @@ const faqs = [
       display: none;
     }
     .hp-frame {
-      width: 240px;
+      width: 310px;
+    }
+    .hp-screen-content {
+      height: 380px;
+    }
+    .hero-url-row {
+      font-size: 0.75rem;
+    }
+  }
+
+  @media (max-width: 639px) {
+    .hp-frame {
+      width: 280px;
+    }
+    .hp-screen-content {
+      height: 340px;
     }
   }
 
