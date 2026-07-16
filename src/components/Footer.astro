@@ -6,7 +6,7 @@ const socialLinks = [
 ];
 
 const contactInfo = [
-  { label: "Email", value: "hello@cunyas.com", href: "mailto:hello@cunyas.com" },
+  { label: "Email", value: "ruben.cunyas@outlook.com", href: "mailto:ruben.cunyas@outlook.com" },
   { label: "Ubicación", value: "LATAM", href: "#" }
 ];
 ---
@@ -30,6 +30,7 @@ const contactInfo = [
           data-netlify="true"
           netlify-honeypot="bot-field"
           class="space-y-6"
+          aria-describedby="contact-error"
         >
           <input type="hidden" name="form-name" value="portfolio-contact" />
           <input type="hidden" name="subject" data-remove-prefix value="Nuevo lead desde Portfolio (%{submissionId})" />
@@ -78,7 +79,7 @@ const contactInfo = [
           <button 
             type="submit"
             id="submit-btn"
-            class="w-full px-8 py-4 bg-accent-blue text-white font-semibold text-lg hover:bg-dark transition-colors duration-300 flex items-center justify-center gap-3"
+            class="w-full px-8 py-4 bg-accent-blue text-white font-semibold text-lg hover:bg-dark hover:shadow-lg hover:shadow-dark/20 active:scale-[0.97] transition-all duration-300 ease-out flex items-center justify-center gap-3"
           >
             <span id="btn-text">ENVIAR MENSAJE</span>
             <svg id="btn-spinner" class="w-5 h-5 animate-spin hidden" fill="none" viewBox="0 0 24 24">
@@ -89,8 +90,8 @@ const contactInfo = [
           <p class="text-sm leading-6 text-dark/50">
             Recibiré tu mensaje y te responderé por correo o WhatsApp si lo incluyes en el mensaje.
           </p>
-          <p id="contact-error" class="hidden border border-accent-orange/30 bg-accent-orange/10 px-4 py-3 text-sm leading-6 text-dark">
-            No pude enviar el formulario. Escríbeme a <a class="font-semibold text-accent-blue underline" href="mailto:hello@cunyas.com">hello@cunyas.com</a>.
+          <p id="contact-error" class="hidden border border-accent-orange/30 bg-accent-orange/10 px-4 py-3 text-sm leading-6 text-dark" role="alert" aria-live="assertive">
+            No pude enviar el formulario. Escríbeme a <a class="font-semibold text-accent-blue underline" href="mailto:ruben.cunyas@outlook.com">ruben.cunyas@outlook.com</a>.
           </p>
         </form>
       </div>
@@ -103,7 +104,7 @@ const contactInfo = [
                 <span class="text-sm text-dark/50 uppercase tracking-wider block mb-1">{info.label}</span>
                 <a 
                   href={info.href}
-                  class="text-2xl lg:text-3xl font-display font-bold hover:text-accent-blue transition-colors duration-300 text-dark"
+                  class="text-2xl lg:text-3xl font-display font-bold hover:text-accent-blue active:text-accent-blue/70 transition-colors duration-300 ease-out text-dark"
                   aria-label={`${info.label}: ${info.value}`}
                 >
                   {info.value}
@@ -119,7 +120,7 @@ const contactInfo = [
             {socialLinks.map((social) => (
               <a 
                 href={social.url}
-                class="w-12 h-12 flex items-center justify-center border border-dark/20 hover:border-accent-blue hover:bg-accent-blue text-dark hover:text-white transition-all duration-300"
+                 class="w-12 h-12 flex items-center justify-center border border-dark/20 hover:border-accent-blue hover:bg-accent-blue text-dark hover:text-white active:scale-95 transition-all duration-300"
                 aria-label={social.name}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -132,7 +133,7 @@ const contactInfo = [
             <a 
               href="/CV-RubenCunyas.pdf" 
               download
-              class="inline-flex h-12 items-center justify-center gap-2 border border-dark/20 px-4 text-sm font-semibold uppercase tracking-wider text-dark hover:border-accent-blue hover:bg-accent-blue hover:text-white transition-colors duration-300"
+              class="inline-flex h-12 items-center justify-center gap-2 border border-dark/20 px-4 text-sm font-semibold uppercase tracking-wider text-dark hover:border-accent-blue hover:bg-accent-blue hover:text-white active:scale-95 transition-all duration-300"
               aria-label="Descargar CV"
             >
               <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
@@ -181,6 +182,7 @@ const contactInfo = [
     contactText.textContent = 'ENVIANDO...';
     contactSpinner.classList.remove('hidden');
     contactSubmit.disabled = true;
+    contactSubmit.setAttribute('aria-busy', 'true');
     contactSubmit.classList.add('opacity-70', 'cursor-not-allowed');
 
     try {
@@ -201,6 +203,7 @@ const contactInfo = [
       contactError.classList.remove('hidden');
       contactSpinner.classList.add('hidden');
       contactSubmit.disabled = false;
+      contactSubmit.removeAttribute('aria-busy');
       contactSubmit.classList.remove('opacity-70', 'cursor-not-allowed');
     }
   });

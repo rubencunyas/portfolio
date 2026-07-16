@@ -83,6 +83,8 @@ const faqs = [
 <Layout
   title="Servicios web para captar clientes | Rubén Cunyas"
   description="Landing pages, webs corporativas, identidad digital y soporte mensual para negocios peruanos que necesitan verse profesionales y captar más clientes."
+  imageAlt="Vista previa de la página de servicios web de Rubén Cunyas — landing pages, webs corporativas e identidad digital para negocios peruanos."
+  keywords="servicios web Perú, landing pages, diseño web Lima, desarrollo web, identidad visual, soporte mensual, web corporativa, Rubén Cunyas"
 >
   <script type="application/ld+json">
     {
@@ -126,6 +128,32 @@ const faqs = [
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
+      "@type": "ProfessionalService",
+      "name": "Rubén Cunyas — Diseño y desarrollo web",
+      "description": "Landing pages, webs corporativas, identidad digital y soporte mensual para negocios peruanos.",
+      "url": "https://portfolio-rub.netlify.app/servicios/",
+      "provider": {
+        "@type": "Person",
+        "name": "Rubén Cunyas",
+        "url": "https://portfolio-rub.netlify.app"
+      },
+      "areaServed": { "@type": "Country", "name": "PE" },
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Paquetes de servicios web",
+        "itemListElement": [
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Landing Sprint", "description": "Landing de una página para validar campaña, servicio o captación puntual." }, "priceSpecification": { "@type": "UnitPriceSpecification", "price": "900", "priceCurrency": "PEN" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Presencia Pro", "description": "Web corporativa + identidad visual ligera." }, "priceSpecification": { "@type": "UnitPriceSpecification", "price": "2500", "priceCurrency": "PEN" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Crecimiento Mensual", "description": "Soporte, mantenimiento y mejoras continuas." }, "priceSpecification": { "@type": "UnitPriceSpecification", "price": "600", "priceCurrency": "PEN", "unitText": "MENSUAL" } }
+        ]
+      },
+      "serviceType": "Diseño y desarrollo web",
+      "priceRange": "$_S/900 - S/600/mes"
+    }
+  </script>
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
       "@type": "FAQPage",
       "name": "Preguntas frecuentes sobre servicios web",
       "mainEntity": [
@@ -142,6 +170,22 @@ const faqs = [
       "@type": "HowTo",
       "name": "Proceso de trabajo: de idea a página lista para vender",
       "description": "Ordeno la estrategia antes de abrir el diseño. Así la web no termina siendo decoración: termina siendo una herramienta comercial.",
+      "image": {
+        "@type": "ImageObject",
+        "url": "https://portfolio-rub.netlify.app/og-image.png",
+        "width": "1200",
+        "height": "630"
+      },
+      "estimatedCost": {
+        "@type": "MonetaryAmount",
+        "currency": "PEN",
+        "value": "Desde S/900"
+      },
+      "supply": [
+        { "@type": "HowToSupply", "name": "Brief de proyecto" },
+        { "@type": "HowToSupply", "name": "Contenido base del negocio" },
+        { "@type": "HowToSupply", "name": "Acceso a dominio y hosting" }
+      ],
       "step": [
         { "@type": "HowToStep", "position": 1, "name": "Diagnóstico", "text": "Revisamos tu oferta, público, competencia, objeciones y meta de conversión." },
         { "@type": "HowToStep", "position": 2, "name": "Mapa de venta", "text": "Defino estructura, mensajes, CTA, secciones y recorrido mobile-first." },
@@ -151,7 +195,21 @@ const faqs = [
       ]
     }
   </script>
-  <main class="services-page bg-[#f2f2ef] text-[#111111] [font-family:Manrope,Inter,system-ui,sans-serif]">
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SiteNavigationElement",
+      "name": "Navegación servicios",
+      "url": "https://portfolio-rub.netlify.app/servicios/",
+      "hasPart": [
+        { "@type": "SiteNavigationElement", "name": "Servicios", "url": "https://portfolio-rub.netlify.app/servicios/#servicios" },
+        { "@type": "SiteNavigationElement", "name": "Proceso", "url": "https://portfolio-rub.netlify.app/servicios/#proceso" },
+        { "@type": "SiteNavigationElement", "name": "Cotizar", "url": "https://portfolio-rub.netlify.app/servicios/#contacto" },
+        { "@type": "SiteNavigationElement", "name": "Portfolio", "url": "https://portfolio-rub.netlify.app/" }
+      ]
+    }
+  </script>
+  <main id="main-content" class="services-page bg-light text-ink pb-20 sm:pb-0">
     <section class="relative isolate overflow-hidden text-white services-hero" id="services-hero">
       <div class="absolute inset-x-0 top-0 h-px bg-white/15"></div>
       <div class="hero-blob hero-blob-1" aria-hidden="true"></div>
@@ -165,14 +223,14 @@ const faqs = [
           CUNYAS
         </a>
         <nav class="hidden items-center gap-7 text-sm font-bold text-white/70 md:flex" aria-label="Servicios">
-          <a class="transition hover:text-[#ff4108]" href="#servicios">Servicios</a>
-          <a class="transition hover:text-[#ff4108]" href="#proceso">Proceso</a>
-          <a class="transition hover:text-[#ff4108]" href="#contacto">Cotizar</a>
-          <a class="transition hover:text-[#ff4108]" href="/">Portfolio</a>
+          <a class="transition hover:text-accent-orange" href="#servicios">Servicios</a>
+          <a class="transition hover:text-accent-orange" href="#proceso">Proceso</a>
+          <a class="transition hover:text-accent-orange" href="#contacto">Cotizar</a>
+          <a class="transition hover:text-accent-orange" href="/">Portfolio</a>
         </nav>
         <a
           href={`https://wa.me/${whatsappNumber}?text=${whatsappText}`}
-           class="inline-flex min-h-11 items-center justify-center rounded-full bg-[#ff4108] px-5 text-sm font-extrabold text-white transition hover:bg-white hover:text-[#111111]"
+            class="inline-flex min-h-11 items-center justify-center rounded-full bg-accent-orange-deep px-5 text-sm font-extrabold text-white transition hover:bg-white hover:text-ink active:scale-95 active:brightness-90"
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -182,7 +240,7 @@ const faqs = [
 
       <div class="mx-auto grid max-w-7xl gap-12 px-5 pb-16 pt-10 sm:px-8 lg:grid-cols-[1.05fr_0.95fr] lg:px-12 lg:pb-24 lg:pt-16">
         <div class="relative z-10 flex flex-col justify-center">
-          <p class="mb-5 inline-flex items-center gap-2 self-start rounded-full border border-white/15 bg-white/5 px-4 py-2 text-sm font-extrabold text-[#ff4108]">
+          <p class="mb-5 inline-flex items-center gap-2 self-start rounded-full border border-white/15 bg-white/5 px-4 py-2 text-sm font-extrabold text-accent-orange">
             <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 256 256"><path d="M199,125.31l-49.88-18.39L130.69,57a19.92,19.92,0,0,0-37.38,0L74.92,106.92,25,125.31a19.92,19.92,0,0,0,0,37.38l49.88,18.39L93.31,231a19.92,19.92,0,0,0,37.38,0l18.39-49.88L199,162.69a19.92,19.92,0,0,0,0-37.38Z"/></svg>
             Landing pages & webs para negocios
           </p>
@@ -195,10 +253,10 @@ const faqs = [
             <span class="block text-white/55">Sin plantillas genéricas ni fórmulas de agencia.</span>
           </p>
           <div class="mt-8 flex flex-col gap-3 sm:flex-row">
-            <a href="#contacto" class="inline-flex min-h-12 items-center justify-center rounded-full bg-[#ff4108] px-7 text-sm font-extrabold text-white transition hover:bg-white hover:text-[#111111] hover:shadow-[0_8px_28px_rgba(255,65,8,0.3)]">
+             <a href="#contacto" class="inline-flex min-h-12 items-center justify-center rounded-full bg-accent-orange-deep px-7 text-sm font-extrabold text-white transition hover:bg-white hover:text-ink hover:shadow-[0_8px_28px_rgba(254,66,1,0.3)] active:scale-95 active:brightness-90">
               Cotizar proyecto
             </a>
-            <a href="#casos" class="inline-flex min-h-12 items-center justify-center rounded-full border border-white/15 px-7 text-sm font-extrabold text-white/90 transition hover:border-white/40 hover:text-white">
+             <a href="#casos" class="inline-flex min-h-12 items-center justify-center rounded-full border border-white/15 px-7 text-sm font-extrabold text-white/90 transition hover:border-white/40 hover:text-white hover:shadow-[0_8px_28px_rgba(255,255,255,0.1)] active:scale-95 active:brightness-90">
               Ver resultados
             </a>
           </div>
@@ -231,14 +289,15 @@ const faqs = [
                     <div class="hp-carousel-track">
                       <img
                         src="/projects/phone-screens/landing-01.webp"
-                        alt="Landing page mobile"
+                        alt="Vista móvil de landing page para campañas — diseño mobile-first con formulario y WhatsApp integrados"
                         width="1080"
                         height="1920"
+                        fetchpriority="high"
                         class="hp-screen-img"
                       />
                       <img
                         src="/projects/phone-screens/landing-02.webp"
-                        alt="Landing page mobile"
+                        alt="Vista móvil de web corporativa — diseño responsive con identidad visual y secciones de servicios"
                         width="1080"
                         height="1920"
                         class="hp-screen-img"
@@ -254,7 +313,7 @@ const faqs = [
               </div>
             </div>
             <div class="hp-pill hp-pill-top-left">
-              <div class="hp-pill-icon bg-[#3031e4]/20 text-[#6c6cf0]">
+              <div class="hp-pill-icon bg-accent-blue/20 text-[#6c6cf0]">
                 <svg width="14" height="14" fill="currentColor" viewBox="0 0 256 256"><path d="M232,64H208V48a8,8,0,0,0-16,0V64H48V48a8,8,0,0,0-16,0V64H24A16,16,0,0,0,8,80V88H248V80A16,16,0,0,0,232,64ZM24,104v88a16,16,0,0,0,16,16H176a16,16,0,0,0,16-16V104ZM128,160a16,16,0,1,1,16-16A16,16,0,0,1,128,160Zm48,0a16,16,0,1,1,16-16A16,16,0,0,1,176,160ZM80,208a16,16,0,1,1,16-16A16,16,0,0,1,80,208Zm48,0a16,16,0,1,1,16-16A16,16,0,0,1,128,208Zm48,0a16,16,0,1,1,16-16A16,16,0,0,1,176,208Z"/></svg>
               </div>
               <div>
@@ -263,7 +322,7 @@ const faqs = [
               </div>
             </div>
             <div class="hp-pill hp-pill-right">
-              <div class="hp-pill-icon bg-[#ff4108]/20 text-[#ff4108]">
+              <div class="hp-pill-icon bg-accent-orange/20 text-accent-orange">
                 <svg width="14" height="14" fill="currentColor" viewBox="0 0 256 256"><path d="M152,96V80H137a32,32,0,0,0-24,11.31A32,32,0,0,0,88.9,80H72A16,16,0,0,0,56,96v16a16,16,0,0,0,16,16H97.69A15.68,15.68,0,0,0,110,122.64L83.62,165.45a8,8,0,1,0,13.85,8l13.79-23.89h0l29.48,51.06a8,8,0,0,0,13.85-8L128,141.77,108,107.12A15.68,15.68,0,0,0,112.23,128H136a16,16,0,0,0,16-16ZM187.31,64l-12.39,4.57a8,8,0,1,0,5.56,15L189.84,81l-6.19,17.16a8,8,0,1,0,15.13,5.46l12.4-34.37A8,8,0,0,0,204.9,72a8.44,8.44,0,0,0-1.06-.08A8,8,0,0,0,187.31,64Z"/></svg>
               </div>
               <div>
@@ -284,7 +343,7 @@ const faqs = [
         </div>
       </div>
       <div class="border-y border-white/10 py-4">
-        <div class="marquee flex gap-10 whitespace-nowrap text-sm font-extrabold uppercase tracking-[0.18em] text-white/60">
+        <div class="marquee flex gap-10 whitespace-nowrap text-sm font-extrabold uppercase tracking-[0.18em] text-white/60" aria-hidden="true">
           <span>Landing pages</span><span>Web corporativa</span><span>Identidad visual</span><span>SEO base</span><span>Soporte mensual</span><span>Analytics</span>
           <span>Landing pages</span><span>Web corporativa</span><span>Identidad visual</span><span>SEO base</span><span>Soporte mensual</span><span>Analytics</span>
         </div>
@@ -295,31 +354,31 @@ const faqs = [
       <div class="mx-auto max-w-7xl">
         <div class="grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-end" data-reveal>
           <div>
-            <p class="text-sm font-extrabold uppercase tracking-[0.18em] text-[#696969]">Servicios</p>
+            <p class="text-sm font-extrabold uppercase tracking-[0.18em] text-ink/60">Servicios</p>
             <h2 class="mt-3 font-display text-5xl font-bold uppercase leading-[0.92] sm:text-7xl">
               Diseño, desarrollo y venta puestos en la misma mesa.
             </h2>
           </div>
-          <p class="max-w-2xl text-lg leading-8 text-[#696969]">
+          <p class="max-w-2xl text-lg leading-8 text-ink/60">
             No parto desde una plantilla. Parto desde qué necesita entender tu cliente para confiar, preguntar y comprar.
           </p>
         </div>
         <div class="mt-10 grid gap-5 md:grid-cols-2">
           {services.map((service) => (
-            <article class="service-card group relative overflow-hidden rounded-[6px] border border-[#d7d7d2] bg-white p-6 transition duration-300 hover:-translate-y-1 hover:border-[#111111] hover:shadow-[0_22px_70px_rgba(17,17,17,0.10)]" data-reveal>
+            <article class="service-card group relative overflow-hidden rounded-[6px] border border-ink/10 bg-white p-6 transition duration-300 hover:-translate-y-1 hover:border-ink hover:shadow-[0_22px_70px_rgba(26,26,26,0.10)]" data-reveal>
               <div class="flex items-start justify-between gap-5">
-                <span class="rounded-md bg-[#3031e4] px-4 py-2 text-sm font-extrabold text-white">{service.label}</span>
-                <span class="grid h-12 w-12 place-items-center rounded-md bg-[#ff4108] text-white transition group-hover:bg-[#3031e4]" aria-hidden="true">
+                <span class="rounded-md bg-accent-blue px-4 py-2 text-sm font-extrabold text-white">{service.label}</span>
+                <span class="grid h-12 w-12 place-items-center rounded-md bg-accent-orange text-white transition group-hover:bg-accent-blue" aria-hidden="true">
                   <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 7L7 17M8 7h9v9" />
                   </svg>
                 </span>
               </div>
               <h3 class="mt-8 max-w-xl font-display text-4xl font-bold uppercase leading-[0.96]">{service.title}</h3>
-              <p class="mt-4 max-w-2xl leading-8 text-[#696969]">{service.text}</p>
+              <p class="mt-4 max-w-2xl leading-8 text-ink/60">{service.text}</p>
               <div class="mt-7 flex flex-wrap gap-2">
                 {service.tags.map((tag) => (
-                  <span class="rounded-md border border-[#d7d7d2] px-3 py-1 text-xs font-extrabold uppercase tracking-[0.12em] text-[#696969]">{tag}</span>
+                  <span class="rounded-md border border-ink/10 px-3 py-1 text-xs font-extrabold uppercase tracking-[0.12em] text-ink/60">{tag}</span>
                 ))}
               </div>
             </article>
@@ -331,23 +390,23 @@ const faqs = [
     <section id="proceso" class="bg-white px-5 py-16 sm:px-8 lg:px-12 lg:py-24">
       <div class="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.82fr_1.18fr]">
         <div class="lg:sticky lg:top-10 lg:self-start" data-reveal>
-          <p class="text-sm font-extrabold uppercase tracking-[0.18em] text-[#696969]">Proceso</p>
+          <p class="text-sm font-extrabold uppercase tracking-[0.18em] text-ink/60">Proceso</p>
           <h2 class="mt-3 font-display text-5xl font-bold uppercase leading-[0.92] sm:text-7xl">
             De idea dispersa a página lista para vender.
           </h2>
-          <p class="mt-5 text-lg leading-8 text-[#696969]">
+          <p class="mt-5 text-lg leading-8 text-ink/60">
             Ordeno la estrategia antes de abrir el diseño. Así la web no termina siendo decoración: termina siendo una herramienta comercial.
           </p>
         </div>
         <div class="space-y-4">
           {process.map(([title, text], index) => (
-            <article class="process-row relative grid gap-5 overflow-hidden rounded-[6px] border border-[#d7d7d2] bg-[#f2f2ef] p-5 sm:grid-cols-[90px_1fr_150px] sm:p-0" data-reveal>
-              <div class="grid min-h-28 place-items-center bg-[#ff4108] p-5 text-5xl font-extrabold text-white">{String(index + 1).padStart(2, "0")}</div>
+            <article class="process-row relative grid gap-5 overflow-hidden rounded-[6px] border border-ink/10 bg-light p-5 sm:grid-cols-[90px_1fr_150px] sm:p-0" data-reveal>
+              <div class="grid min-h-28 place-items-center bg-accent-orange p-5 text-5xl font-extrabold text-white">{String(index + 1).padStart(2, "0")}</div>
               <div>
                 <h3 class="font-display text-3xl font-bold uppercase">{title}</h3>
-                <p class="mt-2 leading-8 text-[#696969]">{text}</p>
+                <p class="mt-2 leading-8 text-ink/60">{text}</p>
               </div>
-              <div class="hidden place-items-center bg-[#3031e4] p-5 text-center text-sm font-extrabold text-white sm:grid">
+              <div class="hidden place-items-center bg-accent-blue p-5 text-center text-sm font-extrabold text-white sm:grid">
                 Fase {index + 1}
               </div>
             </article>
@@ -356,16 +415,16 @@ const faqs = [
       </div>
     </section>
 
-    <section id="casos" class="bg-[#111111] px-5 py-16 text-white sm:px-8 lg:px-12 lg:py-24">
+    <section id="casos" class="bg-ink px-5 py-16 text-white sm:px-8 lg:px-12 lg:py-24">
       <div class="mx-auto max-w-7xl">
         <div class="flex flex-col justify-between gap-6 lg:flex-row lg:items-end" data-reveal>
           <div>
-            <p class="text-sm font-extrabold uppercase tracking-[0.18em] text-[#ff4108]">Casos</p>
+            <p class="text-sm font-extrabold uppercase tracking-[0.18em] text-accent-orange">Casos</p>
             <h2 class="mt-3 max-w-3xl font-display text-5xl font-bold uppercase leading-[0.92] sm:text-7xl">
               Proyectos que ya probaron el enfoque.
             </h2>
           </div>
-          <a href="/" class="inline-flex min-h-12 items-center justify-center rounded-full border border-white/20 px-7 font-extrabold text-white transition hover:border-[#3031e4] hover:text-[#ff4108]">
+          <a href="/" class="inline-flex min-h-12 items-center justify-center rounded-full border border-white/20 px-7 font-extrabold text-white transition hover:border-accent-blue hover:text-accent-orange active:scale-95 active:brightness-90">
             Ver portfolio
           </a>
         </div>
@@ -381,8 +440,8 @@ const faqs = [
                 class="aspect-[4/3] w-full rounded-[3px] object-cover object-top"
               />
               <div class="p-4">
-                <p class="text-5xl font-extrabold text-[#ff4108]">{item.metric}</p>
-                <p class="mt-1 text-sm font-extrabold uppercase tracking-[0.12em] text-[#3031e4]">{item.label}</p>
+                <p class="text-5xl font-extrabold text-accent-orange">{item.metric}</p>
+                <p class="mt-1 text-sm font-extrabold uppercase tracking-[0.12em] text-accent-blue">{item.label}</p>
                 <h3 class="mt-5 font-display text-3xl font-bold uppercase">{item.title}</h3>
                 <p class="mt-3 leading-7 text-white/70">{item.text}</p>
               </div>
@@ -396,19 +455,19 @@ const faqs = [
       <div class="mx-auto max-w-7xl">
         <div class="grid gap-8 lg:grid-cols-[0.75fr_1.25fr] lg:items-start" data-reveal>
           <div>
-            <p class="text-sm font-extrabold uppercase tracking-[0.18em] text-[#696969]">Paquetes</p>
+            <p class="text-sm font-extrabold uppercase tracking-[0.18em] text-ink/60">Paquetes</p>
             <h2 class="mt-3 font-display text-5xl font-bold uppercase leading-[0.92] sm:text-7xl">
               Tres formas simples de empezar.
             </h2>
           </div>
           <div class="grid gap-4">
             {packages.map(([name, price, text]) => (
-              <article class="grid gap-4 rounded-[6px] border border-[#d7d7d2] bg-white p-6 md:grid-cols-[1fr_auto] md:items-center" data-reveal>
+              <article class="grid gap-4 rounded-[6px] border border-ink/10 bg-white p-6 md:grid-cols-[1fr_auto] md:items-center" data-reveal>
                 <div>
                   <h3 class="font-display text-3xl font-bold uppercase">{name}</h3>
-                  <p class="mt-2 leading-7 text-[#696969]">{text}</p>
+                  <p class="mt-2 leading-7 text-ink/60">{text}</p>
                 </div>
-                <p class="rounded-[6px] bg-[#3031e4] px-5 py-3 text-lg font-extrabold text-white">{price}</p>
+                <p class="rounded-[6px] bg-accent-blue px-5 py-3 text-lg font-extrabold text-white">{price}</p>
               </article>
             ))}
           </div>
@@ -419,16 +478,16 @@ const faqs = [
     <section id="contacto" class="bg-white px-5 py-16 sm:px-8 lg:px-12 lg:py-24">
       <div class="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.9fr_1.1fr]">
         <div data-reveal>
-          <p class="text-sm font-extrabold uppercase tracking-[0.18em] text-[#696969]">Contacto</p>
+          <p class="text-sm font-extrabold uppercase tracking-[0.18em] text-ink/60">Contacto</p>
           <h2 class="mt-3 font-display text-5xl font-bold uppercase leading-[0.92] sm:text-7xl">
             Cuéntame qué quieres vender mejor.
           </h2>
-          <p class="mt-5 text-lg leading-8 text-[#696969]">
+          <p class="mt-5 text-lg leading-8 text-ink/60">
             Responde lo básico y te escribo para aterrizar alcance, tiempos y una ruta clara. También puedes ir directo por WhatsApp.
           </p>
           <a
             href={`https://wa.me/${whatsappNumber}?text=${whatsappText}`}
-            class="mt-8 inline-flex min-h-14 items-center justify-center rounded-full bg-[#111111] px-8 font-extrabold text-white transition hover:bg-[#3031e4]"
+            class="mt-8 inline-flex min-h-14 items-center justify-center rounded-full bg-ink px-8 font-extrabold text-white transition hover:bg-accent-blue active:scale-95 active:brightness-90"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -442,7 +501,7 @@ const faqs = [
           action="/"
           data-netlify="true"
           netlify-honeypot="bot-field"
-          class="rounded-[6px] border border-[#d7d7d2] bg-[#f2f2ef] p-5 sm:p-8"
+          class="rounded-[6px] border border-ink/10 bg-light p-5 sm:p-8"
           data-reveal
         >
           <input type="hidden" name="form-name" value="servicios" />
@@ -452,20 +511,20 @@ const faqs = [
           </p>
           <div class="grid gap-5 sm:grid-cols-2">
             <label class="block">
-              <span class="text-sm font-extrabold uppercase tracking-[0.12em] text-[#696969]">Nombre</span>
-              <input required name="nombre" autocomplete="name" class="mt-2 min-h-14 w-full rounded-[6px] border border-[#d9dde8] bg-white px-4 text-base outline-none transition focus:border-[#3031e4] focus:ring-4 focus:ring-[#3031e4]/20" />
+              <span class="text-sm font-extrabold uppercase tracking-[0.12em] text-ink/60">Nombre</span>
+              <input required name="nombre" autocomplete="name" class="mt-2 min-h-14 w-full rounded-[6px] border border-ink/10 bg-white px-4 text-base outline-none transition focus:border-accent-blue focus:ring-4 focus:ring-accent-blue/20" />
             </label>
             <label class="block">
-              <span class="text-sm font-extrabold uppercase tracking-[0.12em] text-[#696969]">WhatsApp</span>
-              <input required name="telefono" autocomplete="tel" class="mt-2 min-h-14 w-full rounded-[6px] border border-[#d9dde8] bg-white px-4 text-base outline-none transition focus:border-[#3031e4] focus:ring-4 focus:ring-[#3031e4]/20" />
+              <span class="text-sm font-extrabold uppercase tracking-[0.12em] text-ink/60">WhatsApp</span>
+              <input required name="telefono" autocomplete="tel" class="mt-2 min-h-14 w-full rounded-[6px] border border-ink/10 bg-white px-4 text-base outline-none transition focus:border-accent-blue focus:ring-4 focus:ring-accent-blue/20" />
             </label>
             <label class="block">
-              <span class="text-sm font-extrabold uppercase tracking-[0.12em] text-[#696969]">Email</span>
-              <input required type="email" name="email" autocomplete="email" class="mt-2 min-h-14 w-full rounded-[6px] border border-[#d9dde8] bg-white px-4 text-base outline-none transition focus:border-[#3031e4] focus:ring-4 focus:ring-[#3031e4]/20" />
+              <span class="text-sm font-extrabold uppercase tracking-[0.12em] text-ink/60">Email</span>
+              <input required type="email" name="email" autocomplete="email" class="mt-2 min-h-14 w-full rounded-[6px] border border-ink/10 bg-white px-4 text-base outline-none transition focus:border-accent-blue focus:ring-4 focus:ring-accent-blue/20" />
             </label>
             <label class="block">
-              <span class="text-sm font-extrabold uppercase tracking-[0.12em] text-[#696969]">Tipo de proyecto</span>
-              <select name="tipo" class="mt-2 min-h-14 w-full rounded-[6px] border border-[#d9dde8] bg-white px-4 text-base outline-none transition focus:border-[#3031e4] focus:ring-4 focus:ring-[#3031e4]/20">
+              <span class="text-sm font-extrabold uppercase tracking-[0.12em] text-ink/60">Tipo de proyecto</span>
+              <select name="tipo" class="mt-2 min-h-14 w-full rounded-[6px] border border-ink/10 bg-white px-4 text-base outline-none transition focus:border-accent-blue focus:ring-4 focus:ring-accent-blue/20">
                 <option>Landing page</option>
                 <option>Web corporativa</option>
                 <option>Marca + Web</option>
@@ -475,8 +534,8 @@ const faqs = [
             </label>
           </div>
           <label class="mt-5 block">
-            <span class="text-sm font-extrabold uppercase tracking-[0.12em] text-[#696969]">Presupuesto estimado</span>
-            <select name="presupuesto" class="mt-2 min-h-14 w-full rounded-[6px] border border-[#d9dde8] bg-white px-4 text-base outline-none transition focus:border-[#3031e4] focus:ring-4 focus:ring-[#3031e4]/20">
+            <span class="text-sm font-extrabold uppercase tracking-[0.12em] text-ink/60">Presupuesto estimado</span>
+            <select name="presupuesto" class="mt-2 min-h-14 w-full rounded-[6px] border border-ink/10 bg-white px-4 text-base outline-none transition focus:border-accent-blue focus:ring-4 focus:ring-accent-blue/20">
               <option>Estoy validando opciones</option>
               <option>S/900 - S/1,500</option>
               <option>S/1,500 - S/3,000</option>
@@ -485,15 +544,19 @@ const faqs = [
             </select>
           </label>
           <label class="mt-5 block">
-            <span class="text-sm font-extrabold uppercase tracking-[0.12em] text-[#696969]">¿Qué necesitas lograr?</span>
-            <textarea required name="mensaje" rows="5" class="mt-2 w-full rounded-[6px] border border-[#d9dde8] bg-white px-4 py-4 text-base outline-none transition focus:border-[#3031e4] focus:ring-4 focus:ring-[#3031e4]/20"></textarea>
+            <span class="text-sm font-extrabold uppercase tracking-[0.12em] text-ink/60">¿Qué necesitas lograr?</span>
+            <textarea required name="mensaje" rows="5" class="mt-2 w-full rounded-[6px] border border-ink/10 bg-white px-4 py-4 text-base outline-none transition focus:border-accent-blue focus:ring-4 focus:ring-accent-blue/20"></textarea>
           </label>
-          <button id="services-submit" class="mt-6 inline-flex min-h-14 w-full items-center justify-center rounded-full bg-[#ff4108] px-8 font-extrabold text-white transition hover:bg-white hover:text-[#111111]" type="submit">
+           <button id="services-submit" class="mt-6 inline-flex min-h-14 w-full items-center justify-center gap-3 rounded-full bg-accent-orange-deep px-8 font-extrabold text-white transition hover:bg-white hover:text-ink active:scale-[0.98] active:brightness-90" type="submit">
+            <svg id="services-spinner" class="hidden h-5 w-5 animate-spin text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" aria-hidden="true">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+            </svg>
             <span id="services-submit-text">Enviar solicitud</span>
           </button>
-          <p class="mt-4 text-sm leading-6 text-[#696969]">Recibiré tu mensaje y te responderé por WhatsApp o correo.</p>
-          <p id="services-error" class="mt-4 hidden rounded-[6px] border border-[#ff4108]/30 bg-[#ff4108]/10 px-4 py-3 text-sm leading-6 text-[#111111]">
-            No pude enviar el formulario. Escríbeme por WhatsApp o a <a class="font-extrabold text-[#3031e4] underline" href="mailto:hello@cunyas.com">hello@cunyas.com</a>.
+          <p class="mt-4 text-sm leading-6 text-ink/60">Recibiré tu mensaje y te responderé por WhatsApp o correo.</p>
+          <p id="services-error" class="mt-4 hidden rounded-[6px] border border-accent-orange/30 bg-accent-orange/10 px-4 py-3 text-sm leading-6 text-ink" role="alert" aria-live="assertive">
+            No pude enviar el formulario. Escríbeme por WhatsApp o a <a class="font-extrabold text-accent-blue underline" href="mailto:ruben.cunyas@outlook.com">ruben.cunyas@outlook.com</a>.
           </p>
         </form>
       </div>
@@ -504,17 +567,36 @@ const faqs = [
         <h2 class="font-display text-5xl font-bold uppercase leading-[0.92] sm:text-7xl" data-reveal>Preguntas rápidas.</h2>
         <div class="space-y-3">
           {faqs.map(([question, answer]) => (
-            <details class="group rounded-[6px] border border-[#d7d7d2] bg-white p-5" data-reveal>
-              <summary class="flex cursor-pointer list-none items-center justify-between gap-4 text-lg font-extrabold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#3031e4] rounded-md">
+            <details class="group rounded-[6px] border border-ink/10 bg-white p-5" data-reveal>
+              <summary class="flex cursor-pointer list-none items-center justify-between gap-4 text-lg font-extrabold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-blue rounded-md">
                 {question}
-                <span class="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-[#ff4108] text-white transition group-open:rotate-45">+</span>
+                <span class="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-accent-orange text-white transition group-open:rotate-45">+</span>
               </summary>
-              <p class="mt-4 leading-8 text-[#696969]">{answer}</p>
+              <p class="mt-4 leading-8 text-ink/60">{answer}</p>
             </details>
           ))}
         </div>
       </div>
     </section>
+
+    <nav class="mobile-bottom-nav fixed bottom-0 left-0 right-0 z-50 flex items-center justify-around border-t border-ink/10 bg-white/95 py-3 backdrop-blur-md sm:hidden" aria-label="Navegación móvil">
+      <a href="#servicios" class="flex flex-col items-center gap-1 text-xs font-extrabold uppercase tracking-[0.08em] text-ink/60 transition hover:text-accent-blue">
+        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        Servicios
+      </a>
+      <a href="#proceso" class="flex flex-col items-center gap-1 text-xs font-extrabold uppercase tracking-[0.08em] text-ink/60 transition hover:text-accent-blue">
+        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+        Proceso
+      </a>
+      <a href="#contacto" class="flex flex-col items-center gap-1 text-xs font-extrabold uppercase tracking-[0.08em] text-ink/60 transition hover:text-accent-orange">
+        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+        Cotizar
+      </a>
+      <a href="/" class="flex flex-col items-center gap-1 text-xs font-extrabold uppercase tracking-[0.08em] text-ink/60 transition hover:text-accent-blue">
+        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0a1 1 0 01-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 01-1 1h-2z"/></svg>
+        Home
+      </a>
+    </nav>
   </main>
 
   <script is:inline>
@@ -541,6 +623,7 @@ const faqs = [
     const servicesForm = document.getElementById('services-form');
     const servicesSubmit = document.getElementById('services-submit');
     const servicesSubmitText = document.getElementById('services-submit-text');
+    const servicesSpinner = document.getElementById('services-spinner');
     const servicesError = document.getElementById('services-error');
 
     const notifyLeadEmail = async (form) => {
@@ -558,8 +641,10 @@ const faqs = [
       event.preventDefault();
 
       servicesError.classList.add('hidden');
+      servicesSpinner.classList.remove('hidden');
       servicesSubmitText.textContent = 'Enviando...';
       servicesSubmit.disabled = true;
+      servicesSubmit.setAttribute('aria-busy', 'true');
       servicesSubmit.classList.add('opacity-70', 'cursor-not-allowed');
 
       try {
@@ -576,9 +661,11 @@ const faqs = [
         await notifyLeadEmail(servicesForm);
         window.location.href = '/gracias/';
       } catch {
+        servicesSpinner.classList.add('hidden');
         servicesSubmitText.textContent = 'Intentar de nuevo';
         servicesError.classList.remove('hidden');
         servicesSubmit.disabled = false;
+        servicesSubmit.removeAttribute('aria-busy');
         servicesSubmit.classList.remove('opacity-70', 'cursor-not-allowed');
       }
     });
@@ -620,27 +707,33 @@ const faqs = [
       const dots = document.querySelectorAll('.hp-dot');
       if (!dots.length) return;
 
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
       let current = 0;
       const total = dots.length;
       let interval;
 
       const goTo = (index) => {
         current = ((index % total) + total) % total;
-        carousel.scrollTo({ left: current * carousel.clientWidth, behavior: 'smooth' });
+        carousel.scrollTo({ left: current * carousel.clientWidth, behavior: prefersReduced ? 'auto' : 'smooth' });
         dots.forEach((d, i) => d.classList.toggle('is-active', i === current));
       };
 
       const next = () => goTo(current + 1);
 
-      interval = setInterval(next, 4000);
+      if (!prefersReduced) {
+        interval = setInterval(next, 4000);
+      }
 
       carousel.addEventListener('scroll', () => {
         const idx = Math.round(carousel.scrollLeft / carousel.clientWidth);
         if (idx !== current) {
           current = idx;
           dots.forEach((d, i) => d.classList.toggle('is-active', i === current));
-          clearInterval(interval);
-          interval = setInterval(next, 4000);
+          if (!prefersReduced) {
+            clearInterval(interval);
+            interval = setInterval(next, 4000);
+          }
         }
       }, { passive: true });
     })();
@@ -649,17 +742,12 @@ const faqs = [
 
 <style>
   .services-page {
-    --sp-ink: #111111;
-    --sp-muted: #696969;
-    --sp-paper: #f2f2ef;
-    --sp-orange: #ff4108;
-    --sp-blue: #3031e4;
   }
 
   .technical-grid {
     background-image:
-      linear-gradient(rgba(17, 17, 17, 0.06) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(17, 17, 17, 0.06) 1px, transparent 1px);
+      linear-gradient(rgba(26, 26, 26, 0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(26, 26, 26, 0.06) 1px, transparent 1px);
     background-size: 72px 72px;
     background-position: -1px -1px;
   }
@@ -811,7 +899,7 @@ const faqs = [
     overflow: hidden;
     position: relative;
     font-family: Inter, system-ui, sans-serif;
-    color: #111111;
+    color: #1A1A1A;
   }
 
   .hp-notch {
@@ -831,7 +919,7 @@ const faqs = [
     padding: 0.5rem 1.25rem 0.25rem;
     font-size: 0.675rem;
     font-weight: 700;
-    color: #111111;
+    color: #1A1A1A;
   }
 
   .hp-body {
@@ -883,7 +971,7 @@ const faqs = [
   }
 
   .hp-dot.is-active {
-    background: #3031e4;
+    background: #3031E4;
     width: 14px;
   }
 
@@ -972,7 +1060,7 @@ const faqs = [
   }
 
   .process-row::before {
-    background: linear-gradient(90deg, transparent, rgba(255, 65, 8, 0.13), transparent);
+    background: linear-gradient(90deg, transparent, rgba(254, 66, 1, 0.13), transparent);
   }
 
   .process-row:hover::before,
@@ -1073,6 +1161,17 @@ const faqs = [
       filter: none;
       transform: none;
       transition: none;
+    }
+
+    .service-card:hover,
+    .case-card:hover {
+      transform: none;
+    }
+
+    .process-row:hover::before,
+    .service-card:hover::before {
+      opacity: 0;
+      transform: translateX(-24%);
     }
   }
 </style>

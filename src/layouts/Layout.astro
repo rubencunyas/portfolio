@@ -6,11 +6,15 @@ import WhatsApp from '../components/WhatsApp.astro';
 interface Props {
   title?: string;
   description?: string;
+  imageAlt?: string;
+  keywords?: string;
 }
 
 const {
   title = "Rubén Cunyas | Landing pages y webs para captar clientes",
   description = "Diseño landing pages, webs e identidad digital para negocios peruanos que necesitan generar confianza, leads y ventas.",
+  imageAlt = "Rubén Cunyas — Landing pages y diseño web para negocios",
+  keywords = "landing pages Perú, desarrollo web Lima, diseño web Perú, páginas web para negocios, mantenimiento web, branding, Rubén Cunyas",
 } = Astro.props;
 
 const siteTitle = title;
@@ -31,7 +35,7 @@ const authorJob = "Diseñador digital y desarrollador web";
     <meta name="description" content={siteDescription} />
     <meta name="author" content={authorName} />
     <meta name="robots" content="index, follow" />
-    <meta name="keywords" content="landing pages Perú, desarrollo web Lima, diseño web Perú, páginas web para negocios, mantenimiento web, branding, Rubén Cunyas" />
+    <meta name="keywords" content={keywords} />
     <meta name="theme-color" content="#F7F8F5" />
     <meta name="generator" content={Astro.generator} />
     
@@ -41,7 +45,7 @@ const authorJob = "Diseñador digital y desarrollador web";
     
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Inter:wght@400;500;600;700;800&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content={`${siteUrl}${Astro.url.pathname}`} />
     <meta property="og:title" content={siteTitle} />
@@ -50,6 +54,7 @@ const authorJob = "Diseñador digital y desarrollador web";
     <meta property="og:image:type" content="image/png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={imageAlt} />
     <meta property="og:locale" content="es_PE" />
     <meta property="og:site_name" content="Rubén Cunyas" />
     
@@ -64,7 +69,7 @@ const authorJob = "Diseñador digital y desarrollador web";
         "@type": "Person",
         "name": "Rubén Cunyas",
         "jobTitle": "Diseñador digital y desarrollador web",
-        "url": "https://cunyas.com",
+        "url": "https://portfolio-rub.netlify.app",
         "sameAs": [
           "https://pe.linkedin.com/in/rubencunyas"
         ],
@@ -82,7 +87,7 @@ const authorJob = "Diseñador digital y desarrollador web";
         "@context": "https://schema.org",
         "@type": "WebSite",
         "name": "Rubén Cunyas",
-        "url": "https://cunyas.com",
+        "url": "https://portfolio-rub.netlify.app",
         "description": "Landing pages, diseño web y presencia digital para negocios peruanos.",
         "author": {
           "@type": "Person",
@@ -95,9 +100,10 @@ const authorJob = "Diseñador digital y desarrollador web";
     
     <script>
       function initScrollAnimations() {
+        const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         const observerOptions = {
-          threshold: 0.1,
-          rootMargin: '0px 0px -50px 0px'
+          threshold: 0.08,
+          rootMargin: '0px 0px -60px 0px'
         };
         
         const observer = new IntersectionObserver((entries) => {
@@ -111,7 +117,11 @@ const authorJob = "Diseñador digital y desarrollador web";
         
         document.querySelectorAll('.scroll-animate').forEach(el => {
           el.classList.remove('visible');
-          observer.observe(el);
+          if (prefersReduced) {
+            el.classList.add('visible');
+          } else {
+            observer.observe(el);
+          }
         });
       }
       
@@ -120,6 +130,9 @@ const authorJob = "Diseñador digital y desarrollador web";
     </script>
   </head>
   <body class="bg-light text-ink font-sans antialiased">
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[10000] focus:px-4 focus:py-3 focus:bg-accent-blue focus:text-white focus:font-bold focus:rounded-md focus:outline-none focus:ring-4 focus:ring-accent-blue/30">
+      Saltar al contenido
+    </a>
     <slot />
     <WhatsApp />
   </body>

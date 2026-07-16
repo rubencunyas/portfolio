@@ -4,7 +4,12 @@ import { getCollection } from 'astro:content';
 import { getProjectImages } from '@/utils/images';
 
 const projects = await getCollection('projects');
-const sorted = [...projects].sort(() => Math.random() - 0.5);
+const sorted = [...projects].sort((a, b) => {
+  const aFeatured = a.data.featured ? 1 : 0;
+  const bFeatured = b.data.featured ? 1 : 0;
+  if (aFeatured !== bFeatured) return bFeatured - aFeatured;
+  return a.data.order - b.data.order;
+});
 
 const categories = [
   { id: 'all', label: 'Todos' },
@@ -17,8 +22,45 @@ const categories = [
 <Layout
   title="Portfolio | Rubén Cunyas"
   description="Todos los proyectos de diseño digital, branding y desarrollo web."
+  imageAlt="Portfolio de proyectos de diseño digital, branding y desarrollo web de Rubén Cunyas"
+  keywords="portfolio diseño digital, proyectos branding, desarrollo web, diseño UX/UI, Rubén Cunyas"
 >
-  <main class="min-h-screen bg-light text-ink">
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      "name": "Portfolio de proyectos digitales",
+      "description": "Todos los proyectos de diseño digital, branding y desarrollo web.",
+      "url": "https://portfolio-rub.netlify.app/portfolio/",
+      "about": {
+        "@type": "Thing",
+        "name": "Proyectos de diseño y desarrollo digital"
+      }
+    }
+  </script>
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Portfolio", "item": "https://portfolio-rub.netlify.app/" },
+        { "@type": "ListItem", "position": 2, "name": "Proyectos", "item": "https://portfolio-rub.netlify.app/portfolio/" }
+      ]
+    }
+  </script>
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "name": "Proyectos de diseño digital y desarrollo web",
+    "numberOfItems": sorted.length,
+    "itemListElement": sorted.map((project, i) => ({
+      "@type": "ListItem",
+      "position": i + 1,
+      "name": project.data.title,
+      "url": `https://portfolio-rub.netlify.app/projects/${project.slug}`
+    }))
+  })} />
+  <main id="main-content" class="min-h-screen bg-light text-ink">
     <section class="pt-10 lg:pt-16 pb-24 lg:pb-32 px-6 lg:px-12 border-b border-ink/10">
       <div class="max-w-7xl mx-auto">
         <header class="mb-16">
@@ -35,7 +77,8 @@ const categories = [
           {categories.map((cat, i) => (
             <button
               data-filter={cat.id}
-              class={`filter-btn shrink-0 px-3 lg:px-5 py-1.5 lg:py-2 text-xs lg:text-sm font-medium uppercase tracking-wider transition-all duration-300 ${
+              aria-pressed={i === 0 ? 'true' : 'false'}
+              class={`filter-btn shrink-0 px-3 lg:px-5 py-1.5 lg:py-2 text-xs lg:text-sm font-medium uppercase tracking-wider transition-all duration-300 active:scale-95 ${
                 i === 0
                   ? 'bg-ink text-light'
                   : 'bg-transparent text-ink/60 border border-ink/20 hover:border-ink/50 hover:text-ink'
@@ -60,7 +103,7 @@ const categories = [
                   width="900"
                   height="675"
                   loading="lazy"
-                  class="w-full h-full object-cover transition duration-700 group-hover:scale-105"
+                  class="w-full h-full object-cover transition duration-700 ease-out group-hover:scale-105"
                 />
               </div>
               <h3 class="font-display font-bold text-lg sm:text-xl tracking-tight group-hover:text-accent-blue transition-colors duration-300">
@@ -89,9 +132,11 @@ const categories = [
         buttons.forEach(b => {
           b.classList.remove('bg-ink', 'text-light');
           b.classList.add('bg-transparent', 'text-ink/60', 'border', 'border-ink/20');
+          b.setAttribute('aria-pressed', 'false');
         });
         btn.classList.add('bg-ink', 'text-light');
         btn.classList.remove('bg-transparent', 'text-ink/60', 'border', 'border-ink/20');
+        btn.setAttribute('aria-pressed', 'true');
 
         cards.forEach(card => {
           const cat = card.dataset.category;
@@ -114,5 +159,10 @@ const categories = [
   @keyframes fadeIn {
     from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .project-card {
+      animation: none !important;
+    }
   }
 </style>

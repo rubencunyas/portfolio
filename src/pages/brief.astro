@@ -16,7 +16,7 @@ const baseSections = [
     title: "Tus datos",
     fields: [
       { id: "sender-name", label: "Tu nombre", type: "text", placeholder: "¿Cómo te llamas?" },
-      { id: "sender-email", label: "Tu email", type: "text", placeholder: "tu@email.com" },
+      { id: "sender-email", label: "Tu email", type: "email", placeholder: "tu@email.com" },
       { id: "sender-phone", label: "Tu teléfono / WhatsApp", type: "text", placeholder: "Ej. +51 999 888 777" }
     ]
   },
@@ -97,7 +97,7 @@ const totalSections = baseSections.length;
   title="Brief para proyectos digitales | Rubén Cunyas"
   description="Cuéntame sobre tu proyecto de web, landing page o branding y recibe una cotización personalizada en 24 horas."
 >
-  <main>
+  <main id="main-content">
     <section class="relative py-10 lg:py-14 px-6 lg:px-12 border-b border-ink/10 bg-light text-ink">
       <div class="max-w-3xl mx-auto text-center">
         <span class="text-sm font-medium tracking-widest text-accent-blue uppercase mb-4 block">Brief</span>
@@ -139,14 +139,16 @@ const totalSections = baseSections.length;
                           id={field.id}
                           name={field.id}
                           rows="4"
+                          required={section.number === "01"}
                           class="w-full px-4 py-3 bg-white/5 border border-white/10 text-white placeholder-white/30 focus:border-accent-blue focus:outline-none transition-colors duration-300 resize-none"
                           placeholder={field.placeholder}
                         ></textarea>
                       ) : (
                         <input
-                          type="text"
+                          type={field.type}
                           id={field.id}
                           name={field.id}
+                          required={section.number === "01"}
                           class="w-full px-4 py-3 bg-white/5 border border-white/10 text-white placeholder-white/30 focus:border-accent-blue focus:outline-none transition-colors duration-300"
                           placeholder={field.placeholder}
                         />
@@ -205,10 +207,10 @@ const totalSections = baseSections.length;
                 </div>
               </fieldset>
               <div class="flex justify-between mt-10">
-                <button type="button" data-action="prev" class="px-6 py-3 border border-white/20 text-white/60 hover:text-white hover:border-white/50 transition-colors duration-300 text-sm font-semibold uppercase tracking-wider" style={`visibility: ${i === 0 ? 'hidden' : 'visible'}`}>
+                <button type="button" data-action="prev" class="px-6 py-3 border border-white/20 text-white/60 hover:text-white hover:border-white/50 active:scale-95 transition-all duration-300 text-sm font-semibold uppercase tracking-wider" style={`visibility: ${i === 0 ? 'hidden' : 'visible'}`}>
                   ANTERIOR
                 </button>
-                <button type="button" data-action="next" class="px-8 py-3 bg-accent-blue text-dark font-semibold hover:bg-white transition-colors duration-300 text-sm uppercase tracking-wider ml-auto">
+                <button type="button" data-action="next" class="px-8 py-3 bg-accent-blue text-dark font-semibold hover:bg-white active:scale-95 active:brightness-90 transition-all duration-300 text-sm uppercase tracking-wider ml-auto">
                   SIGUIENTE
                 </button>
               </div>
@@ -223,8 +225,8 @@ const totalSections = baseSections.length;
             </div>
             <div class="space-y-8 mb-10" id="summary-container"></div>
             <div class="flex justify-between mt-10">
-              <button type="button" data-action="prev" class="px-6 py-3 border border-white/20 text-white/60 hover:text-white hover:border-white/50 transition-colors duration-300 text-sm font-semibold uppercase tracking-wider">ANTERIOR</button>
-              <button type="submit" id="brief-submit-btn" class="px-10 py-4 bg-accent-blue text-dark font-semibold text-lg hover:bg-white transition-colors duration-300 flex items-center justify-center gap-3">
+              <button type="button" data-action="prev" class="px-6 py-3 border border-white/20 text-white/60 hover:text-white hover:border-white/50 active:scale-95 transition-all duration-300 text-sm font-semibold uppercase tracking-wider">ANTERIOR</button>
+              <button type="submit" id="brief-submit-btn" class="px-10 py-4 bg-accent-blue text-dark font-semibold text-lg hover:bg-white active:scale-95 active:brightness-90 transition-all duration-300 flex items-center justify-center gap-3">
                 <span id="brief-btn-text">ENVIAR BRIEF</span>
                 <svg id="brief-btn-spinner" class="w-5 h-5 animate-spin hidden" fill="none" viewBox="0 0 24 24">
                   <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -301,8 +303,12 @@ const totalSections = baseSections.length;
           if (!valid) {
             requiredFields.forEach(f => {
               if (!f.value.trim()) {
-                f.style.borderColor = '#FE4201';
-                setTimeout(() => f.style.borderColor = '', 2000);
+                f.classList.remove('border-white/10');
+                f.classList.add('border-accent-orange');
+                setTimeout(() => {
+                  f.classList.remove('border-accent-orange');
+                  f.classList.add('border-white/10');
+                }, 2000);
               }
             });
             return;
@@ -466,7 +472,7 @@ const totalSections = baseSections.length;
         "competitors": "Competidores", "references": "Inspiración", "referral": "¿Cómo nos conociste?",
         "deadline": "Fecha límite", "budget": "Presupuesto estimado", "formats": "Formatos"
       };
-      const result = { _subject: "Nuevo brief desde cunyas.com", _captcha: "false" };
+      const result = { _subject: "Nuevo brief desde portfolio-rub.netlify.app", _captcha: "false" };
       enhancedMeta.forEach(section => {
         if (section.title === "TIPO DE PROYECTO") {
           result["Tipo de proyecto"] = typeLabelMap[type] || type;
@@ -489,6 +495,7 @@ const totalSections = baseSections.length;
       btnText.textContent = 'ENVIANDO...';
       btnSpinner.classList.remove('hidden');
       submitBtn.disabled = true;
+      submitBtn.setAttribute('aria-busy', 'true');
       submitBtn.classList.add('opacity-70', 'cursor-not-allowed');
       try {
         await fetch('https://formsubmit.co/ajax/ruben.cunyas.b@gmail.com', {
@@ -499,25 +506,29 @@ const totalSections = baseSections.length;
         const whatsappUrl = 'https://wa.me/51987518768?text=' + buildWhatsAppMessage();
         window.open(whatsappUrl, '_blank');
         btnText.textContent = '¡BRIEF ENVIADO!';
-        submitBtn.style.backgroundColor = '#22c55e';
+        submitBtn.classList.remove('bg-accent-blue');
+        submitBtn.classList.add('bg-success');
         setTimeout(() => {
           form.reset();
           goToStep(1);
           btnText.textContent = 'ENVIAR BRIEF';
           btnSpinner.classList.add('hidden');
           submitBtn.disabled = false;
-          submitBtn.classList.remove('opacity-70', 'cursor-not-allowed');
-          submitBtn.style.backgroundColor = '';
+          submitBtn.removeAttribute('aria-busy');
+          submitBtn.classList.remove('opacity-70', 'cursor-not-allowed', 'bg-success');
+          submitBtn.classList.add('bg-accent-blue');
         }, 3000);
       } catch (err) {
         btnText.textContent = 'ERROR - INTENTA DE NUEVO';
-        submitBtn.style.backgroundColor = '#FE4201';
+        submitBtn.classList.remove('bg-accent-blue');
+        submitBtn.classList.add('bg-accent-orange');
         setTimeout(() => {
           btnText.textContent = 'ENVIAR BRIEF';
           btnSpinner.classList.add('hidden');
           submitBtn.disabled = false;
-          submitBtn.classList.remove('opacity-70', 'cursor-not-allowed');
-          submitBtn.style.backgroundColor = '';
+          submitBtn.removeAttribute('aria-busy');
+          submitBtn.classList.remove('opacity-70', 'cursor-not-allowed', 'bg-accent-orange');
+          submitBtn.classList.add('bg-accent-blue');
         }, 3000);
       }
     });

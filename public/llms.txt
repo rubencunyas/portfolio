@@ -1,0 +1,24 @@
+# Rubén Cunyas — Diseño y desarrollo web para negocios peruanos
+
+## Core pages
+- Home: https://portfolio-rub.netlify.app/
+- Servicios: https://portfolio-rub.netlify.app/servicios/
+- Portfolio: https://portfolio-rub.netlify.app/portfolio/
+
+## Proyectos
+- Autoval Service: https://portfolio-rub.netlify.app/projects/autoval
+- Ay Mi Leche: https://portfolio-rub.netlify.app/projects/ay-mi-leche
+- Berlitz: https://portfolio-rub.netlify.app/projects/berlitz
+- Berlitz RRSS: https://portfolio-rub.netlify.app/projects/berlitz-rrss
+- Brother Catálogo: https://portfolio-rub.netlify.app/projects/brother-catalogo
+- HM Tech: https://portfolio-rub.netlify.app/projects/hm-tech
+- Mathpal: https://portfolio-rub.netlify.app/projects/mathpal
+- Mathpal Brand: https://portfolio-rub.netlify.app/projects/mathpal-brand
+- Organnical SISVEN: https://portfolio-rub.netlify.app/projects/organnical-sisven
+- Urpi: https://portfolio-rub.netlify.app/projects/urpi
+
+## Optional pages
+- Brief de proyecto: https://portfolio-rub.netlify.app/brief/
+
+## Notes
+Landing pages, webs corporativas, identidad digital y soporte mensual. Basado en Astro 4, deploy en Netlify, contenido en español (es_PE).
