@@ -51,10 +51,73 @@
   }
 }
 
+@keyframes heroBarIn {
+  from {
+    opacity: 0;
+    transform: translateX(-60px) rotate(-6deg);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) rotate(-6deg);
+  }
+}
+
+@keyframes barFloat {
+  0%, 100% { transform: translateY(0) rotate(-6deg); }
+  50% { transform: translateY(-8px) rotate(-5.5deg); }
+}
+
+@keyframes barFloatOrange {
+  0%, 100% { transform: translateY(0) rotate(3deg); }
+  50% { transform: translateY(6px) rotate(3.5deg); }
+}
+
+@keyframes dotBreathe {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.55; }
+}
+
+.animate-dot-breathe {
+  animation: dotBreathe 6s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-dot-breathe {
+    animation: none;
+  }
+}
+
 .services-swiper {
   -webkit-overflow-scrolling: touch;
   touch-action: pan-x;
   scroll-behavior: smooth;
+}
+
+.project-card {
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.project-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 24px 60px -12px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.04);
+}
+
+.img-skeleton {
+  background: linear-gradient(90deg, theme('colors.ink') 0%, theme('colors.ink') 25%, theme('colors.light') 40%, theme('colors.ink') 65%, theme('colors.ink') 100%);
+  background-size: 200% 100%;
+  animation: imgShimmer 1.8s infinite;
+}
+
+@keyframes imgShimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .img-skeleton {
+    animation: none;
+    background: theme('colors.light');
+  }
 }
 
 #whatsapp-popup {
@@ -72,7 +135,9 @@
 }
 
 .scroll-animate {
-  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .scroll-animate.visible {
@@ -80,9 +145,41 @@
   transform: translateY(0);
 }
 
+.stagger-1 { transition-delay: 0ms; }
+.stagger-2 { transition-delay: 80ms; }
+.stagger-3 { transition-delay: 160ms; }
+.stagger-4 { transition-delay: 240ms; }
+.stagger-5 { transition-delay: 320ms; }
+.stagger-6 { transition-delay: 400ms; }
+
+.line-reveal {
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.scroll-animate.visible .line-reveal {
+  transform: scaleX(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .line-reveal {
+    transform: scaleX(1);
+    transition: none;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 
   .scroll-animate,

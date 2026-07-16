@@ -1,103 +1,34 @@
 ---
+import SectionHeader from '@/components/ui/SectionHeader.astro';
+import Button from '@/components/ui/Button.astro';
+
 const services = [
-  {
-    number: "01",
-    title: "Branding",
-    description: "Creación de identidades visuales que comunican valores, generan reconocimiento y construyen conexiones emocionales duraderas con tu audiencia.",
-    features: ["Identidad Visual", "Logo Design", "Brand Strategy", "Guidelines"]
-  },
-  {
-    number: "02",
-    title: "Diseño UX/UI",
-    description: "Diseño de interfaces intuitivas y experiencias de usuario fluidas que transforman visitantes en usuarios comprometidos y clientes fidelizados.",
-    features: ["User Research", "Wireframing", "Prototyping", "Design Systems"]
-  },
-  {
-    number: "03",
-    title: "Desarrollo de Sistemas",
-    description: "Construcción de soluciones digitales robustas y escalables que impulsan tu negocio con tecnología de vanguardia.",
-    features: ["Full Stack", "APIs", "E-commerce", "CMS"]
-  }
+  ['01', 'Identidad', 'Marcas con una base visual clara, flexible y reconocible.', ['Estrategia de marca', 'Identidad visual', 'Sistemas y guías']],
+  ['02', 'Experiencia', 'Interfaces que hacen simple lo complejo y acompañan cada decisión.', ['UX/UI', 'Web y e-commerce', 'Design systems']],
+  ['03', 'Producto', 'Desarrollo sólido para que el diseño llegue completo a producción.', ['Web a medida', 'CMS y plataformas', 'Integraciones y mantenimiento']],
 ];
 ---
 
-<section id="services" class="py-24 lg:py-32 px-6 lg:px-12 border-b border-white/10 bg-dark text-white scroll-animate opacity-0 translate-y-8">
-  <div class="max-w-7xl mx-auto">
-    <header class="mb-16">
-      <h2 class="font-display font-bold text-4xl sm:text-5xl lg:text-6xl tracking-tight text-white">
-        LO QUE<br/>
-        <span class="text-accent-orange">HAGO.</span>
-      </h2>
-      <p class="mt-6 text-xl text-white/70 max-w-2xl">
-        Diseño y desarrollo soluciones digitales que combinan creatividad estratégica con excelencia técnica.
-      </p>
-    </header>
-    
-    <div class="services-swiper flex md:grid gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory pb-4 md:pb-0 -mx-6 px-6 md:mx-0 md:px-0 md:grid-cols-3 md:gap-8 scrollbar-hide">
-      {services.map((service, index) => (
-        <article class="relative group bg-white/5 p-6 sm:p-8 lg:p-10 border border-white/10 hover:border-accent-blue transition-all duration-300 min-w-[85vw] md:min-w-0 snap-center">
-          <span class="text-7xl font-display font-bold text-white/5 absolute top-4 right-4">
-            {service.number}
-          </span>
-          
-          <h3 class="font-display font-bold text-3xl lg:text-4xl mb-6 text-white group-hover:text-accent-blue transition-colors duration-300">
-            {service.title}
-          </h3>
-          
-          <p class="text-white/70 text-lg mb-8 leading-relaxed">
-            {service.description}
-          </p>
-          
-          <ul class="space-y-3">
-            {service.features.map((feature) => (
-              <li class="flex items-center gap-3 text-sm text-white/60">
-                <span class="w-2 h-2 bg-accent-blue group-hover:bg-accent-orange transition-colors duration-300"></span>
-                {feature}
-              </li>
-            ))}
-          </ul>
-          
-          <div class="mt-8 pt-8 border-t border-white/10">
-            <a 
-              href="/brief" 
-              class="inline-flex items-center gap-2 text-accent-blue group-hover:text-accent-orange transition-colors duration-300 font-semibold"
-              aria-label={`Solicitar servicio de ${service.title}`}
-            >
-              SOLICITAR
-              <svg class="w-5 h-5 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
-            </a>
+<section id="services" class="border-b border-light/10 bg-dark px-6 py-24 text-light lg:px-12 lg:py-32 relative overflow-hidden">
+  <div class="relative z-10 mx-auto max-w-7xl">
+    <SectionHeader label="Servicios" variant="dark" description="Puedo entrar en un punto específico o acompañar el proyecto de punta a punta.">
+      <Fragment slot="title">De la idea<br />al <span class="text-accent-blue">lanzamiento.</span></Fragment>
+    </SectionHeader>
+    <div class="mt-16">
+      <div class="scroll-animate"><div class="line-reveal h-px bg-light/10 w-full"></div></div>
+      {services.map(([number, title, description, features]) => (
+        <article class:list={[`grid gap-6 border-b border-light/10 py-8 md:grid-cols-[.3fr_1fr_1fr_auto] md:items-start md:gap-8 lg:py-10 scroll-animate stagger-${number}`]}>
+          <span class="font-display text-2xl font-bold text-accent-orange">{number}</span>
+          <h3 class="font-display text-4xl font-bold uppercase tracking-tight sm:text-5xl">{title}</h3>
+          <div>
+            <p class="max-w-md text-lg leading-relaxed text-light/70">{description}</p>
+            <ul class="mt-5 flex flex-wrap gap-x-4 gap-y-2 text-xs font-bold uppercase tracking-wide text-light/55">
+              {features.map((feature) => <li>{feature}</li>)}
+            </ul>
           </div>
+          <Button href="/brief" variant="ghost" size="sm">Consultar <span class="ml-2 text-base" aria-hidden="true">↗</span></Button>
         </article>
-      ))}
-    </div>
-    
-    <div class="flex justify-center gap-2 mt-8 md:hidden">
-      {services.map((_, index) => (
-        <span class="w-2 h-2 rounded-full bg-white/30 services-dot" data-index={index}></span>
       ))}
     </div>
   </div>
 </section>
-
-<script>
-  const swiper = document.querySelector('.services-swiper');
-  const dots = document.querySelectorAll('.services-dot');
-  
-  if (swiper && dots.length) {
-    const updateDots = () => {
-      const scrollLeft = swiper.scrollLeft;
-      const cardWidth = swiper.querySelector('article').offsetWidth + 24;
-      const activeIndex = Math.round(scrollLeft / cardWidth);
-      
-      dots.forEach((dot, i) => {
-        dot.classList.toggle('bg-accent-orange', i === activeIndex);
-        dot.classList.toggle('bg-white/30', i !== activeIndex);
-      });
-    };
-    
-    swiper.addEventListener('scroll', updateDots);
-    updateDots();
-  }
-</script>

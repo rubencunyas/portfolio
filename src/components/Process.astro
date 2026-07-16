@@ -1,0 +1,30 @@
+---
+import SectionHeader from '@/components/ui/SectionHeader.astro';
+
+const steps = [
+  ['01', 'Briefing', 'Tenemos una reunión donde charlamos sobre el proyecto y las metas. Me proporcionas el contenido, ideas, información, textos, etc. Charlamos sobre tiempos y presupuestos.'],
+  ['02', 'Análisis', 'Investigo y recolecto la información necesaria sobre el negocio, competidores y mercado. Busco referencias y decido el estilo.'],
+  ['03', 'Diseño', 'Comienzo a trabajar en el diseño y aplico el contenido que me proporcionaste.'],
+  ['04', 'Prototipo', 'Preparo los prototipos para que veas cómo será el proyecto en la vida real. Te muestro y charlamos para averiguar si todo va bien.'],
+  ['05', 'Diseño final', 'El resultado final está listo. Una vez que lo apruebes ya casi estamos prontos a terminar.'],
+  ['06', 'Desarrollo y entregables', 'En caso que tu proyecto requiera desarrollo, preparo los entregables para los programadores. Te envío los archivos originales del proyecto y hablamos sobre la implementación y seguimiento.'],
+];
+---
+
+<section class="border-b border-ink/10 bg-light px-6 py-24 text-ink lg:px-12 lg:py-32 scroll-animate">
+  <div class="mx-auto max-w-7xl">
+    <SectionHeader label="Cómo trabajo" class="mb-14">
+      <Fragment slot="title">Menos vueltas.<br />Más claridad.</Fragment>
+    </SectionHeader>
+    <div class="scroll-animate"><div class="line-reveal h-px bg-ink/10 w-full"></div></div>
+    <ol class="grid md:grid-cols-3">
+      {steps.map(([number, title, text], i) => (
+        <li class:list={['group border-b border-ink/10 py-7 md:px-7 md:first:pl-0 md:last:pr-0', (i + 1) % 3 !== 0 ? 'md:border-r' : '']}>
+          <span class="font-display text-xl font-bold text-accent-blue">{number}</span>
+          <h3 class="mt-12 font-display text-4xl font-bold uppercase tracking-[-0.01em]">{title}</h3>
+          <p class="mt-3 max-w-xs text-base leading-relaxed text-ink/65">{text}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>

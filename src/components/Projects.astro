@@ -1,59 +1,44 @@
 ---
 import { getCollection } from 'astro:content';
 import { getProjectImages } from '@/utils/images';
+import SectionHeader from '@/components/ui/SectionHeader.astro';
+import Button from '@/components/ui/Button.astro';
 
 const projects = await getCollection('projects');
-const sorted = [...projects].sort(() => Math.random() - 0.5);
+const selected = projects
+  .filter((project) => project.data.featured)
+  .sort((a, b) => a.data.order - b.data.order)
+  .slice(0, 6);
 ---
 
-<section id="projects" class="py-24 lg:py-32 px-6 lg:px-12 border-b border-ink/10 bg-light text-ink scroll-animate opacity-0 translate-y-8">
-  <div class="max-w-7xl mx-auto">
-    <header class="mb-4">
-      <h2 class="font-display font-bold text-4xl sm:text-5xl lg:text-6xl tracking-tight">
-        PROYECTOS.
-      </h2>
-    </header>
+<section id="work" class="bg-ink px-6 py-24 text-light lg:px-12 lg:py-32 relative overflow-hidden">
+  <div class="relative z-10 mx-auto max-w-7xl">
+    <SectionHeader label="Trabajo seleccionado" variant="dark" description="Estrategia, diseño y tecnología conectados para construir experiencias que sí llegan a la gente.">
+      <Fragment slot="title">Diseño que<br /><span class="text-accent-blue">mueve negocio.</span></Fragment>
+    </SectionHeader>
+    <div class="scroll-animate">
+    <div class="line-reveal h-px bg-light/10 w-full mb-12"></div>
+    </div>
 
-    <p class="text-lg sm:text-xl text-ink/60 mb-12 max-w-xl">
-      Una selección de trabajos recientes.
-    </p>
-
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
-      {sorted.slice(0, 6).map((project) => (
-        <a
-          href={`/projects/${project.slug}`}
-          class="group block"
-        >
-          <div class="relative overflow-hidden bg-black/5 aspect-video mb-4">
-            <img
-              src={getProjectImages(project.slug).cover ?? project.data.cover}
-              alt={project.data.title}
-              width="900"
-              height="675"
-              loading="lazy"
-              class="w-full h-full object-cover transition duration-700 group-hover:scale-105"
-            />
+    <div class="mt-12 grid gap-x-8 gap-y-16 md:grid-cols-2">
+      {selected.map((project, index) => (
+        <a           href={`/projects/${project.slug}`} class:list={['group block scroll-animate', `stagger-${index + 1}`, index % 2 === 1 && 'md:mt-20']}>
+                <div class="relative aspect-[4/3] overflow-hidden bg-light/[0.04] ring-1 ring-inset ring-light/5">
+              <img src={getProjectImages(project.slug).cover ?? project.data.cover} alt={project.data.title} width="1000" height="750" loading="lazy" class="h-full w-full object-cover transition duration-500 ease-out group-hover:scale-[1.03]" />
+            <span class="absolute left-4 top-4 bg-light px-3 py-2 text-xs font-bold uppercase tracking-widest text-ink">{project.data.year}</span>
           </div>
-          <h3 class="font-display font-bold text-xl sm:text-2xl tracking-tight group-hover:text-accent-blue transition-colors duration-300">
-            {project.data.title}
-          </h3>
-          <p class="text-sm text-ink/50 mt-1">
-            {project.data.tags.slice(0, 2).join(' · ')}
-          </p>
+          <div class="mt-4 flex items-start justify-between gap-4 border-b border-light/10 pb-4">
+            <div>
+              <h3 class="font-display text-3xl font-bold uppercase tracking-[-0.01em] transition-colors duration-300 ease-out group-hover:text-accent-orange sm:text-4xl">{project.data.title}</h3>
+              <p class="mt-1 text-sm text-light/55">{project.data.client} · {project.data.tags.slice(0, 2).join(' / ')}</p>
+            </div>
+            <span class="pt-1 text-2xl text-accent-blue transition-transform group-hover:translate-x-1" aria-hidden="true">↗</span>
+          </div>
         </a>
       ))}
     </div>
-
-    <div class="mt-12">
-      <a
-        href="/portfolio"
-        class="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-ink/60 hover:text-accent-blue transition-colors duration-300"
-      >
-        VER TODOS
-        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-        </svg>
-      </a>
+    <div class="mt-16 scroll-animate">
+      <Button href="/portfolio" variant="ghost" size="lg">Ver todo el archivo <span class="ml-3 text-lg" aria-hidden="true">→</span></Button>
     </div>
   </div>
 </section>

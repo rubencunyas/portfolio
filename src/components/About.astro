@@ -1,51 +1,30 @@
 ---
+const facts = [
+  ['13+', 'años construyendo'],
+  ['50+', 'proyectos entregados'],
+  ['1', 'perfil: diseño + código'],
+];
 ---
 
-<section id="about" class="py-24 lg:py-32 px-6 lg:px-12 border-b border-ink/10 scroll-animate opacity-0 translate-y-8">
-  <div class="max-w-7xl mx-auto">
-    <div class="grid lg:grid-cols-2 gap-12 lg:gap-24 items-center">
-      <div>
-        <header class="mb-8">
-          <h2 class="font-display font-bold text-4xl sm:text-5xl lg:text-6xl tracking-tight text-ink">
-            SOBRE<br/>
-            <span class="text-accent-orange">MÍ.</span>
-          </h2>
-        </header>
-        
-        <div class="space-y-6 text-lg lg:text-xl text-ink/80 leading-relaxed">
-          <p>
-            Soy Diseñador Digital y Desarrollador Full Stack. Mi trayectoria ha sido un puente 
-            constante entre la <strong class="text-ink">estética impactante</strong> y la 
-            <strong class="text-ink">funcionalidad impecable</strong>.
-          </p>
-          <p>
-            Mi formación en <span class="text-accent-blue font-semibold">Toulouse Lautrec</span> 
-            me dotó de una visión donde cada píxel tiene propósito y cada interacción cuenta una historia.
-          </p>
-          <p>
-            Cierro la brecha entre diseño y desarrollo, creando experiencias digitales que 
-            no solo se ven extraordinarias, sino que <strong class="text-ink">funcionan de manera impecable</strong>.
-          </p>
+<section id="about" class="border-b border-ink/10 bg-light px-6 py-24 text-ink lg:px-12 lg:py-32 scroll-animate">
+  <div class="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[.8fr_1.2fr] lg:gap-24">
+    <p class="text-sm font-bold uppercase tracking-widest text-accent-blue">Perfil</p>
+    <div>
+      <h2 class="max-w-4xl font-display text-5xl font-bold uppercase leading-[.9] tracking-[-0.02em] sm:text-6xl lg:text-7xl">Diseño para entender.<br />Código para <span class="text-accent-orange">hacer realidad.</span></h2>
+      <div class="mt-10 grid gap-8 lg:grid-cols-2">
+        <div class="space-y-5 text-lg leading-relaxed text-ink/75">
+          <p>Soy diseñador digital y desarrollador full stack. Trabajo en el punto donde una buena idea deja de ser una presentación y se vuelve una experiencia útil.</p>
+          <p>Mi forma de trabajar combina pensamiento visual, objetivos de negocio y la precisión técnica necesaria para llevar un producto hasta el final.</p>
         </div>
-      </div>
-      
-      <div class="grid grid-cols-2 gap-4 sm:gap-6">
-        <article class="p-4 sm:p-6 border border-ink/10 hover:border-accent-blue bg-white transition-colors duration-300">
-          <span class="text-3xl sm:text-5xl font-bold text-accent-blue font-display">13+</span>
-          <p class="mt-1 sm:mt-2 text-[10px] sm:text-sm text-ink/60 uppercase tracking-wider">Años de experiencia</p>
-        </article>
-        <article class="p-4 sm:p-6 border border-ink/10 hover:border-accent-orange bg-white transition-colors duration-300">
-          <span class="text-3xl sm:text-5xl font-bold text-accent-orange font-display">50+</span>
-          <p class="mt-1 sm:mt-2 text-[10px] sm:text-sm text-ink/60 uppercase tracking-wider">Proyectos completados</p>
-        </article>
-        <article class="p-4 sm:p-6 border border-ink/10 hover:border-accent-blue bg-white transition-colors duration-300">
-          <span class="text-3xl sm:text-5xl font-bold text-accent-blue font-display">UX/UI</span>
-          <p class="mt-1 sm:mt-2 text-[10px] sm:text-sm text-ink/60 uppercase tracking-wider">Design Systems</p>
-        </article>
-        <article class="p-4 sm:p-6 border border-ink/10 hover:border-accent-orange bg-white transition-colors duration-300">
-          <span class="text-3xl sm:text-5xl font-bold text-accent-orange font-display">Full</span>
-          <p class="mt-1 sm:mt-2 text-[10px] sm:text-sm text-ink/60 uppercase tracking-wider">Stack Development</p>
-        </article>
+        <dl>
+          <div class="scroll-animate"><div class="line-reveal h-px bg-ink/10 w-full"></div></div>
+          {facts.map(([number, label]) => (
+            <div class="flex items-baseline justify-between border-b border-ink/20 py-4">
+              <dt class="text-sm uppercase tracking-wide text-ink/60">{label}</dt>
+              <dd class="font-display text-4xl font-bold text-accent-blue">{number}</dd>
+            </div>
+          ))}
+        </dl>
       </div>
     </div>
   </div>

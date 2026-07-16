@@ -18,7 +18,7 @@ const quickMessages = [
   
   <button 
     id="whatsapp-btn"
-    class="relative w-14 h-14 bg-green-500 hover:bg-green-600 rounded-full shadow-lg hover:shadow-xl flex items-center justify-center transition-all duration-300 hover:scale-110 group"
+    class="relative w-14 h-14 bg-green-500 hover:bg-green-600 active:scale-90 rounded-full shadow-lg hover:shadow-xl flex items-center justify-center transition-all duration-300 hover:scale-110 group"
     aria-label="Abrir WhatsApp"
   >
     <span class="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full border-2 border-white animate-pulse"></span>
@@ -40,7 +40,7 @@ const quickMessages = [
     <div class="p-4 space-y-3">
       {quickMessages.map((msg) => (
         <button 
-          class="w-full text-left px-4 py-3 bg-gray-100 hover:bg-gray-200 text-dark text-sm rounded-lg transition-colors duration-200 flex items-center gap-3"
+          class="w-full text-left px-4 py-3 bg-gray-100 hover:bg-gray-200 active:bg-gray-300 text-dark text-sm rounded-lg transition-colors duration-200 flex items-center gap-3"
           data-message={msg.message}
         >
           <svg class="w-5 h-5 text-green-500 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
@@ -68,7 +68,7 @@ const quickMessages = [
         />
         <button 
           id="send-custom"
-          class="px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-lg transition-colors duration-200"
+          class="px-4 py-2 bg-green-500 hover:bg-green-600 active:bg-green-700 text-white rounded-lg transition-colors duration-200"
         >
           <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
@@ -91,6 +91,7 @@ const quickMessages = [
   
   function openPopup() {
     isOpen = true;
+    btn.setAttribute('aria-expanded', 'true');
     popup.classList.remove('hidden');
     tooltip.classList.add('hidden');
     setTimeout(() => {
@@ -101,6 +102,7 @@ const quickMessages = [
   
   function closePopup() {
     isOpen = false;
+    btn.setAttribute('aria-expanded', 'false');
     popup.classList.remove('scale-100', 'opacity-100');
     popup.classList.add('scale-95', 'opacity-0');
     setTimeout(() => {

@@ -1,0 +1,49 @@
+---
+export interface Props {
+  variant?: 'primary' | 'secondary' | 'ghost' | 'outline';
+  size?: 'sm' | 'md' | 'lg';
+  href?: string;
+  type?: 'button' | 'submit';
+  class?: string;
+  disabled?: boolean;
+  'aria-label'?: string;
+}
+
+const {
+  variant = 'primary',
+  size = 'md',
+  href,
+  type = 'button',
+  class: className = '',
+  disabled = false,
+  'aria-label': ariaLabel,
+} = Astro.props;
+
+const base = 'inline-flex items-center justify-center font-bold uppercase tracking-wider transition-all duration-300 ease-enter active:scale-95';
+
+const variants = {
+  primary: 'border border-accent-orange-deep bg-accent-orange-deep text-white hover:shadow-lg hover:shadow-accent-orange/25',
+  secondary: 'bg-accent-blue text-white hover:bg-accent-blue/90 hover:shadow-lg hover:shadow-accent-blue/25',
+  ghost: 'border border-light/20 text-light hover:border-accent-blue hover:bg-accent-blue hover:shadow-lg hover:shadow-accent-blue/25',
+  outline: 'border border-ink/20 text-ink hover:border-ink hover:bg-ink hover:text-light',
+};
+
+const sizes = {
+  sm: 'min-h-10 px-4 text-xs',
+  md: 'min-h-11 px-5 text-xs',
+  lg: 'min-h-12 px-6 text-sm',
+};
+
+const Tag = href ? 'a' : 'button';
+const extraAttrs = href
+  ? { href, target: href.startsWith('http') ? '_blank' : undefined, rel: href.startsWith('http') ? 'noopener noreferrer' : undefined }
+  : { type, disabled };
+---
+
+<Tag
+  class={`${base} ${variants[variant]} ${sizes[size]} ${disabled ? 'pointer-events-none opacity-50' : ''} ${className}`}
+  aria-label={ariaLabel}
+  {...extraAttrs}
+>
+  <slot />
+</Tag>
