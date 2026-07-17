@@ -114,28 +114,28 @@ const faqSchema = {
     <article>
 
       {cover && (
-        <section class="overflow-hidden">
+        <section class="overflow-hidden project-cover-wrap">
           <div class="cursor-pointer lightbox-trigger">
             <img
               src={cover}
               alt={`${project.data.title} - Portada`}
-              class="w-full max-h-[50vh] object-cover cursor-pointer transition-transform duration-300 hover:scale-[1.02] active:scale-[0.98]"
+              class="project-cover-img w-full max-h-[50vh] object-cover"
               loading="eager"
             />
           </div>
         </section>
       )}
 
-      <section class="py-8 lg:py-10 px-6 lg:px-12 bg-dark text-light mb-6 lg:mb-10">
+      <section class="py-8 lg:py-10 px-6 lg:px-12 bg-dark text-light mb-6 lg:mb-10 project-info-section">
         <div class="max-w-7xl mx-auto">
           <div class="mb-6 lg:mb-8">
-            <p class="text-xs text-light/50 uppercase tracking-wider mb-2">
+            <p class="text-xs text-light/50 uppercase tracking-wider mb-2 reveal-item" data-reveal>
               {project.data.client} — {project.data.year}
             </p>
-            <h1 class="font-display font-bold text-4xl sm:text-5xl lg:text-6xl tracking-tight leading-none mb-4 text-accent-blue">
+            <h1 class="font-display font-bold text-4xl sm:text-5xl lg:text-6xl tracking-tight leading-none mb-4 text-accent-blue reveal-title" data-reveal-title>
               {project.data.title}
             </h1>
-            <div class="flex flex-wrap items-center gap-3">
+            <div class="flex flex-wrap items-center gap-3 reveal-item" data-reveal data-delay="200">
               {project.data.url && (
                 <a
                   href={project.data.url}
@@ -160,7 +160,7 @@ const faqSchema = {
           </div>
 
           <div class="grid lg:grid-cols-3 gap-6 lg:gap-10 border-t border-light/10 pt-6 lg:pt-8">
-            <div>
+            <div class="reveal-item" data-reveal data-delay="100">
               <h2 class="text-[10px] font-semibold uppercase tracking-widest text-light/40 mb-3">
                 01 — Reto
               </h2>
@@ -168,7 +168,7 @@ const faqSchema = {
                 {project.data.challenge}
               </p>
             </div>
-            <div>
+            <div class="reveal-item" data-reveal data-delay="250">
               <h2 class="text-[10px] font-semibold uppercase tracking-widest text-light/40 mb-3">
                 02 — Solución
               </h2>
@@ -176,7 +176,7 @@ const faqSchema = {
                 {project.data.solution}
               </p>
             </div>
-            <div>
+            <div class="reveal-item" data-reveal data-delay="400">
               <h2 class="text-[10px] font-semibold uppercase tracking-widest text-light/40 mb-3">
                 03 — Resultado
               </h2>
@@ -189,7 +189,7 @@ const faqSchema = {
       </section>
 
       {gallerySlider.length > 0 && (
-        <section class="mt-6 lg:mt-10 pb-10">
+        <section class="mt-6 lg:mt-10 pb-10 reveal-section" data-reveal>
           <div class="max-w-7xl mx-auto">
             <div class="swiper project-swiper">
               <div class="swiper-wrapper">
@@ -214,15 +214,17 @@ const faqSchema = {
 
       {galleryWide.length > 0 && (
         <section class="mt-6 lg:mt-10">
-          <div class="max-w-7xl mx-auto space-y-6">
+          <div class="max-w-7xl mx-auto space-y-6 lg:space-y-10">
             {galleryWide.map((image, index) => (
-              <figure class="m-0 cursor-pointer lightbox-trigger">
-                <img
-                  src={image}
-                  alt={`${project.data.title} - ${index + 1}`}
-                  class="w-full h-auto"
-                  loading="lazy"
-                />
+              <figure class="m-0 cursor-pointer lightbox-trigger reveal-item" data-reveal data-delay={String(index * 120)}>
+                <div class="overflow-hidden">
+                  <img
+                    src={image}
+                    alt={`${project.data.title} - ${index + 1}`}
+                    class="w-full h-auto reveal-img"
+                    loading="lazy"
+                  />
+                </div>
               </figure>
             ))}
           </div>
@@ -230,15 +232,15 @@ const faqSchema = {
       )}
 
       {galleryMasonry.length > 0 && (
-        <section class="mt-6 lg:mt-10">
+        <section class="mt-6 lg:mt-10 reveal-section" data-reveal>
           <div class="max-w-7xl mx-auto">
             <div class="columns-1 sm:columns-2 lg:columns-3 gap-4 space-y-4">
               {galleryMasonry.map((image, index) => (
-                <figure class="group relative overflow-hidden break-inside-avoid cursor-pointer lightbox-trigger">
+                <figure class="group relative overflow-hidden break-inside-avoid cursor-pointer lightbox-trigger reveal-item" data-reveal data-delay={String(index * 100)}>
                   <img
                     src={image}
                     alt={`${project.data.title} - ${index + 1}`}
-                    class="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105"
+                    class="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105"
                     loading="lazy"
                   />
                 </figure>
@@ -248,7 +250,7 @@ const faqSchema = {
         </section>
       )}
 
-      <section class="py-8 px-6 lg:px-12 border-b border-ink/10">
+      <section class="py-8 px-6 lg:px-12 border-b border-ink/10 reveal-item" data-reveal>
         <div class="max-w-7xl mx-auto">
           <h2 class="text-[10px] font-semibold uppercase tracking-widest text-ink/30 mb-4">
             Tecnologías
@@ -263,7 +265,7 @@ const faqSchema = {
         </div>
       </section>
 
-      <section class="py-14 lg:py-16 px-6 lg:px-12 border-b border-ink/10">
+      <section class="py-14 lg:py-16 px-6 lg:px-12 border-b border-ink/10 reveal-item" data-reveal>
         <div class="max-w-7xl mx-auto">
           <div class="prose prose-lg max-w-none">
             <Content />
@@ -271,7 +273,7 @@ const faqSchema = {
         </div>
       </section>
 
-      <section class="py-12 px-6 lg:px-12 bg-ink text-light">
+      <section class="py-12 px-6 lg:px-12 bg-ink text-light reveal-item" data-reveal>
         <div class="max-w-7xl mx-auto text-center">
           <p class="font-display font-bold text-xl sm:text-2xl mb-4">
             ¿Interesado en un proyecto similar?
@@ -320,6 +322,73 @@ const faqSchema = {
 
   .project-swiper .swiper-pagination-bullet-active {
     @apply bg-accent-blue;
+  }
+
+  .project-cover-wrap {
+    clip-path: inset(0 0 0 0);
+  }
+
+  .project-cover-img {
+    transform: scale(1.08);
+    transition: transform 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .project-cover-img.cover-revealed {
+    transform: scale(1);
+  }
+
+  .reveal-title .title-char {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(28px) rotateX(-40deg);
+    animation: charReveal 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  .reveal-item {
+    opacity: 0;
+    transform: translateY(36px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .reveal-item.is-revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .reveal-section.is-revealed .reveal-item {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .reveal-img {
+    transform: scale(1.06);
+    transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .reveal-item.is-revealed .reveal-img {
+    transform: scale(1);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal-item,
+    .reveal-title .title-char,
+    .project-cover-img {
+      opacity: 1 !important;
+      transform: none !important;
+      animation: none !important;
+      transition: none !important;
+    }
+  }
+
+  @keyframes charReveal {
+    0% {
+      opacity: 0;
+      transform: translateY(28px) rotateX(-40deg);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0) rotateX(0);
+    }
   }
 </style>
 
@@ -389,8 +458,69 @@ const faqSchema = {
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
   }
 
+  function initCoverReveal() {
+    const coverImg = document.querySelector('.project-cover-img');
+    if (!coverImg) return;
+    if (coverImg.complete) {
+      coverImg.classList.add('cover-revealed');
+    } else {
+      coverImg.addEventListener('load', () => coverImg.classList.add('cover-revealed'));
+    }
+  }
+
+  function initTitleChars() {
+    const titleEl = document.querySelector('.reveal-title');
+    if (!titleEl) return;
+    const text = titleEl.textContent || '';
+    titleEl.textContent = '';
+    const chars = [...text];
+    chars.forEach((char, i) => {
+      const span = document.createElement('span');
+      span.className = 'title-char';
+      span.textContent = char === ' ' ? '\u00A0' : char;
+      span.style.animationDelay = `${i * 35}ms`;
+      titleEl.appendChild(span);
+    });
+  }
+
+  function initScrollReveal() {
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReduced) {
+      document.querySelectorAll('.reveal-item, .reveal-section').forEach(el => {
+        el.classList.add('is-revealed');
+      });
+      return;
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          if (el.hasAttribute('data-delay')) {
+            setTimeout(() => el.classList.add('is-revealed'), parseInt(el.getAttribute('data-delay') || '0'));
+          } else {
+            el.classList.add('is-revealed');
+          }
+          observer.unobserve(el);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.reveal-item, .reveal-section').forEach(el => observer.observe(el));
+  }
+
   initBreadcrumb();
+  initCoverReveal();
+  initTitleChars();
+  initScrollReveal();
   initLightbox();
   initProjectSwiper();
-  document.addEventListener('astro:after-swap', () => { initBreadcrumb(); initLightbox(); initProjectSwiper(); });
+  document.addEventListener('astro:after-swap', () => {
+    initBreadcrumb();
+    initCoverReveal();
+    initTitleChars();
+    initScrollReveal();
+    initLightbox();
+    initProjectSwiper();
+  });
 </script>

@@ -96,20 +96,20 @@ const categories = [
               data-category={project.data.category}
               class="project-card group block"
             >
-              <div class="relative overflow-hidden bg-black/5 aspect-video mb-4">
+              <div class="relative overflow-hidden bg-black/5 aspect-video mb-5">
                 <img
                   src={getProjectImages(project.slug).cover ?? project.data.cover}
                   alt={project.data.title}
                   width="900"
                   height="675"
                   loading="lazy"
-                  class="w-full h-full object-cover transition duration-700 ease-out group-hover:scale-105"
+                  class="w-full h-full object-cover transition duration-700 ease-out group-hover:scale-[1.03]"
                 />
               </div>
-              <h3 class="font-display font-bold text-lg sm:text-xl tracking-tight group-hover:text-accent-blue transition-colors duration-300">
+              <h3 class="font-display font-bold text-lg sm:text-xl tracking-tight leading-tight group-hover:text-accent-blue transition-colors duration-300 mb-1.5">
                 {project.data.title}
               </h3>
-              <p class="text-sm text-ink/50 mt-1">
+              <p class="text-sm text-ink/50 leading-snug">
                 {project.data.tags.slice(0, 2).join(' · ')}
               </p>
             </a>
