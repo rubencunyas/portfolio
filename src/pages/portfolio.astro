@@ -8,14 +8,15 @@ const sorted = [...projects].sort((a, b) => {
   const aFeatured = a.data.featured ? 1 : 0;
   const bFeatured = b.data.featured ? 1 : 0;
   if (aFeatured !== bFeatured) return bFeatured - aFeatured;
-  return a.data.order - b.data.order;
+  return b.data.year - a.data.year;
 });
 
 const categories = [
   { id: 'all', label: 'Todos' },
   { id: 'branding', label: 'Branding' },
-  { id: 'web', label: 'Web' },
-  { id: 'multimedia', label: 'Multimedia' }
+  { id: 'web', label: 'Diseño Web' },
+  { id: 'web', label: 'Desarrollo Web' },
+  { id: 'multimedia', label: 'Social Media' },
 ];
 ---
 
@@ -60,10 +61,12 @@ const categories = [
       "url": `https://portfolio-rub.netlify.app/projects/${project.slug}`
     }))
   })} />
+
   <main id="main-content" class="min-h-screen bg-light text-ink">
     <section class="pt-10 lg:pt-16 pb-24 lg:pb-32 px-6 lg:px-12 border-b border-ink/10">
       <div class="max-w-7xl mx-auto">
         <header class="mb-16">
+          <p class="text-sm font-extrabold uppercase tracking-[0.18em] text-ink/40 mb-3">04 — Proyectos</p>
           <h1 class="font-display font-bold text-5xl sm:text-7xl lg:text-8xl tracking-tight leading-none mb-6 flex items-center gap-4">
             <img src="/logo.svg" alt="Rubén Cunyas" width="48" height="48" class="w-10 h-10 sm:w-12 sm:h-12" />
             PORTAFOLIO.
@@ -94,9 +97,9 @@ const categories = [
             <a
               href={`/projects/${project.slug}`}
               data-category={project.data.category}
-              class="project-card group block rounded-lg border border-transparent hover:border-ink/10 hover:bg-white hover:shadow-md transition duration-500 ease-out"
+              class="project-card group block rounded-t-lg border border-transparent hover:border-ink/10 hover:bg-white hover:shadow-md transition duration-500 ease-out"
             >
-              <div class="relative overflow-hidden bg-black/5 aspect-video">
+              <div class="project-img-wrap relative overflow-hidden rounded-t-lg bg-black/5 aspect-video">
                 <img
                   src={getProjectImages(project.slug).cover ?? project.data.cover}
                   alt={project.data.title}
@@ -105,6 +108,7 @@ const categories = [
                   loading="lazy"
                   class="w-full h-full object-cover transition duration-700 ease-out group-hover:scale-[1.03]"
                 />
+                <div class="project-hover-label" aria-hidden="true">Ver proyecto</div>
               </div>
               <div class="px-3 pt-3 pb-3.5">
                 <h3 class="font-display font-bold text-lg sm:text-xl tracking-tight leading-tight group-hover:text-accent-blue transition-colors duration-300 mb-1.5">
@@ -153,8 +157,26 @@ const categories = [
     });
   }
 
+  function initCursorLabel() {
+    const wraps = document.querySelectorAll('.project-img-wrap');
+
+    wraps.forEach(wrap => {
+      const label = wrap.querySelector('.project-hover-label');
+      if (!label) return;
+
+      wrap.addEventListener('mousemove', (e) => {
+        const rect = wrap.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        label.style.setProperty('--mx', `${x}px`);
+        label.style.setProperty('--my', `${y}px`);
+      });
+    });
+  }
+
   initFilters();
-  document.addEventListener('astro:after-swap', initFilters);
+  initCursorLabel();
+  document.addEventListener('astro:after-swap', () => { initFilters(); initCursorLabel(); });
 </script>
 
 <style>
@@ -162,9 +184,43 @@ const categories = [
     from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
   }
+
+  .project-img-wrap {
+    cursor: pointer;
+  }
+
+  .project-hover-label {
+    position: absolute;
+    left: var(--mx, 50%);
+    top: var(--my, 50%);
+    transform: translate(-50%, -50%) translateY(8px);
+    pointer-events: none;
+    z-index: 2;
+    background: rgba(26, 26, 26, 0.82);
+    backdrop-filter: blur(6px);
+    color: #F8F6F0;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.5rem 1rem;
+    border-radius: 999px;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.25s ease, transform 0.15s ease;
+  }
+
+  .project-img-wrap:hover .project-hover-label {
+    opacity: 1;
+    transform: translate(-50%, -50%) translateY(0);
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .project-card {
       animation: none !important;
+    }
+    .project-hover-label {
+      transition: none;
     }
   }
 </style>
