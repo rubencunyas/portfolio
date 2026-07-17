@@ -94,9 +94,9 @@ const categories = [
             <a
               href={`/projects/${project.slug}`}
               data-category={project.data.category}
-              class="project-card group block"
+              class="project-card group block rounded-lg border border-transparent hover:border-ink/10 hover:bg-white hover:shadow-md transition duration-500 ease-out"
             >
-              <div class="relative overflow-hidden bg-black/5 aspect-video mb-5">
+              <div class="relative overflow-hidden bg-black/5 aspect-video">
                 <img
                   src={getProjectImages(project.slug).cover ?? project.data.cover}
                   alt={project.data.title}
@@ -106,12 +106,14 @@ const categories = [
                   class="w-full h-full object-cover transition duration-700 ease-out group-hover:scale-[1.03]"
                 />
               </div>
-              <h3 class="font-display font-bold text-lg sm:text-xl tracking-tight leading-tight group-hover:text-accent-blue transition-colors duration-300 mb-1.5">
-                {project.data.title}
-              </h3>
-              <p class="text-sm text-ink/50 leading-snug">
-                {project.data.tags.slice(0, 2).join(' · ')}
-              </p>
+              <div class="px-3 pt-3 pb-3.5">
+                <h3 class="font-display font-bold text-lg sm:text-xl tracking-tight leading-tight group-hover:text-accent-blue transition-colors duration-300 mb-1.5">
+                  {project.data.title}
+                </h3>
+                <p class="text-sm text-ink/50 leading-snug">
+                  {project.data.tags.slice(0, 2).join(' · ')}
+                </p>
+              </div>
             </a>
           ))}
         </div>
