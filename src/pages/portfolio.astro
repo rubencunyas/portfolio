@@ -97,9 +97,9 @@ const categories = [
             <a
               href={`/projects/${project.slug}`}
               data-category={project.data.category}
-              class="project-card group block rounded-t-lg border border-transparent hover:border-ink/10 hover:bg-white hover:shadow-md transition duration-500 ease-out"
+              class="project-card group block border border-transparent hover:border-ink/10 hover:bg-white hover:shadow-md transition duration-500 ease-out"
             >
-              <div class="project-img-wrap relative overflow-hidden rounded-t-lg bg-black/5 aspect-video">
+              <div class="project-img-wrap relative overflow-hidden bg-black/5 aspect-video">
                 <img
                   src={getProjectImages(project.slug).cover ?? project.data.cover}
                   alt={project.data.title}
