@@ -4,10 +4,11 @@ import { getCollection } from 'astro:content';
 import { getProjectImages } from '@/utils/images';
 
 const projects = await getCollection('projects');
+const categoryPriority: Record<string, number> = { uxui: 0, web: 1, branding: 2, multimedia: 3 };
 const sorted = [...projects].sort((a, b) => {
-  const aFeatured = a.data.featured ? 1 : 0;
-  const bFeatured = b.data.featured ? 1 : 0;
-  if (aFeatured !== bFeatured) return bFeatured - aFeatured;
+  const aP = categoryPriority[a.data.category] ?? 9;
+  const bP = categoryPriority[b.data.category] ?? 9;
+  if (aP !== bP) return aP - bP;
   return b.data.year - a.data.year;
 });
 
@@ -66,7 +67,6 @@ const categories = [
     <section class="pt-10 lg:pt-16 pb-24 lg:pb-32 px-6 lg:px-12 border-b border-ink/10">
       <div class="max-w-7xl mx-auto">
         <header class="mb-16">
-          <p class="text-sm font-extrabold uppercase tracking-[0.18em] text-ink/40 mb-3">04 — Proyectos</p>
           <h1 class="font-display font-bold text-5xl sm:text-7xl lg:text-8xl tracking-tight leading-none mb-6 flex items-center gap-4">
             <img src="/logo.svg" alt="Rubén Cunyas" width="48" height="48" class="w-10 h-10 sm:w-12 sm:h-12" />
             PORTAFOLIO.
