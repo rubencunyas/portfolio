@@ -14,7 +14,7 @@ const sorted = [...projects].sort((a, b) => {
 const categories = [
   { id: 'all', label: 'Todos' },
   { id: 'branding', label: 'Branding' },
-  { id: 'web', label: 'Diseño Web' },
+  { id: 'uxui', label: 'UX/UI' },
   { id: 'web', label: 'Desarrollo Web' },
   { id: 'multimedia', label: 'Social Media' },
 ];
@@ -77,18 +77,19 @@ const categories = [
         </header>
 
         <div class="flex flex-nowrap lg:flex-wrap gap-2 lg:gap-3 overflow-x-auto mb-12 pb-1" id="project-filters">
-          {categories.map((cat, i) => (
-            <button
+          {categories.map((cat) => (
+            <a
+              href={`/portfolio/${cat.id === 'all' ? '' : `?cat=${cat.id}`}`}
               data-filter={cat.id}
-              aria-pressed={i === 0 ? 'true' : 'false'}
+              aria-pressed={cat.id === 'all' ? 'true' : 'false'}
               class={`filter-btn shrink-0 px-3 lg:px-5 py-1.5 lg:py-2 text-xs lg:text-sm font-medium uppercase tracking-wider transition-all duration-300 active:scale-95 ${
-                i === 0
+                cat.id === 'all'
                   ? 'bg-ink text-light'
                   : 'bg-transparent text-ink/60 border border-ink/20 hover:border-ink/50 hover:text-ink'
               }`}
             >
               {cat.label}
-            </button>
+            </a>
           ))}
         </div>
 
@@ -127,34 +128,56 @@ const categories = [
 </Layout>
 
 <script>
-  function initFilters() {
+  function getActiveFilter() {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('cat') || 'all';
+  }
+
+  function setActiveFilter(filter) {
     const buttons = document.querySelectorAll('.filter-btn');
     const cards = document.querySelectorAll('.project-card');
 
+    buttons.forEach(b => {
+      const isActive = b.dataset.filter === filter;
+      b.setAttribute('aria-pressed', String(isActive));
+      if (isActive) {
+        b.classList.add('bg-ink', 'text-light');
+        b.classList.remove('bg-transparent', 'text-ink/60', 'border', 'border-ink/20');
+      } else {
+        b.classList.remove('bg-ink', 'text-light');
+        b.classList.add('bg-transparent', 'text-ink/60', 'border', 'border-ink/20');
+      }
+    });
+
+    cards.forEach(card => {
+      const cat = card.dataset.category;
+      if (filter === 'all' || cat === filter) {
+        card.style.display = 'block';
+        card.style.animation = 'fadeIn 0.3s ease-out';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  }
+
+  function initFilters() {
+    const buttons = document.querySelectorAll('.filter-btn');
+
     buttons.forEach(btn => {
-      btn.addEventListener('click', () => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
         const filter = btn.dataset.filter;
-
-        buttons.forEach(b => {
-          b.classList.remove('bg-ink', 'text-light');
-          b.classList.add('bg-transparent', 'text-ink/60', 'border', 'border-ink/20');
-          b.setAttribute('aria-pressed', 'false');
-        });
-        btn.classList.add('bg-ink', 'text-light');
-        btn.classList.remove('bg-transparent', 'text-ink/60', 'border', 'border-ink/20');
-        btn.setAttribute('aria-pressed', 'true');
-
-        cards.forEach(card => {
-          const cat = card.dataset.category;
-          if (filter === 'all' || cat === filter) {
-            card.style.display = 'block';
-            card.style.animation = 'fadeIn 0.3s ease-out';
-          } else {
-            card.style.display = 'none';
-          }
-        });
+        const url = filter === 'all' ? '/portfolio/' : `/portfolio/?cat=${filter}`;
+        history.pushState({ filter }, '', url);
+        setActiveFilter(filter);
       });
     });
+
+    window.addEventListener('popstate', (e) => {
+      setActiveFilter(e.state?.filter || getActiveFilter());
+    });
+
+    setActiveFilter(getActiveFilter());
   }
 
   function initCursorLabel() {

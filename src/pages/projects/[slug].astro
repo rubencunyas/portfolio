@@ -38,7 +38,8 @@ async function classifyGallery(urls: string[]): Promise<{ masonry: string[]; wid
 
 const { masonry: galleryMasonry, wide: galleryWide } = await classifyGallery(gallery);
 
-const categoryLabel = project.data.category === 'branding' ? 'Branding' : project.data.category === 'web' ? 'Web' : 'Multimedia';
+const categoryLabels: Record<string, string> = { branding: 'Branding', web: 'Desarrollo Web', uxui: 'UX/UI', multimedia: 'Social Media' };
+const categoryLabel = categoryLabels[project.data.category] || 'Web';
 const pageTitle = `${project.data.title} — ${categoryLabel} | Rubén Cunyas`;
 const pageDescription = project.data.result ? project.data.result.slice(0, 155) : project.data.challenge.slice(0, 155);
 

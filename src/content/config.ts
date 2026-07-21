@@ -7,7 +7,7 @@ const projectsCollection = defineCollection({
     client: z.string(),
     url: z.string().optional(),
     year: z.number(),
-    category: z.enum(['branding', 'web', 'multimedia']).default('web'),
+    category: z.enum(['branding', 'web', 'multimedia', 'uxui']).default('web'),
     tags: z.array(z.string()),
     accent: z.enum(['blue', 'orange']).default('blue'),
     cover: z.string().optional(),
