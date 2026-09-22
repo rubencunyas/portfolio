@@ -4,7 +4,7 @@ import ProjectCard from '@/components/ProjectCard.astro';
 import { getCollection } from 'astro:content';
 
 const projects = await getCollection('projects');
-const categoryPriority: Record<string, number> = { uxui: 0, web: 1, branding: 2, multimedia: 3 };
+const categoryPriority: Record<string, number> = { branding: 0, multimedia: 1, uxui: 2, web: 3 };
 const sorted = [...projects].sort((a, b) => {
   const aP = categoryPriority[a.data.category] ?? 9;
   const bP = categoryPriority[b.data.category] ?? 9;
@@ -20,9 +20,9 @@ const categories = [
   ...(has360 ? [{ id: '360', label: '360°' }] : []),
   ...[
     { id: 'branding', label: 'Branding' },
+    { id: 'multimedia', label: 'Multimedia' },
     { id: 'uxui', label: 'UX/UI' },
     { id: 'web', label: 'Desarrollo Web' },
-    { id: 'multimedia', label: 'Multimedia' },
   ].filter((cat) => activeCategories.has(cat.id)),
 ];
 
