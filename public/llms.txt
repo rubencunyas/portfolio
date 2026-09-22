@@ -7,6 +7,7 @@
 
 ## Proyectos
 - Autoval Branding: https://portfolio-rub.netlify.app/projects/autoval-brand
+- Autoval RRSS: https://portfolio-rub.netlify.app/projects/autoval-rrss
 - Autoval Service: https://portfolio-rub.netlify.app/projects/autoval
 - Ay Mi Leche: https://portfolio-rub.netlify.app/projects/ay-mi-leche
 - Berlitz: https://portfolio-rub.netlify.app/projects/berlitz

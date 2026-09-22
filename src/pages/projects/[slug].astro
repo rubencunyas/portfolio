@@ -27,19 +27,36 @@ function getYouTubeId(url?: string): string | null {
   return match ? match[1] : null;
 }
 
+function getInstagramCode(url?: string): string | null {
+  if (!url) return null;
+  const match = url.match(/instagram\.com\/(?:p|reel|reels|tv)\/([\w-]+)/);
+  return match ? match[1] : null;
+}
+
 const videoUrls = project.data.videos?.length
   ? project.data.videos
   : (project.data.video ? [project.data.video] : []);
 const videoItems = videoUrls
   .map((url) => {
-    const id = getYouTubeId(url);
-    if (!id) return null;
-    return {
-      id,
-      embed: `https://www.youtube.com/embed/${id}`,
-      poster: `https://img.youtube.com/vi/${id}/maxresdefault.jpg`,
-      isShort: /youtube\.com\/shorts\//.test(url),
-    };
+    const yt = getYouTubeId(url);
+    if (yt) {
+      return {
+        src: `https://www.youtube.com/embed/${yt}`,
+        poster: `https://img.youtube.com/vi/${yt}/maxresdefault.jpg`,
+        phone: /youtube\.com\/shorts\//.test(url),
+        instagram: false,
+      };
+    }
+    const ig = getInstagramCode(url);
+    if (ig) {
+      return {
+        src: `https://www.instagram.com/p/${ig}/embed/`,
+        poster: null,
+        phone: true,
+        instagram: true,
+      };
+    }
+    return null;
   })
   .filter((item): item is NonNullable<typeof item> => item !== null);
 const firstVideo = videoItems[0];
@@ -229,14 +246,14 @@ const faqSchema = {
       {videoItems.length > 0 && (
         <section class="mt-6 lg:mt-10 reveal-section" data-reveal>
           {videoItems.length === 1 ? (
-            <div class={`mx-auto px-6 lg:px-12 ${videoItems[0].isShort ? 'max-w-sm' : 'max-w-5xl'}`}>
-              <VideoFrame src={videoItems[0].embed} title={project.data.title} isShort={videoItems[0].isShort} />
+            <div class={`mx-auto px-6 lg:px-12 ${videoItems[0].phone ? 'max-w-md' : 'max-w-5xl'}`}>
+              <VideoFrame src={videoItems[0].src} title={project.data.title} phone={videoItems[0].phone} instagram={videoItems[0].instagram} />
             </div>
           ) : (
             <div class="max-w-7xl mx-auto px-6 lg:px-12">
               <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
                 {videoItems.map((item, index) => (
-                  <VideoFrame src={item.embed} title={`${project.data.title} - video ${index + 1}`} isShort={item.isShort} />
+                  <VideoFrame src={item.src} title={`${project.data.title} - video ${index + 1}`} phone={item.phone} instagram={item.instagram} />
                 ))}
               </div>
             </div>
