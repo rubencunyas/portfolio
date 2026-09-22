@@ -58,11 +58,12 @@ const aiPrompt = project.data.ai_prompt;
 const aiBefore = project.data.ai_before;
 const aiAfter = project.data.ai_after;
 const hasAiProcess = aiTools.length > 0 || Boolean(aiPrompt) || Boolean(aiBefore && aiAfter);
-const aiSteps = [
+const defaultAiSteps = [
   { title: 'Generación base', text: 'Exploración de conceptos con IA a partir de un prompt dirigido, controlando estilo, luz y encuadre.' },
   { title: 'Retoque y composición', text: 'Limpieza, corrección y fotomontaje para adaptar cada pieza a la identidad de marca.' },
   { title: 'Aplicación final', text: 'Pieza terminada y contextualizada, lista para campaña, e-commerce o redes sociales.' },
 ];
+const aiSteps = project.data.ai_steps?.length ? project.data.ai_steps : defaultAiSteps;
 const pageTitle = `${project.data.title} — ${categoryLabel} | Rubén Cunyas`;
 const pageDescription = project.data.result ? project.data.result.slice(0, 155) : project.data.challenge.slice(0, 155);
 

@@ -22,6 +22,7 @@ const projectsCollection = defineCollection({
     ai_prompt: z.string().optional(),
     ai_before: z.string().optional(),
     ai_after: z.string().optional(),
+    ai_steps: z.array(z.object({ title: z.string(), text: z.string() })).optional(),
     featured: z.boolean().default(false),
     order: z.number().default(0)
   })
