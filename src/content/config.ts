@@ -6,6 +6,7 @@ const projectsCollection = defineCollection({
     title: z.string(),
     client: z.string(),
     url: z.string().optional(),
+    video: z.string().optional(),
     year: z.number(),
     category: z.enum(['branding', 'web', 'multimedia', 'uxui']).default('web'),
     tags: z.array(z.string()),
@@ -17,6 +18,10 @@ const projectsCollection = defineCollection({
     solution: z.string(),
     result: z.string(),
     technologies: z.array(z.string()),
+    ai_tools: z.array(z.string()).optional(),
+    ai_prompt: z.string().optional(),
+    ai_before: z.string().optional(),
+    ai_after: z.string().optional(),
     featured: z.boolean().default(false),
     order: z.number().default(0)
   })

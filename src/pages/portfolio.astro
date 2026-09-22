@@ -9,16 +9,18 @@ const sorted = [...projects].sort((a, b) => {
   const aP = categoryPriority[a.data.category] ?? 9;
   const bP = categoryPriority[b.data.category] ?? 9;
   if (aP !== bP) return aP - bP;
-  return b.data.year - a.data.year;
+  if (b.data.year !== a.data.year) return b.data.year - a.data.year;
+  return (a.data.order ?? 0) - (b.data.order ?? 0);
 });
 
+const activeCategories = new Set(sorted.map((project) => project.data.category));
 const categories = [
   { id: 'all', label: 'Todos' },
   { id: 'branding', label: 'Branding' },
   { id: 'uxui', label: 'UX/UI' },
   { id: 'web', label: 'Desarrollo Web' },
-  { id: 'multimedia', label: 'Social Media' },
-];
+  { id: 'multimedia', label: 'Multimedia' },
+].filter((cat) => cat.id === 'all' || activeCategories.has(cat.id));
 ---
 
 <Layout
@@ -110,6 +112,11 @@ const categories = [
                   class="w-full h-full object-cover transition duration-700 ease-out group-hover:scale-[1.03]"
                 />
                 <div class="project-hover-label" aria-hidden="true">Ver proyecto</div>
+                {project.data.ai_tools?.length ? (
+                  <span class="absolute top-3 right-3 z-[1] px-2 py-1 text-[10px] font-semibold uppercase tracking-widest bg-ink/80 text-light backdrop-blur-sm">
+                    IA
+                  </span>
+                ) : null}
               </div>
               <div class="px-3 pt-3 pb-3.5">
                 <h3 class="font-display font-bold text-lg sm:text-xl tracking-tight leading-tight group-hover:text-accent-blue transition-colors duration-300 mb-1.5">

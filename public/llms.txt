@@ -9,8 +9,13 @@
 - Autoval Service: https://portfolio-rub.netlify.app/projects/autoval
 - Ay Mi Leche: https://portfolio-rub.netlify.app/projects/ay-mi-leche
 - Berlitz: https://portfolio-rub.netlify.app/projects/berlitz
+- Berlitz Abroad: https://portfolio-rub.netlify.app/projects/berlitz-abroad
+- Berlitz Business: https://portfolio-rub.netlify.app/projects/berlitz-business
+- Berlitz Cursos Adultos: https://portfolio-rub.netlify.app/projects/berlitz-cursos-adultos
 - Berlitz RRSS: https://portfolio-rub.netlify.app/projects/berlitz-rrss
 - Brother Catálogo: https://portfolio-rub.netlify.app/projects/brother-catalogo
+- Colegios Zárate: https://portfolio-rub.netlify.app/projects/colegios-zarate
+- Futura Schools: https://portfolio-rub.netlify.app/projects/futura-schools-2027
 - HM Tech: https://portfolio-rub.netlify.app/projects/hm-tech
 - Mathpal: https://portfolio-rub.netlify.app/projects/mathpal
 - Mathpal Brand: https://portfolio-rub.netlify.app/projects/mathpal-brand
