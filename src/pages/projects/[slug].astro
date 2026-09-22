@@ -258,7 +258,7 @@ const faqSchema = {
       </section>
 
       {videoItems.length > 0 && (
-        <section class="mt-6 lg:mt-10 reveal-section" data-reveal>
+        <section class="mt-6 lg:mt-10 pb-10 lg:pb-16 reveal-section" data-reveal>
           <h2 class="sr-only">Video</h2>
           {videoItems.length === 1 ? (
             <div class={`mx-auto px-6 lg:px-12 ${videoItems[0].phone ? 'max-w-[360px]' : 'max-w-5xl'}`}>
@@ -340,7 +340,7 @@ const faqSchema = {
         <section class="mt-6 lg:mt-10 reveal-section" data-reveal>
           <h2 class="sr-only">Galería</h2>
           <div class="max-w-7xl mx-auto px-6 lg:px-12">
-            <div class={`columns-1 sm:columns-2 lg:columns-3 ${galleryAllPortrait ? 'gap-0 space-y-0' : 'gap-4 space-y-4'}`}>
+            <div class={`columns-1 sm:columns-2 lg:columns-3 ${galleryAllPortrait ? 'gap-0.5 space-y-0.5' : 'gap-4 space-y-4'}`}>
               {galleryMasonry.map((image, index) => (
                 <figure class="group relative overflow-hidden break-inside-avoid cursor-pointer lightbox-trigger reveal-item" role="button" tabindex="0" aria-label="Ampliar imagen" data-reveal data-delay={String(index * 100)}>
                   <img

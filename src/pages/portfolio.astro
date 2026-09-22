@@ -15,6 +15,7 @@ const sorted = [...projects].sort((a, b) => {
 
 const activeCategories = new Set(sorted.map((project) => project.data.category));
 const has360 = sorted.some((project) => project.data.full360);
+const hasWeb = sorted.some((project) => project.data.category === 'web' || project.data.web);
 const categories = [
   { id: 'all', label: 'Todos' },
   ...(has360 ? [{ id: '360', label: '360°' }] : []),
@@ -23,7 +24,7 @@ const categories = [
     { id: 'multimedia', label: 'Multimedia' },
     { id: 'uxui', label: 'UX/UI' },
     { id: 'web', label: 'Desarrollo Web' },
-  ].filter((cat) => activeCategories.has(cat.id)),
+  ].filter((cat) => activeCategories.has(cat.id) || (cat.id === 'web' && hasWeb)),
 ];
 
 const stage360Priority: Record<string, number> = { branding: 0, uxui: 1, web: 2, multimedia: 3 };
@@ -220,7 +221,10 @@ const initialFilter = validFilters.has(requestedFilter) ? requestedFilter : 'all
     const cards = grid.querySelectorAll('.project-card');
 
     cards.forEach(card => {
-      const show = filter === 'all' || card.dataset.category === filter;
+      const show = filter === 'all'
+        || (filter === 'web'
+          ? (card.dataset.category === 'web' || card.dataset.web === 'true')
+          : card.dataset.category === filter);
       if (show) {
         card.style.display = 'block';
         if (card.dataset.hidden === 'true') {

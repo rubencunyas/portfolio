@@ -39,15 +39,22 @@ const screenAspect = instagram ? 'aspect-[9/19.5]' : 'aspect-[9/16]';
     )}
   </div>
 ) : (
-  <div class="relative aspect-video w-full overflow-hidden bg-ink/5">
-    <iframe
-      src={src}
-      title={title}
-      class="absolute inset-0 h-full w-full border-0"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-      referrerpolicy="strict-origin-when-cross-origin"
-      allowfullscreen
-      loading="lazy"
-    ></iframe>
+  <div class="overflow-hidden rounded-xl border border-ink/10 bg-dark shadow-lg">
+    <div class="flex items-center gap-1.5 border-b border-light/10 px-4 py-2.5" aria-hidden="true">
+      <span class="h-2.5 w-2.5 rounded-full bg-light/20"></span>
+      <span class="h-2.5 w-2.5 rounded-full bg-light/20"></span>
+      <span class="h-2.5 w-2.5 rounded-full bg-light/20"></span>
+    </div>
+    <div class="relative aspect-video w-full">
+      <iframe
+        src={src}
+        title={title}
+        class="absolute inset-0 h-full w-full border-0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        referrerpolicy="strict-origin-when-cross-origin"
+        allowfullscreen
+        loading="lazy"
+      ></iframe>
+    </div>
   </div>
 )}

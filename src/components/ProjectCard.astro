@@ -20,6 +20,7 @@ const stagger = staggerClasses.join(' ');
 <a
   href={`/projects/${project.slug}`}
   data-category={project.data.category}
+  data-web={project.data.web ? 'true' : 'false'}
   data-full360={project.data.full360 ? 'true' : 'false'}
   class={`project-card group block scroll-animate ${stagger}`}
 >
