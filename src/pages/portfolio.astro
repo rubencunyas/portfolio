@@ -1,7 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import ProjectCard from '@/components/ProjectCard.astro';
 import { getCollection } from 'astro:content';
-import { getProjectImages } from '@/utils/images';
 
 const projects = await getCollection('projects');
 const categoryPriority: Record<string, number> = { uxui: 0, web: 1, branding: 2, multimedia: 3 };
@@ -26,13 +26,24 @@ const categories = [
   ].filter((cat) => activeCategories.has(cat.id)),
 ];
 
-function staggerClass(index: number): string {
-  const classes: string[] = [];
-  if (index % 2 === 1) classes.push('md:mt-20');
-  if (index % 3 === 1) classes.push('lg:mt-24');
-  else if (index % 3 === 2) classes.push('lg:mt-12');
-  return classes.join(' ');
+const stage360Priority: Record<string, number> = { branding: 0, uxui: 1, web: 2, multimedia: 3 };
+const groups360Map = new Map<string, typeof sorted>();
+for (const project of sorted) {
+  if (!project.data.full360) continue;
+  const key = project.data.group360 || project.data.client;
+  const list = groups360Map.get(key) ?? [];
+  list.push(project);
+  groups360Map.set(key, list);
 }
+const groups360 = [...groups360Map.entries()].map(([name, items]) => ({
+  name,
+  projects: [...items].sort((a, b) => {
+    const ap = stage360Priority[a.data.category] ?? 9;
+    const bp = stage360Priority[b.data.category] ?? 9;
+    if (ap !== bp) return ap - bp;
+    return (a.data.order ?? 0) - (b.data.order ?? 0);
+  }),
+}));
 ---
 
 <Layout
@@ -118,49 +129,27 @@ function staggerClass(index: number): string {
 
         <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16 items-start">
           {sorted.map((project, index) => (
-            <a
-              href={`/projects/${project.slug}`}
-              data-category={project.data.category}
-              data-full360={project.data.full360 ? 'true' : 'false'}
-              class={`project-card group block scroll-animate ${staggerClass(index)}`}
-            >
-              <div class="relative aspect-[4/3] overflow-hidden bg-light/[0.04] ring-1 ring-inset ring-light/5">
-                <img
-                  src={getProjectImages(project.slug).cover ?? project.data.cover}
-                  alt={project.data.title}
-                  width="1000"
-                  height="750"
-                  loading="lazy"
-                  class="h-full w-full object-cover transition duration-500 ease-out group-hover:scale-[1.03]"
-                />
-                <span class="absolute left-4 top-4 bg-light px-3 py-2 text-xs font-bold uppercase tracking-widest text-ink">
-                  {project.data.year}
+            <ProjectCard project={project} index={index} />
+          ))}
+        </div>
+
+        <div id="projects-360" style="display: none;">
+          {groups360.map((group) => (
+            <div class="mb-16 lg:mb-24 last:mb-0">
+              <div class="flex flex-wrap items-baseline gap-x-4 gap-y-1 border-b border-light/10 pb-4 mb-10">
+                <h2 class="font-display text-3xl sm:text-4xl font-bold uppercase tracking-tight">
+                  {group.name}
+                </h2>
+                <span class="text-[10px] font-bold uppercase tracking-widest text-accent-blue">
+                  Proyecto 360°
                 </span>
-                <div class="absolute right-4 top-4 flex flex-col items-end gap-1.5">
-                  {project.data.full360 && (
-                    <span class="px-2.5 py-1.5 text-[10px] font-bold uppercase tracking-widest bg-accent-blue text-light">
-                      360°
-                    </span>
-                  )}
-                  {project.data.ai_tools?.length ? (
-                    <span class="px-2.5 py-1.5 text-[10px] font-bold uppercase tracking-widest bg-accent-orange text-light">
-                      IA
-                    </span>
-                  ) : null}
-                </div>
               </div>
-              <div class="mt-4 flex items-start justify-between gap-4 border-b border-light/10 pb-4">
-                <div>
-                  <h3 class="font-display text-2xl font-bold uppercase leading-tight tracking-[-0.01em] transition-colors duration-300 ease-out group-hover:text-accent-orange sm:text-3xl">
-                    {project.data.title}
-                  </h3>
-                  <p class="mt-1 text-sm text-light/55">
-                    {project.data.client} · {project.data.tags.slice(0, 2).join(' / ')}
-                  </p>
-                </div>
-                <span class="pt-1 text-2xl text-accent-blue transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true">↗</span>
+              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16 items-start">
+                {group.projects.map((project, index) => (
+                  <ProjectCard project={project} index={index} show360Badge={false} />
+                ))}
               </div>
-            </a>
+            </div>
           ))}
         </div>
       </div>
@@ -176,7 +165,8 @@ function staggerClass(index: number): string {
 
   function setActiveFilter(filter) {
     const buttons = document.querySelectorAll('.filter-btn');
-    const cards = document.querySelectorAll('.project-card');
+    const grid = document.getElementById('projects-grid');
+    const grouped = document.getElementById('projects-360');
 
     buttons.forEach(b => {
       const isActive = b.dataset.filter === filter;
@@ -190,11 +180,23 @@ function staggerClass(index: number): string {
       }
     });
 
+    if (!grid) return;
+
+    if (filter === '360' && grouped) {
+      grid.style.display = 'none';
+      grouped.style.display = 'block';
+      grouped.querySelectorAll('.scroll-animate').forEach(el => el.classList.add('visible'));
+      return;
+    }
+
+    grid.style.display = '';
+    if (grouped) grouped.style.display = 'none';
+
     const visible = [];
+    const cards = grid.querySelectorAll('.project-card');
 
     cards.forEach(card => {
-      const show = filter === 'all'
-        || (filter === '360' ? card.dataset.full360 === 'true' : card.dataset.category === filter);
+      const show = filter === 'all' || card.dataset.category === filter;
       if (show) {
         card.style.display = 'block';
         if (card.dataset.hidden === 'true') {

@@ -1,0 +1,62 @@
+---
+import { getProjectImages } from '@/utils/images';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+  index?: number;
+  show360Badge?: boolean;
+}
+
+const { project, index = 0, show360Badge = true } = Astro.props;
+
+const staggerClasses: string[] = [];
+if (index % 2 === 1) staggerClasses.push('md:mt-20');
+if (index % 3 === 1) staggerClasses.push('lg:mt-24');
+else if (index % 3 === 2) staggerClasses.push('lg:mt-12');
+const stagger = staggerClasses.join(' ');
+---
+
+<a
+  href={`/projects/${project.slug}`}
+  data-category={project.data.category}
+  data-full360={project.data.full360 ? 'true' : 'false'}
+  class={`project-card group block scroll-animate ${stagger}`}
+>
+  <div class="relative aspect-[4/3] overflow-hidden bg-light/[0.04] ring-1 ring-inset ring-light/5">
+    <img
+      src={getProjectImages(project.slug).cover ?? project.data.cover}
+      alt={project.data.title}
+      width="1000"
+      height="750"
+      loading="lazy"
+      class="h-full w-full object-cover transition duration-500 ease-out group-hover:scale-[1.03]"
+    />
+    <span class="absolute left-4 top-4 bg-light px-3 py-2 text-xs font-bold uppercase tracking-widest text-ink">
+      {project.data.year}
+    </span>
+    <div class="absolute right-4 top-4 flex flex-col items-end gap-1.5">
+      {show360Badge && project.data.full360 && (
+        <span class="px-2.5 py-1.5 text-[10px] font-bold uppercase tracking-widest bg-accent-blue text-light">
+          360°
+        </span>
+      )}
+      {project.data.ai_tools?.length ? (
+        <span class="px-2.5 py-1.5 text-[10px] font-bold uppercase tracking-widest bg-accent-orange text-light">
+          IA
+        </span>
+      ) : null}
+    </div>
+  </div>
+  <div class="mt-4 flex items-start justify-between gap-4 border-b border-light/10 pb-4">
+    <div>
+      <h3 class="font-display text-2xl font-bold uppercase leading-tight tracking-[-0.01em] transition-colors duration-300 ease-out group-hover:text-accent-orange sm:text-3xl">
+        {project.data.title}
+      </h3>
+      <p class="mt-1 text-sm text-light/55">
+        {project.data.client} · {project.data.tags.slice(0, 2).join(' / ')}
+      </p>
+    </div>
+    <span class="pt-1 text-2xl text-accent-blue transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true">↗</span>
+  </div>
+</a>

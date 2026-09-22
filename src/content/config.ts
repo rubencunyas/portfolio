@@ -9,6 +9,7 @@ const projectsCollection = defineCollection({
     video: z.string().optional(),
     videos: z.array(z.string()).optional(),
     full360: z.boolean().default(false),
+    group360: z.string().optional(),
     year: z.number(),
     category: z.enum(['branding', 'web', 'multimedia', 'uxui']).default('web'),
     tags: z.array(z.string()),
