@@ -7,12 +7,11 @@ interface Props {
 }
 
 const { src, title, phone = false, instagram = false } = Astro.props;
-const phoneWidth = instagram ? 'max-w-[360px]' : 'max-w-[300px]';
 const screenAspect = instagram ? 'aspect-[9/19.5]' : 'aspect-[9/16]';
 ---
 
 {phone ? (
-  <div class={`relative mx-auto w-full ${phoneWidth} rounded-[2.2rem] bg-ink px-2 pb-2.5 pt-5 shadow-2xl`}>
+  <div class="relative mx-auto w-full rounded-[2.2rem] bg-ink px-2 pb-2.5 pt-5 shadow-2xl">
     <span class="absolute top-2 left-1/2 h-1.5 w-14 -translate-x-1/2 rounded-full bg-light/20" aria-hidden="true"></span>
     <div class={`relative ${screenAspect} overflow-hidden rounded-[1.6rem] bg-black`}>
       <iframe

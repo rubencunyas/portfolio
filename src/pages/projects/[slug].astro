@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 import VideoFrame from '@/components/VideoFrame.astro';
+import PhoneCarousel from '@/components/PhoneCarousel.astro';
 import { getProjectImages } from '@/utils/images';
 import sharp from 'sharp';
 import path from 'path';
@@ -18,7 +19,10 @@ const { project } = Astro.props;
 const { Content } = await project.render();
 
 const detected = getProjectImages(project.slug);
-const gallery = project.data.gallery?.length ? project.data.gallery : detected.gallery;
+const carousels = project.data.carousels ?? [];
+const gallery = carousels.length > 0
+  ? []
+  : (project.data.gallery?.length ? project.data.gallery : detected.gallery);
 const gallerySlider = project.data.gallery_slider?.length ? project.data.gallery_slider : detected.gallerySlider;
 
 function getYouTubeId(url?: string): string | null {
@@ -246,18 +250,32 @@ const faqSchema = {
       {videoItems.length > 0 && (
         <section class="mt-6 lg:mt-10 reveal-section" data-reveal>
           {videoItems.length === 1 ? (
-            <div class={`mx-auto px-6 lg:px-12 ${videoItems[0].phone ? 'max-w-md' : 'max-w-5xl'}`}>
+            <div class={`mx-auto px-6 lg:px-12 ${videoItems[0].phone ? 'max-w-[360px]' : 'max-w-5xl'}`}>
               <VideoFrame src={videoItems[0].src} title={project.data.title} phone={videoItems[0].phone} instagram={videoItems[0].instagram} />
             </div>
           ) : (
-            <div class="max-w-7xl mx-auto px-6 lg:px-12">
-              <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
+            <div class="mx-auto px-6 lg:px-12">
+              <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
                 {videoItems.map((item, index) => (
                   <VideoFrame src={item.src} title={`${project.data.title} - video ${index + 1}`} phone={item.phone} instagram={item.instagram} />
                 ))}
               </div>
             </div>
           )}
+        </section>
+      )}
+
+      {carousels.length > 0 && (
+        <section class="mt-6 lg:mt-10 pb-10 reveal-section" data-reveal>
+          <div class="max-w-7xl mx-auto px-6 lg:px-12">
+            <div class={`grid gap-12 lg:gap-16 ${carousels.length > 1 ? 'sm:grid-cols-2' : ''}`}>
+              {carousels.map((carousel) => (
+                <div class="reveal-item" data-reveal>
+                  <PhoneCarousel images={carousel.images} label={carousel.label} />
+                </div>
+              ))}
+            </div>
+          </div>
         </section>
       )}
 
@@ -506,6 +524,25 @@ const faqSchema = {
     @apply bg-accent-blue;
   }
 
+  .phone-swiper .swiper-pagination {
+    position: absolute;
+    bottom: 0.75rem;
+    left: 0;
+    right: 0;
+  }
+
+  .phone-swiper .swiper-pagination-bullet {
+    @apply bg-light/50;
+    opacity: 1;
+    width: 6px;
+    height: 6px;
+    margin: 0 3px !important;
+  }
+
+  .phone-swiper .swiper-pagination-bullet-active {
+    @apply bg-light;
+  }
+
   .ba-slider {
     --pos: 50%;
   }
@@ -608,7 +645,8 @@ const faqSchema = {
     const swiperEl = document.querySelector('.project-swiper');
     if (!swiperEl) return;
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    new Swiper('.project-swiper', {
+    const paginationEl = swiperEl.querySelector('.swiper-pagination');
+    new Swiper(swiperEl, {
       modules: [Autoplay, Pagination],
       slidesPerView: 1,
       spaceBetween: 0,
@@ -617,10 +655,28 @@ const faqSchema = {
         delay: 5000,
         disableOnInteraction: false,
       },
-      pagination: {
-        el: '.swiper-pagination',
+      pagination: paginationEl ? {
+        el: paginationEl,
         clickable: true,
-      },
+      } : undefined,
+    });
+  }
+
+  function initPhoneSwipers() {
+    document.querySelectorAll('.phone-swiper').forEach((el) => {
+      if (el.dataset.swiperReady) return;
+      el.dataset.swiperReady = 'true';
+      const paginationEl = el.querySelector('.swiper-pagination');
+      new Swiper(el, {
+        modules: [Pagination],
+        slidesPerView: 1,
+        spaceBetween: 0,
+        loop: false,
+        pagination: paginationEl ? {
+          el: paginationEl,
+          clickable: true,
+        } : undefined,
+      });
     });
   }
 
@@ -724,6 +780,7 @@ const faqSchema = {
   initScrollReveal();
   initLightbox();
   initProjectSwiper();
+  initPhoneSwipers();
   initBeforeAfter();
   document.addEventListener('astro:after-swap', () => {
     initBreadcrumb();
@@ -732,6 +789,7 @@ const faqSchema = {
     initScrollReveal();
     initLightbox();
     initProjectSwiper();
+    initPhoneSwipers();
     initBeforeAfter();
   });
 </script>

@@ -1,0 +1,36 @@
+---
+interface Props {
+  images: string[];
+  label?: string;
+}
+
+const { images, label } = Astro.props;
+---
+
+<div>
+  {label && (
+    <p class="mb-4 text-center text-xs font-bold uppercase tracking-widest text-ink/50">
+      {label}
+    </p>
+  )}
+  <div class="relative mx-auto w-full max-w-[360px] rounded-[2.2rem] bg-ink px-2 pb-2.5 pt-5 shadow-2xl">
+    <span class="absolute top-2 left-1/2 h-1.5 w-14 -translate-x-1/2 rounded-full bg-light/20" aria-hidden="true"></span>
+    <div class="relative aspect-[4/5] overflow-hidden rounded-[1.6rem] bg-black">
+      <div class="swiper phone-swiper h-full w-full">
+        <div class="swiper-wrapper">
+          {images.map((image, index) => (
+            <div class="swiper-slide">
+              <img
+                src={image}
+                alt={`${label ?? 'Carrusel'} - ${index + 1}`}
+                class="h-full w-full object-cover"
+                loading="lazy"
+              />
+            </div>
+          ))}
+        </div>
+        <div class="swiper-pagination"></div>
+      </div>
+    </div>
+  </div>
+</div>
