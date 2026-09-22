@@ -49,6 +49,7 @@ const videoItems = videoUrls
         poster: `https://img.youtube.com/vi/${yt}/maxresdefault.jpg`,
         phone: /youtube\.com\/shorts\//.test(url),
         instagram: false,
+        url,
       };
     }
     const ig = getInstagramCode(url);
@@ -58,6 +59,7 @@ const videoItems = videoUrls
         poster: null,
         phone: true,
         instagram: true,
+        url,
       };
     }
     return null;
@@ -155,17 +157,17 @@ const faqSchema = {
     ...(project.data.client ? { "publisher": { "@type": "Organization", "name": project.data.client } } : {}),
     ...(project.data.url ? { "sameAs": project.data.url } : {})
   })} />
-  <nav class="sticky top-0 z-50 bg-light/90 backdrop-blur-md border-b border-ink/10">
-    <div class="flex items-center gap-3 px-6 lg:px-12 py-3">
+  <nav class="sticky top-0 z-sticky bg-light/90 backdrop-blur-md border-b border-ink/10">
+    <div class="flex min-w-0 items-center gap-3 px-6 lg:px-12 py-3">
       <a href="/" class="shrink-0">
         <img src="/logo.svg" alt="Rubén Cunyas" width="32" height="32" class="w-8 h-8" />
       </a>
-      <div class="flex items-center gap-2 text-xs text-ink/40 uppercase tracking-wider">
+      <div class="flex min-w-0 items-center gap-2 text-xs text-ink/60 uppercase tracking-wider">
         <a href="/" class="hover:text-ink transition-colors">Home</a>
         <span>/</span>
         <a href="/portfolio" class="hover:text-ink transition-colors" id="breadcrumb-portfolio">Portfolio</a>
         <span>/</span>
-        <span class="text-ink/60 truncate max-w-[200px]">{project.data.title}</span>
+        <span class="truncate text-ink/70 max-w-[120px] sm:max-w-[200px]">{project.data.title}</span>
       </div>
     </div>
   </nav>
@@ -174,7 +176,7 @@ const faqSchema = {
 
       {cover && (
         <section class="overflow-hidden project-cover-wrap">
-          <div class="cursor-pointer lightbox-trigger">
+          <div class="cursor-pointer lightbox-trigger" role="button" tabindex="0" aria-label="Ampliar imagen">
             <img
               src={cover}
               alt={`${project.data.title} - Portada`}
@@ -191,7 +193,7 @@ const faqSchema = {
             <p class="text-xs text-light/50 uppercase tracking-wider mb-2 reveal-item" data-reveal>
               {project.data.client} — {project.data.year}
             </p>
-            <h1 class="font-display font-bold text-4xl sm:text-5xl lg:text-6xl tracking-tight leading-none mb-4 text-accent-blue reveal-title" data-reveal-title>
+            <h1 class="font-display font-bold text-4xl sm:text-5xl lg:text-6xl tracking-tight leading-none mb-4 text-light reveal-title" data-reveal-title>
               {project.data.title}
             </h1>
             <div class="flex flex-wrap items-center gap-3 reveal-item" data-reveal data-delay="200">
@@ -200,7 +202,7 @@ const faqSchema = {
                   href={project.data.url || videoUrls[0]}
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-accent-orange hover:text-white active:text-white/70 transition-colors duration-300"
+                  class="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-accent-orange hover:text-light active:text-light/70 transition-colors duration-300"
                 >
                   {linkLabel}
                   <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -220,25 +222,25 @@ const faqSchema = {
 
           <div class="grid lg:grid-cols-3 gap-6 lg:gap-10 border-t border-light/10 pt-6 lg:pt-8">
             <div class="reveal-item" data-reveal data-delay="100">
-              <h2 class="text-[10px] font-semibold uppercase tracking-widest text-light/40 mb-3">
-                01 — Reto
-              </h2>
+                <h2 class="text-[10px] font-semibold uppercase tracking-widest text-light/60 mb-3">
+                  01 — Reto
+                </h2>
               <p class="text-sm lg:text-base text-light/70 leading-relaxed">
                 {project.data.challenge}
               </p>
             </div>
             <div class="reveal-item" data-reveal data-delay="250">
-              <h2 class="text-[10px] font-semibold uppercase tracking-widest text-light/40 mb-3">
-                02 — Solución
-              </h2>
+                <h2 class="text-[10px] font-semibold uppercase tracking-widest text-light/60 mb-3">
+                  02 — Solución
+                </h2>
               <p class="text-sm lg:text-base text-light/70 leading-relaxed">
                 {project.data.solution}
               </p>
             </div>
             <div class="reveal-item" data-reveal data-delay="400">
-              <h2 class="text-[10px] font-semibold uppercase tracking-widest text-light/40 mb-3">
-                03 — Resultado
-              </h2>
+                <h2 class="text-[10px] font-semibold uppercase tracking-widest text-light/60 mb-3">
+                  03 — Resultado
+                </h2>
               <p class="text-sm lg:text-base text-light/70 leading-relaxed">
                 {project.data.result}
               </p>
@@ -249,15 +251,16 @@ const faqSchema = {
 
       {videoItems.length > 0 && (
         <section class="mt-6 lg:mt-10 reveal-section" data-reveal>
+          <h2 class="sr-only">Video</h2>
           {videoItems.length === 1 ? (
             <div class={`mx-auto px-6 lg:px-12 ${videoItems[0].phone ? 'max-w-[360px]' : 'max-w-5xl'}`}>
-              <VideoFrame src={videoItems[0].src} title={project.data.title} phone={videoItems[0].phone} instagram={videoItems[0].instagram} />
+              <VideoFrame src={videoItems[0].src} title={project.data.title} phone={videoItems[0].phone} instagram={videoItems[0].instagram} href={videoItems[0].instagram ? videoItems[0].url : undefined} />
             </div>
           ) : (
             <div class="mx-auto px-6 lg:px-12">
               <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
                 {videoItems.map((item, index) => (
-                  <VideoFrame src={item.src} title={`${project.data.title} - video ${index + 1}`} phone={item.phone} instagram={item.instagram} />
+                  <VideoFrame src={item.src} title={`${project.data.title} - video ${index + 1}`} phone={item.phone} instagram={item.instagram} href={item.instagram ? item.url : undefined} />
                 ))}
               </div>
             </div>
@@ -267,6 +270,7 @@ const faqSchema = {
 
       {carousels.length > 0 && (
         <section class="mt-6 lg:mt-10 pb-10 reveal-section" data-reveal>
+          <h2 class="sr-only">Carruseles</h2>
           <div class="max-w-7xl mx-auto px-6 lg:px-12">
             <div class={`grid gap-12 lg:gap-16 ${carousels.length > 1 ? 'sm:grid-cols-2' : ''}`}>
               {carousels.map((carousel) => (
@@ -281,12 +285,13 @@ const faqSchema = {
 
       {gallerySlider.length > 0 && (
         <section class="mt-6 lg:mt-10 pb-10 reveal-section" data-reveal>
-          <div class="max-w-7xl mx-auto">
+          <h2 class="sr-only">Galería</h2>
+          <div class="max-w-7xl mx-auto px-6 lg:px-12">
             <div class="swiper project-swiper">
               <div class="swiper-wrapper">
                 {gallerySlider.map((image, index) => (
-                  <div class="swiper-slide cursor-pointer lightbox-trigger">
-                    <figure class="relative overflow-hidden bg-black/5 aspect-video">
+                  <div class="swiper-slide cursor-pointer lightbox-trigger" role="button" tabindex="0" aria-label="Ampliar imagen">
+                    <figure class="relative overflow-hidden bg-ink/5 aspect-video">
                       <img
                         src={image}
                         alt={`${project.data.title} - slider ${index + 1}`}
@@ -305,9 +310,10 @@ const faqSchema = {
 
       {galleryWide.length > 0 && (
         <section class="mt-6 lg:mt-10">
-          <div class="max-w-7xl mx-auto space-y-6 lg:space-y-10">
+          <h2 class="sr-only">Galería</h2>
+          <div class="max-w-7xl mx-auto space-y-6 px-6 lg:px-12 lg:space-y-10">
             {galleryWide.map((image, index) => (
-              <figure class="m-0 cursor-pointer lightbox-trigger reveal-item" data-reveal data-delay={String(index * 120)}>
+              <figure class="m-0 cursor-pointer lightbox-trigger reveal-item" role="button" tabindex="0" aria-label="Ampliar imagen" data-reveal data-delay={String(index * 120)}>
                 <div class="overflow-hidden">
                   <img
                     src={image}
@@ -324,10 +330,11 @@ const faqSchema = {
 
       {galleryMasonry.length > 0 && (
         <section class="mt-6 lg:mt-10 reveal-section" data-reveal>
-          <div class="max-w-7xl mx-auto">
+          <h2 class="sr-only">Galería</h2>
+          <div class="max-w-7xl mx-auto px-6 lg:px-12">
             <div class="columns-1 sm:columns-2 lg:columns-3 gap-4 space-y-4">
               {galleryMasonry.map((image, index) => (
-                <figure class="group relative overflow-hidden break-inside-avoid cursor-pointer lightbox-trigger reveal-item" data-reveal data-delay={String(index * 100)}>
+                <figure class="group relative overflow-hidden break-inside-avoid cursor-pointer lightbox-trigger reveal-item" role="button" tabindex="0" aria-label="Ampliar imagen" data-reveal data-delay={String(index * 100)}>
                   <img
                     src={image}
                     alt={`${project.data.title} - ${index + 1}`}
@@ -360,7 +367,7 @@ const faqSchema = {
 
             {aiBefore && aiAfter && (
               <div class="reveal-item max-w-4xl mx-auto" data-reveal data-delay="200">
-                <div class="ba-slider relative w-full aspect-video overflow-hidden bg-black/40 select-none">
+                <div class="ba-slider relative w-full aspect-video overflow-hidden bg-ink/40 select-none">
                   <img
                     src={aiAfter}
                     alt={`${project.data.title} — resultado final`}
@@ -392,8 +399,12 @@ const faqSchema = {
                     step="1"
                     class="ba-range absolute inset-0 w-full h-full opacity-0 cursor-ew-resize"
                     aria-label={`Comparar generación base y resultado final de ${project.data.title}`}
+                    aria-describedby="ba-instruction"
                   />
                 </div>
+                <p id="ba-instruction" class="mt-3 text-center text-xs text-light/60">
+                  Arrastra el control para comparar la generación base con el resultado final.
+                </p>
               </div>
             )}
 
@@ -429,7 +440,7 @@ const faqSchema = {
                   </svg>
                 </summary>
                 <div class="px-5 pb-5">
-                  <p class="text-xs text-light/45 mb-3">
+                  <p class="text-xs text-light/60 mb-3">
                     Prompt base para el key visual; se ajusta según lo que requiera cada pieza.
                   </p>
                   <pre class="overflow-x-auto text-xs leading-relaxed text-light/70 font-mono whitespace-pre-wrap"><code>{aiPrompt}</code></pre>
@@ -452,12 +463,12 @@ const faqSchema = {
 
       <section class="py-8 px-6 lg:px-12 border-b border-ink/10 reveal-item" data-reveal>
         <div class="max-w-7xl mx-auto">
-          <h2 class="text-[10px] font-semibold uppercase tracking-widest text-ink/30 mb-4">
+          <h2 class="text-[10px] font-semibold uppercase tracking-widest text-ink/70 mb-4">
             Tecnologías
           </h2>
           <div class="flex flex-wrap gap-2">
             {project.data.technologies.map((tech) => (
-              <span class="px-2.5 py-1 text-[10px] uppercase tracking-wider border border-ink/20 text-ink/60">
+              <span class="px-2.5 py-1 text-[10px] uppercase tracking-wider border border-ink/20 text-ink/70">
                 {tech}
               </span>
             ))}
@@ -494,8 +505,8 @@ const faqSchema = {
 
   <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
 
-  <div id="global-lightbox" class="fixed inset-0 z-50 bg-black/95 flex items-center justify-center cursor-zoom-out opacity-0 pointer-events-none transition-opacity duration-300">
-    <button class="absolute top-6 right-6 text-white/80 hover:text-white active:text-white/50 z-10 transition-colors" id="lightbox-close" aria-label="Cerrar">
+  <div id="global-lightbox" role="dialog" aria-modal="true" aria-label="Vista ampliada" class="fixed inset-0 z-modal bg-ink/95 flex items-center justify-center cursor-zoom-out opacity-0 pointer-events-none transition-opacity duration-300">
+    <button class="absolute top-6 right-6 text-light/80 hover:text-light active:text-light/50 z-10 transition-colors" id="lightbox-close" aria-label="Cerrar">
       <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
       </svg>
@@ -553,6 +564,10 @@ const faqSchema = {
 
   .ba-handle {
     left: var(--pos);
+  }
+
+  .ba-range {
+    touch-action: pan-y;
   }
 
   .ba-slider:focus-within {
@@ -629,7 +644,7 @@ const faqSchema = {
 
 <script>
   import Swiper from 'swiper';
-  import { Autoplay, Pagination } from 'swiper/modules';
+  import { A11y, Autoplay, Keyboard, Pagination } from 'swiper/modules';
 
   function initBreadcrumb() {
     const portfolioLink = document.getElementById('breadcrumb-portfolio');
@@ -643,17 +658,21 @@ const faqSchema = {
 
   function initProjectSwiper() {
     const swiperEl = document.querySelector('.project-swiper');
-    if (!swiperEl) return;
+    if (!swiperEl || swiperEl.dataset.swiperReady) return;
+    swiperEl.dataset.swiperReady = 'true';
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const paginationEl = swiperEl.querySelector('.swiper-pagination');
     new Swiper(swiperEl, {
-      modules: [Autoplay, Pagination],
+      modules: [A11y, Autoplay, Keyboard, Pagination],
       slidesPerView: 1,
       spaceBetween: 0,
       loop: true,
+      a11y: { enabled: true },
+      keyboard: { enabled: true },
       autoplay: prefersReduced ? false : {
         delay: 5000,
         disableOnInteraction: false,
+        pauseOnMouseEnter: true,
       },
       pagination: paginationEl ? {
         el: paginationEl,
@@ -668,10 +687,12 @@ const faqSchema = {
       el.dataset.swiperReady = 'true';
       const paginationEl = el.querySelector('.swiper-pagination');
       new Swiper(el, {
-        modules: [Pagination],
+        modules: [A11y, Keyboard, Pagination],
         slidesPerView: 1,
         spaceBetween: 0,
         loop: false,
+        a11y: { enabled: true },
+        keyboard: { enabled: true },
         pagination: paginationEl ? {
           el: paginationEl,
           clickable: true,
@@ -680,36 +701,59 @@ const faqSchema = {
     });
   }
 
+  let lastFocused = null;
+
+  function openLightbox(overlay, lightboxImg, closeBtn, src, alt) {
+    lastFocused = document.activeElement;
+    lightboxImg.src = src;
+    lightboxImg.alt = alt || '';
+    overlay.classList.remove('opacity-0', 'pointer-events-none');
+    overlay.classList.add('opacity-100', 'pointer-events-auto');
+    document.body.style.overflow = 'hidden';
+    closeBtn.focus();
+  }
+
+  function closeLightbox(overlay) {
+    overlay.classList.add('opacity-0', 'pointer-events-none');
+    overlay.classList.remove('opacity-100', 'pointer-events-auto');
+    document.body.style.overflow = '';
+    if (lastFocused && typeof lastFocused.focus === 'function') lastFocused.focus();
+    lastFocused = null;
+  }
+
   function initLightbox() {
     const overlay = document.getElementById('global-lightbox');
     const lightboxImg = document.getElementById('lightbox-image');
     const closeBtn = document.getElementById('lightbox-close');
     if (!overlay || !lightboxImg || !closeBtn) return;
 
-    function open(src, alt) {
-      lightboxImg.src = src;
-      lightboxImg.alt = alt || '';
-      overlay.classList.remove('opacity-0', 'pointer-events-none');
-      overlay.classList.add('opacity-100', 'pointer-events-auto');
-      document.body.style.overflow = 'hidden';
-    }
-
-    function close() {
-      overlay.classList.add('opacity-0', 'pointer-events-none');
-      overlay.classList.remove('opacity-100', 'pointer-events-auto');
-      document.body.style.overflow = '';
-    }
-
     document.querySelectorAll('.lightbox-trigger').forEach(el => {
-      el.addEventListener('click', () => {
+      if (el.dataset.lightboxReady) return;
+      el.dataset.lightboxReady = 'true';
+      const trigger = () => {
         const img = el.querySelector('img');
-        if (img) open(img.src, img.alt);
+        if (img) openLightbox(overlay, lightboxImg, closeBtn, img.src, img.alt);
+      };
+      el.addEventListener('click', trigger);
+      el.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          trigger();
+        }
       });
     });
 
-    closeBtn.addEventListener('click', close);
-    overlay.addEventListener('click', (e) => { if (e.target === overlay) close(); });
-    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
+    closeBtn.addEventListener('click', () => closeLightbox(overlay));
+    overlay.addEventListener('click', (e) => { if (e.target === overlay) closeLightbox(overlay); });
+
+    if (!window.__lightboxEsc) {
+      window.__lightboxEsc = true;
+      document.addEventListener('keydown', (e) => {
+        if (e.key !== 'Escape') return;
+        const current = document.getElementById('global-lightbox');
+        if (current && !current.classList.contains('opacity-0')) closeLightbox(current);
+      });
+    }
   }
 
   function initBeforeAfter() {
@@ -717,7 +761,10 @@ const faqSchema = {
       const range = slider.querySelector('.ba-range');
       if (!range || slider.dataset.baReady) return;
       slider.dataset.baReady = 'true';
-      const update = () => slider.style.setProperty('--pos', `${range.value}%`);
+      const update = () => {
+        slider.style.setProperty('--pos', `${range.value}%`);
+        range.setAttribute('aria-valuetext', `${range.value}% antes, ${100 - range.value}% después`);
+      };
       range.addEventListener('input', update);
       update();
     });
@@ -736,6 +783,7 @@ const faqSchema = {
   function initTitleChars() {
     const titleEl = document.querySelector('.reveal-title');
     if (!titleEl) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const text = titleEl.textContent || '';
     titleEl.textContent = '';
     const chars = [...text];

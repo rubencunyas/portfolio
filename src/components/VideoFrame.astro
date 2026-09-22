@@ -4,35 +4,46 @@ interface Props {
   title: string;
   phone?: boolean;
   instagram?: boolean;
+  href?: string;
 }
 
-const { src, title, phone = false, instagram = false } = Astro.props;
+const { src, title, phone = false, instagram = false, href } = Astro.props;
 const screenAspect = instagram ? 'aspect-[9/19.5]' : 'aspect-[9/16]';
 ---
 
 {phone ? (
-  <div class="relative mx-auto w-full rounded-[2.2rem] bg-ink px-2 pb-2.5 pt-5 shadow-2xl">
-    <span class="absolute top-2 left-1/2 h-1.5 w-14 -translate-x-1/2 rounded-full bg-light/20" aria-hidden="true"></span>
-    <div class={`relative ${screenAspect} overflow-hidden rounded-[1.6rem] bg-black`}>
-      <iframe
-        src={src}
-        title={title}
-        class="absolute inset-0 h-full w-full"
-        frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        referrerpolicy="strict-origin-when-cross-origin"
-        allowfullscreen
-        loading="lazy"
-      ></iframe>
+  <div>
+    <div class="relative mx-auto w-full rounded-[2.2rem] bg-ink px-2 pb-2.5 pt-5 shadow-2xl">
+      <span class="absolute top-2 left-1/2 h-1.5 w-14 -translate-x-1/2 rounded-full bg-light/20" aria-hidden="true"></span>
+      <div class={`relative ${screenAspect} overflow-hidden rounded-[1.6rem] bg-dark`}>
+        <iframe
+          src={src}
+          title={title}
+          class="absolute inset-0 h-full w-full border-0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen
+          loading="lazy"
+        ></iframe>
+      </div>
     </div>
+    {href && (
+      <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="mt-4 block text-center text-xs font-semibold uppercase tracking-wider text-accent-orange hover:text-accent-orange-deep transition-colors duration-300"
+      >
+        Ver publicación en Instagram
+      </a>
+    )}
   </div>
 ) : (
-  <div class="relative aspect-video w-full overflow-hidden bg-black/5">
+  <div class="relative aspect-video w-full overflow-hidden bg-ink/5">
     <iframe
       src={src}
       title={title}
-      class="absolute inset-0 h-full w-full"
-      frameborder="0"
+      class="absolute inset-0 h-full w-full border-0"
       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
       referrerpolicy="strict-origin-when-cross-origin"
       allowfullscreen

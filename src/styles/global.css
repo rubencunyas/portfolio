@@ -18,6 +18,11 @@
   :focus-visible {
     @apply outline-2 outline-accent-blue outline-offset-2;
   }
+
+  .bg-dark :focus-visible,
+  .bg-ink :focus-visible {
+    outline-color: theme('colors.light');
+  }
 }
 
 @layer utilities {

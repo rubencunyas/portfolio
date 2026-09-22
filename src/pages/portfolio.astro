@@ -44,6 +44,10 @@ const groups360 = [...groups360Map.entries()].map(([name, items]) => ({
     return (a.data.order ?? 0) - (b.data.order ?? 0);
   }),
 }));
+
+const validFilters = new Set(categories.map((cat) => cat.id));
+const requestedFilter = Astro.url.searchParams.get('cat') || 'all';
+const initialFilter = validFilters.has(requestedFilter) ? requestedFilter : 'all';
 ---
 
 <Layout
@@ -110,22 +114,34 @@ const groups360 = [...groups360Map.entries()].map(([name, items]) => ({
           <span class="line-reveal h-px flex-1 bg-light/10"></span>
         </div>
 
-        <div class="flex flex-wrap gap-2 lg:gap-3 mb-12 lg:mb-16" id="project-filters">
-          {categories.map((cat) => (
-            <a
-              href={`/portfolio/${cat.id === 'all' ? '' : `?cat=${cat.id}`}`}
-              data-filter={cat.id}
-              aria-pressed={cat.id === 'all' ? 'true' : 'false'}
-              class={`filter-btn shrink-0 px-3 lg:px-5 py-1.5 lg:py-2 text-xs lg:text-sm font-medium uppercase tracking-wider transition-all duration-300 active:scale-95 ${
-                cat.id === 'all'
-                  ? 'bg-light text-ink'
-                  : 'bg-transparent text-light/60 border border-light/20 hover:border-light/50 hover:text-light'
-              }`}
-            >
-              {cat.label}
-            </a>
-          ))}
+        <h2 class="sr-only">Proyectos</h2>
+
+        <div class="flex flex-wrap gap-2 lg:gap-3 mb-12 lg:mb-16" id="project-filters" role="group" aria-label="Filtrar proyectos por categoría">
+          {categories.map((cat) => {
+            const isActive = cat.id === initialFilter;
+            return (
+              <a
+                href={`/portfolio/${cat.id === 'all' ? '' : `?cat=${cat.id}`}`}
+                data-filter={cat.id}
+                aria-current={isActive ? 'true' : undefined}
+                class={`filter-btn inline-flex min-h-[40px] shrink-0 items-center px-3 lg:px-5 py-2.5 lg:py-2 text-xs lg:text-sm font-medium uppercase tracking-wider transition-all duration-300 active:scale-95 ${
+                  isActive
+                    ? 'bg-light text-ink'
+                    : 'bg-transparent text-light/60 border border-light/20 hover:border-light/50 hover:text-light'
+                }`}
+              >
+                {cat.label}
+              </a>
+            );
+          })}
         </div>
+
+        <p id="projects-status" class="sr-only" aria-live="polite"></p>
+
+        <p id="projects-empty" hidden class="py-16 text-sm text-light/60">
+          No hay proyectos en esta categoría.
+          <a href="/portfolio/" class="underline underline-offset-4 hover:text-light">Ver todos</a>
+        </p>
 
         <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16 items-start">
           {sorted.map((project, index) => (
@@ -140,7 +156,7 @@ const groups360 = [...groups360Map.entries()].map(([name, items]) => ({
                 <h2 class="font-display text-3xl sm:text-4xl font-bold uppercase tracking-tight">
                   {group.name}
                 </h2>
-                <span class="text-[10px] font-bold uppercase tracking-widest text-accent-blue">
+                <span class="text-[10px] font-bold uppercase tracking-widest text-accent-orange">
                   Proyecto 360°
                 </span>
               </div>
@@ -167,14 +183,17 @@ const groups360 = [...groups360Map.entries()].map(([name, items]) => ({
     const buttons = document.querySelectorAll('.filter-btn');
     const grid = document.getElementById('projects-grid');
     const grouped = document.getElementById('projects-360');
+    const empty = document.getElementById('projects-empty');
+    const status = document.getElementById('projects-status');
 
     buttons.forEach(b => {
       const isActive = b.dataset.filter === filter;
-      b.setAttribute('aria-pressed', String(isActive));
       if (isActive) {
+        b.setAttribute('aria-current', 'true');
         b.classList.add('bg-light', 'text-ink');
         b.classList.remove('bg-transparent', 'text-light/60', 'border', 'border-light/20');
       } else {
+        b.removeAttribute('aria-current');
         b.classList.remove('bg-light', 'text-ink');
         b.classList.add('bg-transparent', 'text-light/60', 'border', 'border-light/20');
       }
@@ -182,10 +201,15 @@ const groups360 = [...groups360Map.entries()].map(([name, items]) => ({
 
     if (!grid) return;
 
-    if (filter === '360' && grouped) {
+    if (empty) empty.hidden = true;
+
+    const hasGroups = grouped && grouped.querySelector('.project-card');
+
+    if (filter === '360' && hasGroups) {
       grid.style.display = 'none';
       grouped.style.display = 'block';
       grouped.querySelectorAll('.scroll-animate').forEach(el => el.classList.add('visible'));
+      if (status) status.textContent = 'Mostrando proyectos agrupados 360°.';
       return;
     }
 
@@ -217,24 +241,38 @@ const groups360 = [...groups360Map.entries()].map(([name, items]) => ({
       if (i % 3 === 1) card.classList.add('lg:mt-24');
       else if (i % 3 === 2) card.classList.add('lg:mt-12');
     });
+
+    if (visible.length === 0) {
+      grid.style.display = 'none';
+      if (empty) empty.hidden = false;
+      if (status) status.textContent = 'No hay proyectos en esta categoría.';
+    } else if (status) {
+      status.textContent = `${visible.length} ${visible.length === 1 ? 'proyecto mostrado' : 'proyectos mostrados'}.`;
+    }
   }
 
+  let filtersBound = false;
   function initFilters() {
     const buttons = document.querySelectorAll('.filter-btn');
 
     buttons.forEach(btn => {
       btn.addEventListener('click', (e) => {
+        if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
         e.preventDefault();
         const filter = btn.dataset.filter;
+        if (filter === getActiveFilter()) return;
         const url = filter === 'all' ? '/portfolio/' : `/portfolio/?cat=${filter}`;
         history.pushState({ filter }, '', url);
         setActiveFilter(filter);
       });
     });
 
-    window.addEventListener('popstate', (e) => {
-      setActiveFilter(e.state?.filter || getActiveFilter());
-    });
+    if (!filtersBound) {
+      filtersBound = true;
+      window.addEventListener('popstate', (e) => {
+        setActiveFilter(e.state?.filter || getActiveFilter());
+      });
+    }
 
     setActiveFilter(getActiveFilter());
   }
