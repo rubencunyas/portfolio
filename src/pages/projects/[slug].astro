@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
+import VideoFrame from '@/components/VideoFrame.astro';
 import { getProjectImages } from '@/utils/images';
 import sharp from 'sharp';
 import path from 'path';
@@ -32,14 +33,15 @@ const videoUrls = project.data.videos?.length
 const videoItems = videoUrls
   .map((url) => {
     const id = getYouTubeId(url);
+    if (!id) return null;
     return {
       id,
-      embed: id ? `https://www.youtube.com/embed/${id}` : null,
-      poster: id ? `https://img.youtube.com/vi/${id}/maxresdefault.jpg` : null,
+      embed: `https://www.youtube.com/embed/${id}`,
+      poster: `https://img.youtube.com/vi/${id}/maxresdefault.jpg`,
       isShort: /youtube\.com\/shorts\//.test(url),
     };
   })
-  .filter((item) => item.embed);
+  .filter((item): item is NonNullable<typeof item> => item !== null);
 const firstVideo = videoItems[0];
 const cover = project.data.cover || detected.cover || firstVideo?.poster || '';
 
@@ -228,35 +230,13 @@ const faqSchema = {
         <section class="mt-6 lg:mt-10 reveal-section" data-reveal>
           {videoItems.length === 1 ? (
             <div class={`mx-auto px-6 lg:px-12 ${videoItems[0].isShort ? 'max-w-sm' : 'max-w-5xl'}`}>
-              <div class={`relative w-full overflow-hidden bg-black/5 ${videoItems[0].isShort ? 'aspect-[9/16]' : 'aspect-video'}`}>
-                <iframe
-                  src={videoItems[0].embed}
-                  title={project.data.title}
-                  class="absolute inset-0 w-full h-full"
-                  frameborder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  referrerpolicy="strict-origin-when-cross-origin"
-                  allowfullscreen
-                  loading="lazy"
-                ></iframe>
-              </div>
+              <VideoFrame src={videoItems[0].embed} title={project.data.title} isShort={videoItems[0].isShort} />
             </div>
           ) : (
             <div class="max-w-7xl mx-auto px-6 lg:px-12">
-              <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
                 {videoItems.map((item, index) => (
-                  <figure class={`relative w-full overflow-hidden bg-black/5 ${item.isShort ? 'aspect-[9/16]' : 'aspect-video'}`}>
-                    <iframe
-                      src={item.embed}
-                      title={`${project.data.title} - video ${index + 1}`}
-                      class="absolute inset-0 w-full h-full"
-                      frameborder="0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                      referrerpolicy="strict-origin-when-cross-origin"
-                      allowfullscreen
-                      loading="lazy"
-                    ></iframe>
-                  </figure>
+                  <VideoFrame src={item.embed} title={`${project.data.title} - video ${index + 1}`} isShort={item.isShort} />
                 ))}
               </div>
             </div>
