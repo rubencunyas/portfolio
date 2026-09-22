@@ -20,9 +20,6 @@ const { Content } = await project.render();
 
 const detected = getProjectImages(project.slug);
 const carousels = project.data.carousels ?? [];
-const gallery = carousels.length > 0
-  ? []
-  : (project.data.gallery?.length ? project.data.gallery : detected.gallery);
 const gallerySlider = project.data.gallery_slider?.length ? project.data.gallery_slider : detected.gallerySlider;
 
 function getYouTubeId(url?: string): string | null {
@@ -68,22 +65,33 @@ const videoItems = videoUrls
 const firstVideo = videoItems[0];
 const cover = project.data.cover || detected.cover || firstVideo?.poster || '';
 
-async function classifyGallery(urls: string[]): Promise<{ masonry: string[]; wide: string[] }> {
+const gallerySource = carousels.length > 0
+  ? []
+  : (project.data.gallery?.length ? project.data.gallery : detected.gallery);
+const gallery = gallerySource.filter((image) => image !== cover);
+
+async function classifyGallery(urls: string[]): Promise<{ masonry: string[]; wide: string[]; allPortrait: boolean }> {
   const masonry: string[] = [];
   const wide: string[] = [];
+  let portraitCount = 0;
   for (const url of urls) {
     try {
       const filePath = path.join(process.cwd(), 'public', url);
-      const { width } = await sharp(filePath).metadata();
-      (width && width >= 1920 ? wide : masonry).push(url);
+      const { width, height } = await sharp(filePath).metadata();
+      if (width && width >= 1920) {
+        wide.push(url);
+        continue;
+      }
+      masonry.push(url);
+      if (width && height && height > width) portraitCount++;
     } catch {
       masonry.push(url);
     }
   }
-  return { masonry, wide };
+  return { masonry, wide, allPortrait: masonry.length > 0 && portraitCount === masonry.length };
 }
 
-const { masonry: galleryMasonry, wide: galleryWide } = await classifyGallery(gallery);
+const { masonry: galleryMasonry, wide: galleryWide, allPortrait: galleryAllPortrait } = await classifyGallery(gallery);
 
 const categoryLabels: Record<string, string> = { branding: 'Branding', web: 'Desarrollo Web', uxui: 'UX/UI', multimedia: 'Multimedia' };
 const categoryLabel = categoryLabels[project.data.category] || 'Web';
@@ -332,7 +340,7 @@ const faqSchema = {
         <section class="mt-6 lg:mt-10 reveal-section" data-reveal>
           <h2 class="sr-only">Galería</h2>
           <div class="max-w-7xl mx-auto px-6 lg:px-12">
-            <div class="columns-1 sm:columns-2 lg:columns-3 gap-4 space-y-4">
+            <div class={`columns-1 sm:columns-2 lg:columns-3 ${galleryAllPortrait ? 'gap-0 space-y-0' : 'gap-4 space-y-4'}`}>
               {galleryMasonry.map((image, index) => (
                 <figure class="group relative overflow-hidden break-inside-avoid cursor-pointer lightbox-trigger reveal-item" role="button" tabindex="0" aria-label="Ampliar imagen" data-reveal data-delay={String(index * 100)}>
                   <img
