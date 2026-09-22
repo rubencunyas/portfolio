@@ -19,6 +19,7 @@
 - HM Tech: https://portfolio-rub.netlify.app/projects/hm-tech
 - Mathpal: https://portfolio-rub.netlify.app/projects/mathpal
 - Mathpal Brand: https://portfolio-rub.netlify.app/projects/mathpal-brand
+- MathPal Multimedia: https://portfolio-rub.netlify.app/projects/mathpal-multimedia
 - Organnical: https://portfolio-rub.netlify.app/projects/organnical
 - Urpi: https://portfolio-rub.netlify.app/projects/urpi
 

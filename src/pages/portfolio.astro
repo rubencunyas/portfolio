@@ -14,13 +14,17 @@ const sorted = [...projects].sort((a, b) => {
 });
 
 const activeCategories = new Set(sorted.map((project) => project.data.category));
+const has360 = sorted.some((project) => project.data.full360);
 const categories = [
   { id: 'all', label: 'Todos' },
-  { id: 'branding', label: 'Branding' },
-  { id: 'uxui', label: 'UX/UI' },
-  { id: 'web', label: 'Desarrollo Web' },
-  { id: 'multimedia', label: 'Multimedia' },
-].filter((cat) => cat.id === 'all' || activeCategories.has(cat.id));
+  ...(has360 ? [{ id: '360', label: '360°' }] : []),
+  ...[
+    { id: 'branding', label: 'Branding' },
+    { id: 'uxui', label: 'UX/UI' },
+    { id: 'web', label: 'Desarrollo Web' },
+    { id: 'multimedia', label: 'Multimedia' },
+  ].filter((cat) => activeCategories.has(cat.id)),
+];
 
 function staggerClass(index: number): string {
   const classes: string[] = [];
@@ -117,6 +121,7 @@ function staggerClass(index: number): string {
             <a
               href={`/projects/${project.slug}`}
               data-category={project.data.category}
+              data-full360={project.data.full360 ? 'true' : 'false'}
               class={`project-card group block scroll-animate ${staggerClass(index)}`}
             >
               <div class="relative aspect-[4/3] overflow-hidden bg-light/[0.04] ring-1 ring-inset ring-light/5">
@@ -131,11 +136,18 @@ function staggerClass(index: number): string {
                 <span class="absolute left-4 top-4 bg-light px-3 py-2 text-xs font-bold uppercase tracking-widest text-ink">
                   {project.data.year}
                 </span>
-                {project.data.ai_tools?.length ? (
-                  <span class="absolute right-4 top-4 px-2.5 py-1.5 text-[10px] font-bold uppercase tracking-widest bg-accent-orange text-light">
-                    IA
-                  </span>
-                ) : null}
+                <div class="absolute right-4 top-4 flex flex-col items-end gap-1.5">
+                  {project.data.full360 && (
+                    <span class="px-2.5 py-1.5 text-[10px] font-bold uppercase tracking-widest bg-accent-blue text-light">
+                      360°
+                    </span>
+                  )}
+                  {project.data.ai_tools?.length ? (
+                    <span class="px-2.5 py-1.5 text-[10px] font-bold uppercase tracking-widest bg-accent-orange text-light">
+                      IA
+                    </span>
+                  ) : null}
+                </div>
               </div>
               <div class="mt-4 flex items-start justify-between gap-4 border-b border-light/10 pb-4">
                 <div>
@@ -178,18 +190,30 @@ function staggerClass(index: number): string {
       }
     });
 
+    const visible = [];
+
     cards.forEach(card => {
-      const show = filter === 'all' || card.dataset.category === filter;
+      const show = filter === 'all'
+        || (filter === '360' ? card.dataset.full360 === 'true' : card.dataset.category === filter);
       if (show) {
         card.style.display = 'block';
         if (card.dataset.hidden === 'true') {
           card.classList.add('visible');
           card.dataset.hidden = 'false';
         }
+        visible.push(card);
       } else {
         card.style.display = 'none';
         card.dataset.hidden = 'true';
       }
+    });
+
+    const OFFSET_CLASSES = ['md:mt-20', 'lg:mt-24', 'lg:mt-12'];
+    visible.forEach((card, i) => {
+      card.classList.remove(...OFFSET_CLASSES);
+      if (i % 2 === 1) card.classList.add('md:mt-20');
+      if (i % 3 === 1) card.classList.add('lg:mt-24');
+      else if (i % 3 === 2) card.classList.add('lg:mt-12');
     });
   }
 

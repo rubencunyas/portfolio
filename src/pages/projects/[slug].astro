@@ -26,11 +26,22 @@ function getYouTubeId(url?: string): string | null {
   return match ? match[1] : null;
 }
 
-const videoId = getYouTubeId(project.data.video);
-const videoEmbed = videoId ? `https://www.youtube.com/embed/${videoId}` : null;
-const videoPoster = videoId ? `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg` : null;
-const isShort = /youtube\.com\/shorts\//.test(project.data.video || '') || /youtube\.com\/shorts\//.test(project.data.url || '');
-const cover = project.data.cover || detected.cover || videoPoster || '';
+const videoUrls = project.data.videos?.length
+  ? project.data.videos
+  : (project.data.video ? [project.data.video] : []);
+const videoItems = videoUrls
+  .map((url) => {
+    const id = getYouTubeId(url);
+    return {
+      id,
+      embed: id ? `https://www.youtube.com/embed/${id}` : null,
+      poster: id ? `https://img.youtube.com/vi/${id}/maxresdefault.jpg` : null,
+      isShort: /youtube\.com\/shorts\//.test(url),
+    };
+  })
+  .filter((item) => item.embed);
+const firstVideo = videoItems[0];
+const cover = project.data.cover || detected.cover || firstVideo?.poster || '';
 
 async function classifyGallery(urls: string[]): Promise<{ masonry: string[]; wide: string[] }> {
   const masonry: string[] = [];
@@ -51,7 +62,7 @@ const { masonry: galleryMasonry, wide: galleryWide } = await classifyGallery(gal
 
 const categoryLabels: Record<string, string> = { branding: 'Branding', web: 'Desarrollo Web', uxui: 'UX/UI', multimedia: 'Multimedia' };
 const categoryLabel = categoryLabels[project.data.category] || 'Web';
-const linkLabel = videoEmbed ? 'VER VIDEO' : 'VISITAR SITIO';
+const linkLabel = videoItems.length > 0 ? 'VER VIDEO' : 'VISITAR SITIO';
 
 const aiTools = project.data.ai_tools ?? [];
 const aiPrompt = project.data.ai_prompt;
@@ -161,9 +172,9 @@ const faqSchema = {
               {project.data.title}
             </h1>
             <div class="flex flex-wrap items-center gap-3 reveal-item" data-reveal data-delay="200">
-              {(project.data.url || project.data.video) && (
+              {(project.data.url || videoItems.length === 1) && (
                 <a
-                  href={project.data.url || project.data.video}
+                  href={project.data.url || videoUrls[0]}
                   target="_blank"
                   rel="noopener noreferrer"
                   class="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-accent-orange hover:text-white active:text-white/70 transition-colors duration-300"
@@ -213,22 +224,43 @@ const faqSchema = {
         </div>
       </section>
 
-      {videoEmbed && (
+      {videoItems.length > 0 && (
         <section class="mt-6 lg:mt-10 reveal-section" data-reveal>
-          <div class={`mx-auto px-6 lg:px-12 ${isShort ? 'max-w-sm' : 'max-w-5xl'}`}>
-            <div class={`relative w-full overflow-hidden bg-black/5 ${isShort ? 'aspect-[9/16]' : 'aspect-video'}`}>
-              <iframe
-                src={videoEmbed}
-                title={project.data.title}
-                class="absolute inset-0 w-full h-full"
-                frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                referrerpolicy="strict-origin-when-cross-origin"
-                allowfullscreen
-                loading="lazy"
-              ></iframe>
+          {videoItems.length === 1 ? (
+            <div class={`mx-auto px-6 lg:px-12 ${videoItems[0].isShort ? 'max-w-sm' : 'max-w-5xl'}`}>
+              <div class={`relative w-full overflow-hidden bg-black/5 ${videoItems[0].isShort ? 'aspect-[9/16]' : 'aspect-video'}`}>
+                <iframe
+                  src={videoItems[0].embed}
+                  title={project.data.title}
+                  class="absolute inset-0 w-full h-full"
+                  frameborder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  referrerpolicy="strict-origin-when-cross-origin"
+                  allowfullscreen
+                  loading="lazy"
+                ></iframe>
+              </div>
             </div>
-          </div>
+          ) : (
+            <div class="max-w-7xl mx-auto px-6 lg:px-12">
+              <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {videoItems.map((item, index) => (
+                  <figure class={`relative w-full overflow-hidden bg-black/5 ${item.isShort ? 'aspect-[9/16]' : 'aspect-video'}`}>
+                    <iframe
+                      src={item.embed}
+                      title={`${project.data.title} - video ${index + 1}`}
+                      class="absolute inset-0 w-full h-full"
+                      frameborder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      referrerpolicy="strict-origin-when-cross-origin"
+                      allowfullscreen
+                      loading="lazy"
+                    ></iframe>
+                  </figure>
+                ))}
+              </div>
+            </div>
+          )}
         </section>
       )}
 
