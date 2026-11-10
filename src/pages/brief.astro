@@ -210,7 +210,7 @@ const totalSections = baseSections.length;
                 <button type="button" data-action="prev" class="px-6 py-3 border border-white/20 text-white/60 hover:text-white hover:border-white/50 active:scale-95 transition-all duration-300 text-sm font-semibold uppercase tracking-wider" style={`visibility: ${i === 0 ? 'hidden' : 'visible'}`}>
                   ANTERIOR
                 </button>
-                <button type="button" data-action="next" class="px-8 py-3 bg-accent-blue text-dark font-semibold hover:bg-white active:scale-95 active:brightness-90 transition-all duration-300 text-sm uppercase tracking-wider ml-auto">
+                <button type="button" data-action="next" class="px-8 py-3 bg-accent-blue text-white font-semibold hover:bg-white hover:text-dark active:scale-95 active:brightness-90 transition-all duration-300 text-sm uppercase tracking-wider ml-auto">
                   SIGUIENTE
                 </button>
               </div>
@@ -226,7 +226,7 @@ const totalSections = baseSections.length;
             <div class="space-y-8 mb-10" id="summary-container"></div>
             <div class="flex justify-between mt-10">
               <button type="button" data-action="prev" class="px-6 py-3 border border-white/20 text-white/60 hover:text-white hover:border-white/50 active:scale-95 transition-all duration-300 text-sm font-semibold uppercase tracking-wider">ANTERIOR</button>
-              <button type="submit" id="brief-submit-btn" class="px-10 py-4 bg-accent-blue text-dark font-semibold text-lg hover:bg-white active:scale-95 active:brightness-90 transition-all duration-300 flex items-center justify-center gap-3">
+              <button type="submit" id="brief-submit-btn" class="px-10 py-4 bg-accent-blue text-white font-semibold text-lg hover:bg-white hover:text-dark active:scale-95 active:brightness-90 transition-all duration-300 flex items-center justify-center gap-3">
                 <span id="brief-btn-text">ENVIAR BRIEF</span>
                 <svg id="brief-btn-spinner" class="w-5 h-5 animate-spin hidden" fill="none" viewBox="0 0 24 24">
                   <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -521,13 +521,13 @@ const totalSections = baseSections.length;
       } catch (err) {
         btnText.textContent = 'ERROR - INTENTA DE NUEVO';
         submitBtn.classList.remove('bg-accent-blue');
-        submitBtn.classList.add('bg-accent-orange');
+        submitBtn.classList.add('bg-accent-orange', 'text-dark');
         setTimeout(() => {
           btnText.textContent = 'ENVIAR BRIEF';
           btnSpinner.classList.add('hidden');
           submitBtn.disabled = false;
           submitBtn.removeAttribute('aria-busy');
-          submitBtn.classList.remove('opacity-70', 'cursor-not-allowed', 'bg-accent-orange');
+          submitBtn.classList.remove('opacity-70', 'cursor-not-allowed', 'bg-accent-orange', 'text-dark');
           submitBtn.classList.add('bg-accent-blue');
         }, 3000);
       }

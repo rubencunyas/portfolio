@@ -1,0 +1,28 @@
+---
+const links = [
+  { href: '#work', label: 'Proyectos' },
+  { href: '#about', label: 'Perfil' },
+  { href: '#services', label: 'Servicios' },
+  { href: '#stack', label: 'Stack' },
+];
+---
+
+<header id="home-topbar" class="fixed left-1/2 top-4 z-50 w-[min(94%,820px)] -translate-x-1/2">
+  <nav
+    class="flex items-center justify-between gap-4 rounded-pill border border-light/15 bg-ink/85 px-3 py-2 pl-5 text-light shadow-lg shadow-ink/30 backdrop-blur-md"
+    aria-label="Navegación principal"
+  >
+    <a href="#top" class="flex items-center gap-2 font-display text-xl font-bold uppercase tracking-tight" aria-label="Rubén Cunyas, inicio">
+      Rubén<span class="text-accent-orange" aria-hidden="true">✦</span>
+    </a>
+    <div class="hidden items-center gap-6 text-sm font-semibold md:flex">
+      {links.map((link) => (
+        <a href={link.href} class="opacity-80 transition-opacity hover:opacity-100">{link.label}</a>
+      ))}
+    </div>
+    <a href="#contact" class="inline-flex min-h-10 items-center gap-2 rounded-pill bg-light px-5 text-xs font-bold uppercase tracking-wider text-ink transition-transform duration-300 ease-out hover:scale-[1.03] active:scale-95">
+      <span class="h-2 w-2 rounded-full bg-accent-teal" aria-hidden="true"></span>
+      Contacto
+    </a>
+  </nav>
+</header>

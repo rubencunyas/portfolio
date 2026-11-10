@@ -1,0 +1,59 @@
+---
+const loves = [
+  'Entender el negocio antes de abrir Figma',
+  'Convertir diseños en webs fieles al píxel',
+  'Usar la tecnología como parte del producto',
+];
+---
+
+<section id="about" class="overflow-hidden bg-light px-[var(--home-gut)] py-24 text-ink lg:py-36">
+  <div class="mx-auto grid max-w-7xl items-center gap-14 lg:grid-cols-2">
+    <div class="scroll-animate reveal-left relative aspect-square">
+      <div class="absolute left-0 top-0 h-[82%] w-[62%]" data-par="-0.05">
+        <img
+          src="/projects/organnical/cover.webp"
+          alt="Proyecto web de Organnical"
+          width="720"
+          height="720"
+          loading="lazy"
+          class="h-full w-full -rotate-2 rounded-2xl object-cover shadow-2xl shadow-ink/25"
+        />
+      </div>
+      <div class="absolute bottom-0 right-0 h-[62%] w-[54%]" data-par="0.08">
+        <img
+          src="/projects/urpi/cover.webp"
+          alt="Proyecto web de Urpi Arquitectura"
+          width="640"
+          height="640"
+          loading="lazy"
+          class="h-full w-full rotate-3 rounded-2xl border-4 border-light object-cover shadow-2xl shadow-ink/25"
+        />
+      </div>
+      <span class="absolute left-[42%] top-[6%] -rotate-6 font-display text-2xl font-bold text-accent-wine sm:text-3xl">diseño + código</span>
+    </div>
+
+    <div class="scroll-animate reveal-right">
+      <p class="text-sm font-bold uppercase tracking-widest text-accent-teal">Sobre mí</p>
+      <h2 class="mt-5 min-h-[2.2em] font-display text-4xl font-bold uppercase leading-[.95] tracking-[-0.02em] sm:text-5xl lg:text-6xl">
+        <span id="about-typed" data-type="Primero entiendo el negocio, después lo diseño."></span><span class="type-caret" aria-hidden="true"></span>
+      </h2>
+      <p class="mt-6 max-w-xl text-lg leading-relaxed text-ink/75">
+        Soy diseñador digital y desarrollador full stack. Trabajo en el punto donde una buena idea deja de ser una presentación y se vuelve una experiencia útil.
+      </p>
+      <p class="mt-4 max-w-xl text-lg leading-relaxed text-ink/75">
+        Mi forma de trabajar combina pensamiento visual, objetivos de negocio y la precisión técnica necesaria para llevar un producto hasta el final.
+      </p>
+      <ul class="mt-8 grid gap-3">
+        {loves.map((item) => (
+          <li class="flex items-start gap-3 rounded-xl border border-ink/10 bg-white/70 p-4 text-base text-ink/80">
+            <span class="text-accent-wine" aria-hidden="true">✦</span>
+            {item}
+          </li>
+        ))}
+      </ul>
+      <a href="#contact" class="mt-8 inline-flex min-h-12 items-center rounded-pill bg-ink px-6 text-sm font-bold uppercase tracking-wider text-light transition-transform duration-300 ease-out hover:scale-[1.03] active:scale-95">
+        Hablemos <span class="ml-2" aria-hidden="true">↗</span>
+      </a>
+    </div>
+  </div>
+</section>

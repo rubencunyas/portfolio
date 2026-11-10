@@ -1,0 +1,122 @@
+---
+type Family = 'languages' | 'frontend' | 'backend' | 'tools' | 'data' | 'concepts';
+
+interface Element {
+  symbol: string;
+  name: string;
+  number: number;
+  family: Family;
+  used: string[];
+}
+
+const families: { id: Family; label: string }[] = [
+  { id: 'languages', label: 'Lenguajes' },
+  { id: 'frontend', label: 'Front-end' },
+  { id: 'backend', label: 'Back-end / Plataformas' },
+  { id: 'tools', label: 'Herramientas' },
+  { id: 'data', label: 'Datos' },
+  { id: 'concepts', label: 'Conceptos' },
+];
+
+const elements: Element[] = [
+  { symbol: 'Ht', name: 'HTML', number: 1, family: 'languages', used: ['Colegios Zárate', 'Berlitz', 'Organnical'] },
+  { symbol: 'Cs', name: 'CSS', number: 2, family: 'languages', used: ['Berlitz', 'Autoval Service', 'Urpi'] },
+  { symbol: 'Js', name: 'JavaScript', number: 3, family: 'languages', used: ['Organnical', 'MathPal', 'HM Tech'] },
+  { symbol: 'Ts', name: 'TypeScript', number: 4, family: 'languages', used: ['Autoval Service', 'Urpi'] },
+  { symbol: 'Ph', name: 'PHP', number: 5, family: 'languages', used: ['Colegios Zárate', 'WordPress'] },
+  { symbol: 'Sl', name: 'SQL', number: 6, family: 'languages', used: ['Landing pages', 'Formularios'] },
+  { symbol: 'As', name: 'Astro', number: 7, family: 'frontend', used: ['Colegios Zárate', 'Organnical'] },
+  { symbol: 'Re', name: 'React', number: 8, family: 'frontend', used: ['MathPal', 'HM Tech'] },
+  { symbol: 'Tw', name: 'Tailwind', number: 9, family: 'frontend', used: ['Este portfolio', 'Colegios Zárate'] },
+  { symbol: 'Wp', name: 'WordPress', number: 10, family: 'frontend', used: ['Autoval Service', 'Urpi'] },
+  { symbol: 'El', name: 'Elementor', number: 11, family: 'frontend', used: ['Autoval Service', 'Berlitz'] },
+  { symbol: 'Fr', name: 'Framer', number: 12, family: 'frontend', used: ['Prototipos', 'Landing pages'] },
+  { symbol: 'Sh', name: 'Shopify', number: 13, family: 'frontend', used: ['E-commerce', 'Autoval Branding'] },
+  { symbol: 'Gs', name: 'GSAP', number: 14, family: 'frontend', used: ['Motion web', 'Campañas'] },
+  { symbol: 'No', name: 'Node.js', number: 15, family: 'backend', used: ['Web apps', 'Automatizaciones'] },
+  { symbol: 'Nf', name: 'Netlify', number: 16, family: 'backend', used: ['Deploy', 'Formularios'] },
+  { symbol: 'Hb', name: 'HubSpot', number: 17, family: 'backend', used: ['Berlitz', 'Lead capture'] },
+  { symbol: 'Fb', name: 'Firebase', number: 18, family: 'backend', used: ['Web apps', 'Auth'] },
+  { symbol: 'Gt', name: 'Git', number: 19, family: 'tools', used: ['Todos los proyectos'] },
+  { symbol: 'Gh', name: 'GitHub', number: 20, family: 'tools', used: ['Versionado', 'Deploy'] },
+  { symbol: 'Vc', name: 'VS Code', number: 21, family: 'tools', used: ['Desarrollo diario'] },
+  { symbol: 'Fg', name: 'Figma', number: 22, family: 'tools', used: ['Berlitz', 'MathPal'] },
+  { symbol: 'Ps', name: 'Photoshop', number: 23, family: 'tools', used: ['Autoval', 'Catálogo Brother'] },
+  { symbol: 'Ai', name: 'Illustrator', number: 24, family: 'tools', used: ['Identidades', 'Ilustración'] },
+  { symbol: 'Ae', name: 'After Effects', number: 25, family: 'tools', used: ['Futura Schools', 'Autoval RRSS'] },
+  { symbol: 'Pr', name: 'Premiere', number: 26, family: 'tools', used: ['Berlitz', 'Multimedia'] },
+  { symbol: 'My', name: 'MySQL', number: 27, family: 'data', used: ['Colegios Zárate', 'Webs'] },
+  { symbol: 'Pg', name: 'PostgreSQL', number: 28, family: 'data', used: ['Web apps'] },
+  { symbol: 'Mg', name: 'MongoDB', number: 29, family: 'data', used: ['Prototipos de app'] },
+  { symbol: 'Sb', name: 'Supabase', number: 30, family: 'data', used: ['Backends ligeros'] },
+  { symbol: 'Ux', name: 'UX/UI', number: 31, family: 'concepts', used: ['Berlitz', 'MathPal', 'Urpi'] },
+  { symbol: 'Ds', name: 'Design Systems', number: 32, family: 'concepts', used: ['Berlitz'] },
+  { symbol: 'Se', name: 'SEO', number: 33, family: 'concepts', used: ['Colegios Zárate', 'Organnical'] },
+  { symbol: 'Cw', name: 'Core Web Vitals', number: 34, family: 'concepts', used: ['Colegios Zárate'] },
+  { symbol: 'Ac', name: 'Accesibilidad', number: 35, family: 'concepts', used: ['Todos los proyectos'] },
+  { symbol: 'Br', name: 'Branding', number: 36, family: 'concepts', used: ['Ay Mi Leche', 'Autoval'] },
+];
+
+const familyClass: Record<Family, string> = {
+  languages: 'bg-accent-blue text-light',
+  frontend: 'bg-accent-orange text-dark',
+  backend: 'bg-accent-wine text-light',
+  tools: 'bg-accent-teal text-dark',
+  data: 'border border-ink/15 bg-light text-ink',
+  concepts: 'bg-accent-teal-soft text-ink',
+};
+---
+
+<section id="stack" class="overflow-hidden bg-accent-wine-soft px-[var(--home-gut)] py-24 text-ink lg:py-36">
+  <div class="mx-auto max-w-7xl">
+    <div class="scroll-animate max-w-3xl">
+      <p class="text-sm font-bold uppercase tracking-widest text-accent-wine">Stack</p>
+      <h2 data-split class="mt-5 font-display text-5xl font-bold uppercase leading-[.88] tracking-[-0.02em] sm:text-6xl lg:text-7xl">
+        La tabla periódica de lo que construyo.
+      </h2>
+      <p class="mt-6 text-lg leading-relaxed text-ink/70">
+        Los lenguajes, plataformas y herramientas con las que trabajo. Filtra por familia o pasa por encima para ver dónde los he usado.
+      </p>
+    </div>
+
+    <div class="scroll-animate mt-8 flex flex-wrap gap-2" role="group" aria-label="Filtros de stack">
+      <button type="button" class="pt-chip rounded-pill border border-ink/20 bg-light/60 px-4 py-2 text-sm font-semibold transition-colors" data-filter="all" aria-pressed="true">Todos</button>
+      {families.map((family) => (
+        <button type="button" class="pt-chip rounded-pill border border-ink/20 bg-light/60 px-4 py-2 text-sm font-semibold transition-colors" data-filter={family.id} aria-pressed="false">{family.label}</button>
+      ))}
+    </div>
+
+    <div class="mt-8 grid items-start gap-8 lg:grid-cols-[minmax(0,1fr)_300px]">
+      <div id="pt-grid" class="pt-grid grid grid-cols-4 gap-2 sm:grid-cols-6 lg:grid-cols-8">
+        {elements.map((element) => (
+          <button
+            type="button"
+            class:list={['pt-el', familyClass[element.family], 'flex aspect-square flex-col justify-between rounded-xl p-2 text-left transition-colors']}
+            data-family={element.family}
+            data-symbol={element.symbol}
+            data-name={element.name}
+            data-char={element.number}
+            data-used={element.used.join('|')}
+            style={`transition-delay:${(element.number % 8) * 45}ms`}
+            aria-label={`${element.name}, familia ${element.family}`}
+          >
+            <small class="text-[10px] font-semibold opacity-75">{element.number}</small>
+            <b class="font-display text-xl font-bold leading-none tracking-tight sm:text-2xl">{element.symbol}</b>
+            <span class="truncate text-[10px] font-semibold">{element.name}</span>
+          </button>
+        ))}
+      </div>
+
+      <aside class="sticky top-24 rounded-2xl border border-ink/10 bg-light p-6 shadow-xl shadow-ink/10">
+        <div id="pt-sym" class="mb-4 grid aspect-[1.4] place-items-center rounded-xl bg-accent-teal-soft font-display text-6xl font-bold tracking-tight text-ink">As</div>
+        <h3 id="pt-name" class="font-display text-2xl font-bold uppercase tracking-tight">Astro</h3>
+        <p id="pt-fam" class="mt-1 text-sm font-semibold text-ink/60">Front-end</p>
+        <p class="mt-5 text-xs font-bold uppercase tracking-widest text-accent-wine">Dónde lo usé</p>
+        <ul id="pt-used" class="mt-2 flex flex-wrap gap-2 text-sm font-semibold">
+          <li class="rounded-pill bg-accent-teal-soft px-3 py-1">Colegios Zárate</li>
+          <li class="rounded-pill bg-accent-teal-soft px-3 py-1">Organnical</li>
+        </ul>
+      </aside>
+    </div>
+  </div>
+</section>

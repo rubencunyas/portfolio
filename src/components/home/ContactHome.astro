@@ -1,0 +1,140 @@
+---
+const currentYear = new Date().getFullYear();
+const contact = [
+  { label: 'Email', value: 'ruben.cunyas@outlook.com', href: 'mailto:ruben.cunyas@outlook.com' },
+  { label: 'LinkedIn', value: '/in/rubencunyas', href: 'https://pe.linkedin.com/in/rubencunyas' },
+  { label: 'Ubicación', value: 'Lima / LATAM', href: '#' },
+];
+---
+
+<section id="contact" class="relative overflow-hidden bg-accent-wine px-[var(--home-gut)] pb-12 pt-28 text-light lg:pt-40">
+  <div
+    class="pointer-events-none absolute -right-24 top-0 h-96 w-96 rounded-full bg-accent-teal/40 blur-[50px]"
+    aria-hidden="true"
+  ></div>
+
+  <div class="relative z-10 mx-auto max-w-7xl">
+    <div class="scroll-animate">
+      <p class="text-sm font-bold uppercase tracking-widest text-accent-orange">¿Tienes una idea?</p>
+      <h2 class="mt-5 font-display text-5xl font-bold uppercase leading-[.86] tracking-[-0.03em] sm:text-7xl lg:text-8xl">
+        Vamos a<br />construirla.
+      </h2>
+    </div>
+
+    <div class="mt-16 grid gap-14 lg:grid-cols-[1.1fr_.9fr]">
+      <form
+        id="contact-form"
+        name="portfolio-contact"
+        method="POST"
+        action="/"
+        data-netlify="true"
+        netlify-honeypot="bot-field"
+        class="space-y-6"
+        aria-describedby="contact-error"
+      >
+        <input type="hidden" name="form-name" value="portfolio-contact" />
+        <input type="hidden" name="subject" data-remove-prefix value="Nuevo lead desde Portfolio (%{submissionId})" />
+        <p class="hidden">
+          <label>No llenar: <input name="bot-field" /></label>
+        </p>
+
+        <div class="grid gap-6 sm:grid-cols-2">
+          <div>
+            <label for="name" class="mb-2 block text-sm font-semibold uppercase tracking-wider text-light/70">Nombre *</label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              autocomplete="name"
+              required
+              class="w-full rounded-xl border border-light/25 bg-light/10 px-4 py-3 text-light placeholder-light/40 transition-colors focus:border-accent-teal focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-teal"
+              placeholder="Tu nombre"
+            />
+          </div>
+          <div>
+            <label for="email" class="mb-2 block text-sm font-semibold uppercase tracking-wider text-light/70">Email *</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              autocomplete="email"
+              spellcheck="false"
+              required
+              class="w-full rounded-xl border border-light/25 bg-light/10 px-4 py-3 text-light placeholder-light/40 transition-colors focus:border-accent-teal focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-teal"
+              placeholder="tu@email.com"
+            />
+          </div>
+        </div>
+
+        <div>
+          <label for="service" class="mb-2 block text-sm font-semibold uppercase tracking-wider text-light/70">Servicio de interés</label>
+          <select
+            id="service"
+            name="service"
+            class="w-full rounded-xl border border-light/25 bg-light/10 px-4 py-3 text-light transition-colors focus:border-accent-teal focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-teal"
+          >
+            <option value="Identidad">Identidad</option>
+            <option value="Experiencia">Experiencia</option>
+            <option value="Producto">Producto</option>
+            <option value="Otro">Otro</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="message" class="mb-2 block text-sm font-semibold uppercase tracking-wider text-light/70">Mensaje *</label>
+          <textarea
+            id="message"
+            name="message"
+            rows="4"
+            required
+            class="w-full resize-none rounded-xl border border-light/25 bg-light/10 px-4 py-3 text-light placeholder-light/40 transition-colors focus:border-accent-teal focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-teal"
+            placeholder="Cuéntame sobre tu proyecto…"
+          ></textarea>
+        </div>
+
+        <button
+          type="submit"
+          id="submit-btn"
+          class="inline-flex min-h-12 w-full items-center justify-center gap-3 rounded-pill bg-accent-orange px-8 text-sm font-bold uppercase tracking-wider text-dark transition-transform duration-300 ease-out hover:scale-[1.02] active:scale-95 sm:w-auto"
+        >
+          <span id="btn-text">Enviar mensaje</span>
+          <svg id="btn-spinner" class="hidden h-5 w-5 animate-spin" fill="none" viewBox="0 0 24 24" aria-hidden="true">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+        </button>
+
+        <p id="contact-error" class="hidden rounded-xl border border-accent-orange/40 bg-accent-orange/15 px-4 py-3 text-sm leading-6 text-light" role="alert" aria-live="assertive">
+          No pude enviar el formulario. Escríbeme a <a class="font-semibold text-accent-teal underline" href="mailto:ruben.cunyas@outlook.com">ruben.cunyas@outlook.com</a>.
+        </p>
+      </form>
+
+      <div class="lg:pl-10">
+        <nav aria-label="Contactos">
+          <ul class="grid gap-6">
+            {contact.map((item) => (
+              <li class="border-b border-light/20 pb-4">
+                <span class="block text-xs font-semibold uppercase tracking-widest text-light/55">{item.label}</span>
+                <a
+                  href={item.href}
+                  class="font-display text-2xl font-bold uppercase tracking-tight transition-colors hover:text-accent-teal sm:text-3xl"
+                  aria-label={`${item.label}: ${item.value}`}
+                >
+                  {item.value}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+        <a href="/CV-RubenCunyas.pdf" download class="mt-8 inline-flex min-h-12 items-center gap-2 rounded-pill border border-light/30 px-6 text-sm font-bold uppercase tracking-wider transition-colors hover:bg-light hover:text-accent-wine">
+          Descargar CV
+        </a>
+      </div>
+    </div>
+
+    <footer class="mt-20 flex flex-col items-center justify-between gap-4 border-t border-light/20 pt-8 text-sm text-light/60 sm:flex-row">
+      <p>© {currentYear} Rubén Cunyas. Todos los derechos reservados.</p>
+      <a href="#top" class="transition-colors hover:text-light">Volver arriba ↑</a>
+    </footer>
+  </div>
+</section>

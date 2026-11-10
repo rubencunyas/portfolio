@@ -1,0 +1,57 @@
+---
+const services = [
+  {
+    number: '01',
+    title: 'Identidad',
+    description: 'Marcas con una base visual clara, flexible y reconocible.',
+    features: ['Estrategia de marca', 'Identidad visual', 'Sistemas y guías'],
+  },
+  {
+    number: '02',
+    title: 'Experiencia',
+    description: 'Interfaces que hacen simple lo complejo y acompañan cada decisión.',
+    features: ['UX/UI', 'Web y e-commerce', 'Design systems'],
+  },
+  {
+    number: '03',
+    title: 'Producto',
+    description: 'Desarrollo sólido para que el diseño llegue completo a producción.',
+    features: ['Web a medida', 'CMS y plataformas', 'Integraciones y mantenimiento'],
+  },
+];
+---
+
+<section id="services" class="bg-accent-teal-soft px-[var(--home-gut)] py-24 text-ink lg:py-36">
+  <div class="mx-auto max-w-7xl">
+    <div class="scroll-animate flex flex-col justify-between gap-6 sm:flex-row sm:items-end">
+      <h2 data-split class="font-display text-5xl font-bold uppercase leading-[.88] tracking-[-0.02em] sm:text-6xl lg:text-7xl">
+        De la idea al <span class="text-accent-wine">lanzamiento.</span>
+      </h2>
+      <p class="max-w-sm text-lg leading-relaxed text-ink/70">
+        Puedo entrar en un punto específico o acompañar el proyecto de punta a punta.
+      </p>
+    </div>
+
+    <div class="mt-14">
+      {services.map((service) => (
+        <article class="svc-row group grid items-center gap-4 border-t border-ink/15 py-8 sm:grid-cols-[80px_1fr_auto] lg:gap-8 lg:py-10">
+          <span class="grid h-14 w-14 place-items-center rounded-xl bg-accent-teal font-display text-2xl font-bold text-dark transition-transform duration-500 ease-out group-hover:-rotate-12 group-hover:scale-110 lg:h-16 lg:w-16">
+            {service.number}
+          </span>
+          <div class="transition-transform duration-500 ease-out group-hover:translate-x-3">
+            <h3 class="font-display text-4xl font-bold uppercase tracking-tight sm:text-5xl lg:text-6xl">{service.title}</h3>
+            <div class="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2">
+              <p class="max-w-xl text-lg leading-relaxed text-ink/70">{service.description}</p>
+            </div>
+            <ul class="mt-4 flex flex-wrap gap-x-4 gap-y-2 text-xs font-bold uppercase tracking-wide text-accent-wine">
+              {service.features.map((feature) => <li>{feature}</li>)}
+            </ul>
+          </div>
+          <a href="#contact" class="inline-flex min-h-11 items-center self-start rounded-pill border border-ink/25 px-5 text-xs font-bold uppercase tracking-wider transition-colors duration-300 hover:bg-ink hover:text-light">
+            Consultar
+          </a>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

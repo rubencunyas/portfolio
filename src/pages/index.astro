@@ -1,27 +1,35 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import Hero from '../components/Hero.astro';
-import About from '../components/About.astro';
-import Brands from '../components/Brands.astro';
-import Projects from '../components/Projects.astro';
-import Services from '../components/Services.astro';
-import Footer from '../components/Footer.astro';
-import HomeNav from '../components/HomeNav.astro';
-import Process from '../components/Process.astro';
+import HomeNav from '../components/home/HomeNav.astro';
+import Intro from '../components/home/Intro.astro';
+import Marquee from '../components/home/Marquee.astro';
+import AboutMe from '../components/home/AboutMe.astro';
+import ServicesHome from '../components/home/ServicesHome.astro';
+import Stats from '../components/home/Stats.astro';
+import WorkHome from '../components/home/WorkHome.astro';
+import Stack from '../components/home/Stack.astro';
+import ContactHome from '../components/home/ContactHome.astro';
 ---
 
 <Layout
-  title="Rubén Cunyas | Diseñador Digital y Desarrollador Full Stack"
-  description="Portfolio de diseño digital, desarrollo web, branding, UX/UI y sistemas digitales de Rubén Cunyas."
+  title="Rubén Cunyas · Diseñador Digital y Desarrollador Web"
+  description="Diseño y desarrollo webs que captan clientes: UX/UI, identidad visual y front-end. Portfolio de Rubén Cunyas."
+  imageAlt="Rubén Cunyas — Diseñador digital y desarrollador web"
+  keywords="Rubén Cunyas, diseñador digital, desarrollador web, UX/UI, front-end, landing pages, Astro, WordPress, portfolio"
 >
   <HomeNav />
   <main id="main-content">
-    <Hero />
-    <Projects />
-    <About />
-    <Services />
-    <Process />
-    <Brands />
+    <Intro />
+    <Marquee />
+    <AboutMe />
+    <ServicesHome />
+    <Stats />
+    <WorkHome />
+    <Stack />
+    <ContactHome />
   </main>
-  <Footer />
 </Layout>
+
+<script>
+  import '../scripts/home.js';
+</script>
